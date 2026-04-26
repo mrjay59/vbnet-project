@@ -1,0 +1,1049 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\SIPSorceryMedia.3.0.1\build\SIPSorceryMedia.props" Condition="Exists('..\packages\SIPSorceryMedia.3.0.1\build\SIPSorceryMedia.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{14041AD1-15F6-446E-8DB8-C29AD9B166F6}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <StartupObject>AutoCall.My.MyApplication</StartupObject>
+    <RootNamespace>AutoCall</RootNamespace>
+    <AssemblyName>AutoCall</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>WindowsForms</MyType>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>7</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <PublishWizardCompleted>true</PublishWizardCompleted>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>AutoCall.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>AutoCall.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>Off</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>My Project\app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>icon.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DocumentationFile>AutoCall.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DocumentationFile>AutoCall.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DocumentationFile>AutoCall.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DocumentationFile>AutoCall.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>BC0A904356ACFFAB805C555E1BDA227D277F7680</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestKeyFile>AutoCall_TemporaryKey.pfx</ManifestKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>true</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>false</SignManifests>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="BouncyCastle.Crypto, Version=1.8.10.0, Culture=neutral, PublicKeyToken=0e99375e54769942, processorArchitecture=MSIL">
+      <HintPath>..\packages\Portable.BouncyCastle.1.8.10\lib\net40\BouncyCastle.Crypto.dll</HintPath>
+    </Reference>
+    <Reference Include="Concentus, Version=2.2.2.0, Culture=neutral, PublicKeyToken=2f7fb9b49ffdfe20, processorArchitecture=MSIL">
+      <HintPath>..\packages\Concentus.2.2.2\lib\net452\Concentus.dll</HintPath>
+    </Reference>
+    <Reference Include="DnsClient, Version=1.8.0.0, Culture=neutral, PublicKeyToken=4574bb5573c51424, processorArchitecture=MSIL">
+      <HintPath>..\packages\DnsClient.1.8.0\lib\net472\DnsClient.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.Apis, Version=1.65.0.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.Apis.1.65.0\lib\net45\Google.Apis.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.Apis.Core, Version=1.65.0.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.Apis.Core.1.65.0\lib\net45\Google.Apis.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.Apis.PlatformServices, Version=1.65.0.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.Apis.1.65.0\lib\net45\Google.Apis.PlatformServices.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.Apis.Sheets.v4, Version=1.65.0.3148, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.Apis.Sheets.v4.1.65.0.3148\lib\net45\Google.Apis.Sheets.v4.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=9.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.9.0.0\lib\net462\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Bcl.HashCode, Version=6.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.HashCode.6.0.0\lib\net462\Microsoft.Bcl.HashCode.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=9.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.9.0.0\lib\net462\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Logging.Abstractions, Version=9.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Logging.Abstractions.9.0.0\lib\net462\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualBasic.PowerPacks">
+      <HintPath>..\..\..\VB2012\POS_KASIR\POS_KASIR\bin\Debug\Microsoft.VisualBasic.PowerPacks.dll</HintPath>
+    </Reference>
+    <Reference Include="MySql.Data, Version=1.0.7.30072, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\VB2012\AppDC\bin\Debug\MySql.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\GetContact\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="QRCoder">
+      <HintPath>..\packages\QRCoder.1.6.0\lib\net40\QRCoder.dll</HintPath>
+    </Reference>
+    <Reference Include="SIPSorcery, Version=8.0.23.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SIPSorcery.8.0.23\lib\net462\SIPSorcery.dll</HintPath>
+    </Reference>
+    <Reference Include="SIPSorceryMedia.Abstractions, Version=8.0.12.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SIPSorceryMedia.Abstractions.8.0.12\lib\netstandard2.0\SIPSorceryMedia.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="SIPSorceryMedia.Encoders, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SIPSorceryMedia.Encoders.8.0.7\lib\net461\SIPSorceryMedia.Encoders.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.5.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.6.1\lib\net462\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Diagnostics.DiagnosticSource, Version=9.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Diagnostics.DiagnosticSource.9.0.0\lib\net462\System.Diagnostics.DiagnosticSource.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.IO, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.4.3.0\lib\net462\System.IO.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Management" />
+    <Reference Include="System.Memory, Version=4.0.5.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.6.3\lib\net462\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Security, Version=4.0.1.2, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Net.Security.4.3.2\lib\net46\System.Net.Security.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Net.WebSockets, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Net.WebSockets.4.3.0\lib\net46\System.Net.WebSockets.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Net.WebSockets.Client, Version=4.0.1.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Net.WebSockets.Client.4.3.2\lib\net46\System.Net.WebSockets.Client.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.6.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.6.1\lib\net462\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.4.3.0\lib\net462\System.Runtime.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.6.1.2\lib\net462\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\System.Runtime.InteropServices.RuntimeInformation.4.3.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Algorithms, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Algorithms.4.3.0\lib\net463\System.Security.Cryptography.Algorithms.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Encoding, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Encoding.4.3.0\lib\net46\System.Security.Cryptography.Encoding.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Primitives, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Primitives.4.3.0\lib\net46\System.Security.Cryptography.Primitives.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.X509Certificates, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.X509Certificates.4.3.0\lib\net461\System.Security.Cryptography.X509Certificates.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="UIAutomationClient" />
+    <Reference Include="UIAutomationTypes" />
+    <Reference Include="websocket-sharp, Version=0.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SIPSorcery.WebSocketSharp.0.0.1\lib\net452\websocket-sharp.dll</HintPath>
+    </Reference>
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Drawing" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Windows.Forms" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Xml.Linq" />
+    <Import Include="System.Threading.Tasks" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Class\adb.vb" />
+    <Compile Include="Class\AudioStreamClient.vb" />
+    <Compile Include="Class\ClassApi.vb" />
+    <Compile Include="Class\ClassApk.vb" />
+    <Compile Include="Class\ClassConnect.vb" />
+    <Compile Include="Class\ClassData.vb" />
+    <Compile Include="Class\ClassJson.vb" />
+    <Compile Include="Class\ClassUI.vb" />
+    <Compile Include="Class\DeEnCrypt.vb" />
+    <Compile Include="Class\GoogleSheetsReader.vb" />
+    <Compile Include="Class\IniFileReader.vb" />
+    <Compile Include="Class\Message.vb" />
+    <Compile Include="Class\MessageModel.vb" />
+    <Compile Include="Class\PagingControl.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Class\QueueEngine.vb" />
+    <Compile Include="Class\RoundedPanel.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Class\ServerWa.vb" />
+    <Compile Include="Class\SIPAutomation.vb" />
+    <Compile Include="Class\sipclient.vb" />
+    <Compile Include="Class\SmoothPanel.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Class\UiHelper.vb" />
+    <Compile Include="Class\WhatsAppAutomation.vb" />
+    <Compile Include="Custum\CtGetKontak.Designer.vb">
+      <DependentUpon>CtGetKontak.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Custum\CtGetKontak.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Custum\CtList.Designer.vb">
+      <DependentUpon>CtList.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Custum\CtList.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Custum\CtListSeOrCall.Designer.vb">
+      <DependentUpon>CtListSeOrCall.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Custum\CtListSeOrCall.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Custum\CtListWA.Designer.vb">
+      <DependentUpon>CtListWA.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Custum\CtListWA.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Custum\CtPackageUser.Designer.vb">
+      <DependentUpon>CtPackageUser.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Custum\CtPackageUser.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Custum\CtUserProfile.Designer.vb">
+      <DependentUpon>CtUserProfile.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Custum\CtUserProfile.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Custum\DataTableControl.Designer.vb">
+      <DependentUpon>DataTableControl.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Custum\DataTableControl.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Custum\InfoLabelControl.Designer.vb">
+      <DependentUpon>InfoLabelControl.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Custum\InfoLabelControl.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Custum\MessageBubble.Designer.vb">
+      <DependentUpon>MessageBubble.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Custum\MessageBubble.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Custum\NewsItemControl.Designer.vb">
+      <DependentUpon>NewsItemControl.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Custum\NewsItemControl.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Custum\PlaceholderTextBox.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Custum\UCLbl.Designer.vb">
+      <DependentUpon>UCLbl.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Custum\UCLbl.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Custum\UClistScanQr.Designer.vb">
+      <DependentUpon>UClistScanQr.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Custum\UClistScanQr.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Custum\UCScanQR.Designer.vb">
+      <DependentUpon>UCScanQR.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Custum\UCScanQR.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Custum\UCWarmer.Designer.vb">
+      <DependentUpon>UCWarmer.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Custum\UCWarmer.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Custum\UserButton.Designer.vb">
+      <DependentUpon>UserButton.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Custum\UserButton.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Form1.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form1.Designer.vb">
+      <DependentUpon>Form1.vb</DependentUpon>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Module\WSManager.vb" />
+    <Compile Include="Page\android\add_cloud.Designer.vb">
+      <DependentUpon>add_cloud.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Page\android\add_cloud.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Page\android\add_device.Designer.vb">
+      <DependentUpon>add_device.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Page\android\add_device.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Page\android\add_network.Designer.vb">
+      <DependentUpon>add_network.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Page\android\add_network.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Page\android\add_termux.Designer.vb">
+      <DependentUpon>add_termux.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Page\android\add_termux.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Page\android\add_usb.Designer.vb">
+      <DependentUpon>add_usb.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Page\android\add_usb.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Page\android\cloud_device.Designer.vb">
+      <DependentUpon>cloud_device.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Page\android\cloud_device.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Page\android\dialog_device.Designer.vb">
+      <DependentUpon>dialog_device.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Page\android\dialog_device.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Page\android\local_device.Designer.vb">
+      <DependentUpon>local_device.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Page\android\local_device.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Page\atur\AddataServer.Designer.vb">
+      <DependentUpon>AddataServer.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Page\atur\AddataServer.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Page\atur\frmAddSIP.Designer.vb">
+      <DependentUpon>frmAddSIP.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Page\atur\frmAddSIP.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Page\atur\frmprofile.Designer.vb">
+      <DependentUpon>frmprofile.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Page\atur\frmprofile.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Page\atur\PgAturvb.Designer.vb">
+      <DependentUpon>PgAturvb.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Page\atur\PgAturvb.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Page\atur\PgDaServer.Designer.vb">
+      <DependentUpon>PgDaServer.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Page\atur\PgDaServer.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Page\atur\pgMultiBarcode.Designer.vb">
+      <DependentUpon>pgMultiBarcode.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Page\atur\pgMultiBarcode.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Page\atur\pgSetSession.Designer.vb">
+      <DependentUpon>pgSetSession.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Page\atur\pgSetSession.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Page\atur\WAForwardForm.Designer.vb">
+      <DependentUpon>WAForwardForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Page\atur\WAForwardForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Page\atur\WAScanQrForm.Designer.vb">
+      <DependentUpon>WAScanQrForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Page\atur\WAScanQrForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Page\atur\WAServerForm.Designer.vb">
+      <DependentUpon>WAServerForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Page\atur\WAServerForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Page\atur\WhatsAppDesktop.Designer.vb">
+      <DependentUpon>WhatsAppDesktop.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Page\atur\WhatsAppDesktop.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Page\call\PgCall.Designer.vb">
+      <DependentUpon>PgCall.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Page\call\PgCall.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Page\atur\frmSetupDev.Designer.vb">
+      <DependentUpon>frmSetupDev.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Page\atur\frmSetupDev.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Page\atur\frmConfigD.Designer.vb">
+      <DependentUpon>frmConfigD.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Page\atur\frmConfigD.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Page\call\PgCAtur.Designer.vb">
+      <DependentUpon>PgCAtur.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Page\call\PgCAtur.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Page\call\PgManCall.Designer.vb">
+      <DependentUpon>PgManCall.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Page\call\PgManCall.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Page\android\frmAddDevices.Designer.vb">
+      <DependentUpon>frmAddDevices.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Page\android\frmAddDevices.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmLayer1.Designer.vb">
+      <DependentUpon>frmLayer1.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmLayer1.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Page\atur\frmAddDial.Designer.vb">
+      <DependentUpon>frmAddDial.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Page\atur\frmAddDial.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Page\frmApk.Designer.vb">
+      <DependentUpon>frmApk.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Page\frmApk.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Page\frmHome.Designer.vb">
+      <DependentUpon>frmHome.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Page\frmHome.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Page\frmLogin.Designer.vb">
+      <DependentUpon>frmLogin.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Page\frmLogin.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="FrmReqToken.Designer.vb">
+      <DependentUpon>FrmReqToken.vb</DependentUpon>
+    </Compile>
+    <Compile Include="FrmReqToken.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Page\frmSignUp.Designer.vb">
+      <DependentUpon>frmSignUp.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Page\frmSignUp.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Page\msg\ChatListForm.Designer.vb">
+      <DependentUpon>ChatListForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Page\msg\ChatListForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Page\msg\frmDetailMsg.Designer.vb">
+      <DependentUpon>frmDetailMsg.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Page\msg\frmDetailMsg.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Page\msg\frmkirim.Designer.vb">
+      <DependentUpon>frmkirim.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Page\msg\frmkirim.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Page\msg\FrmTraningWA.Designer.vb">
+      <DependentUpon>FrmTraningWA.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Page\msg\FrmTraningWA.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Page\msg\PgEmail.Designer.vb">
+      <DependentUpon>PgEmail.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Page\msg\PgEmail.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Page\msg\PgKirim.Designer.vb">
+      <DependentUpon>PgKirim.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Page\msg\PgKirim.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Page\msg\pgMsg.Designer.vb">
+      <DependentUpon>pgMsg.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Page\msg\pgMsg.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Page\atur\PgChPassword.Designer.vb">
+      <DependentUpon>PgChPassword.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Page\atur\PgChPassword.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Page\msg\PgSpamWA.Designer.vb">
+      <DependentUpon>PgSpamWA.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Page\msg\PgSpamWA.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Page\msg\pgTemplate.Designer.vb">
+      <DependentUpon>pgTemplate.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Page\msg\pgTemplate.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Page\msg\pgVerifyNumber.Designer.vb">
+      <DependentUpon>pgVerifyNumber.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Page\msg\pgVerifyNumber.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Page\PgDialog.Designer.vb">
+      <DependentUpon>PgDialog.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Page\PgDialog.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Page\pgNotifikasi.Designer.vb">
+      <DependentUpon>pgNotifikasi.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Page\pgNotifikasi.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Page\PgOTP.Designer.vb">
+      <DependentUpon>PgOTP.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Page\PgOTP.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Page\pgset1.Designer.vb">
+      <DependentUpon>pgset1.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Page\pgset1.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Page\pgSheet.Designer.vb">
+      <DependentUpon>pgSheet.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Page\pgSheet.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Page\PgValidation.Designer.vb">
+      <DependentUpon>PgValidation.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Page\PgValidation.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Page\UCformtext.Designer.vb">
+      <DependentUpon>UCformtext.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Page\UCformtext.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Page\UConnectDevice.Designer.vb">
+      <DependentUpon>UConnectDevice.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Page\UConnectDevice.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Page\call\frmlog.Designer.vb">
+      <DependentUpon>frmlog.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Page\call\frmlog.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Page\UCDeviceUse.Designer.vb">
+      <DependentUpon>UCDeviceUse.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Page\UCDeviceUse.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Parse\getuser.vb" />
+    <Compile Include="PgLoading.Designer.vb">
+      <DependentUpon>PgLoading.vb</DependentUpon>
+    </Compile>
+    <Compile Include="PgLoading.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Service\mrjay59.vb" />
+    <Compile Include="Service\WebSocketClient.vb" />
+    <Compile Include="Service\WhatsAppClass.vb" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Custum\CtGetKontak.resx">
+      <DependentUpon>CtGetKontak.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Custum\CtList.resx">
+      <DependentUpon>CtList.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Custum\CtListSeOrCall.resx">
+      <DependentUpon>CtListSeOrCall.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Custum\CtListWA.resx">
+      <DependentUpon>CtListWA.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Custum\CtPackageUser.resx">
+      <DependentUpon>CtPackageUser.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Custum\CtUserProfile.resx">
+      <DependentUpon>CtUserProfile.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Custum\InfoLabelControl.resx">
+      <DependentUpon>InfoLabelControl.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Custum\UCLbl.resx">
+      <DependentUpon>UCLbl.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Custum\UClistScanQr.resx">
+      <DependentUpon>UClistScanQr.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Custum\UCScanQR.resx">
+      <DependentUpon>UCScanQR.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Custum\UCWarmer.resx">
+      <DependentUpon>UCWarmer.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Custum\UserButton.resx">
+      <DependentUpon>UserButton.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form1.resx">
+      <DependentUpon>Form1.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Page\android\add_cloud.resx">
+      <DependentUpon>add_cloud.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Page\android\add_device.resx">
+      <DependentUpon>add_device.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Page\android\add_network.resx">
+      <DependentUpon>add_network.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Page\android\add_termux.resx">
+      <DependentUpon>add_termux.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Page\android\add_usb.resx">
+      <DependentUpon>add_usb.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Page\android\cloud_device.resx">
+      <DependentUpon>cloud_device.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Page\android\dialog_device.resx">
+      <DependentUpon>dialog_device.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Page\android\local_device.resx">
+      <DependentUpon>local_device.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Page\atur\AddataServer.resx">
+      <DependentUpon>AddataServer.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Page\atur\frmAddSIP.resx">
+      <DependentUpon>frmAddSIP.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Page\atur\frmprofile.resx">
+      <DependentUpon>frmprofile.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Page\atur\PgAturvb.resx">
+      <DependentUpon>PgAturvb.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Page\atur\PgDaServer.resx">
+      <DependentUpon>PgDaServer.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Page\atur\pgMultiBarcode.resx">
+      <DependentUpon>pgMultiBarcode.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Page\atur\pgSetSession.resx">
+      <DependentUpon>pgSetSession.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Page\atur\WAForwardForm.resx">
+      <DependentUpon>WAForwardForm.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Page\atur\WAScanQrForm.resx">
+      <DependentUpon>WAScanQrForm.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Page\atur\WAServerForm.resx">
+      <DependentUpon>WAServerForm.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Page\atur\WhatsAppDesktop.resx">
+      <DependentUpon>WhatsAppDesktop.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Page\call\PgCall.resx">
+      <DependentUpon>PgCall.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Page\atur\frmSetupDev.resx">
+      <DependentUpon>frmSetupDev.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Page\atur\frmConfigD.resx">
+      <DependentUpon>frmConfigD.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Page\call\PgCAtur.resx">
+      <DependentUpon>PgCAtur.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Page\call\PgManCall.resx">
+      <DependentUpon>PgManCall.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Page\android\frmAddDevices.resx">
+      <DependentUpon>frmAddDevices.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmLayer1.resx">
+      <DependentUpon>frmLayer1.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Page\atur\frmAddDial.resx">
+      <DependentUpon>frmAddDial.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Page\frmApk.resx">
+      <DependentUpon>frmApk.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Page\frmHome.resx">
+      <DependentUpon>frmHome.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Page\frmLogin.resx">
+      <DependentUpon>frmLogin.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmReqToken.resx">
+      <DependentUpon>FrmReqToken.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Page\frmSignUp.resx">
+      <DependentUpon>frmSignUp.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Page\msg\ChatListForm.resx">
+      <DependentUpon>ChatListForm.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Page\msg\frmDetailMsg.resx">
+      <DependentUpon>frmDetailMsg.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Page\msg\frmkirim.resx">
+      <DependentUpon>frmkirim.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Page\msg\FrmTraningWA.resx">
+      <DependentUpon>FrmTraningWA.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Page\msg\PgEmail.resx">
+      <DependentUpon>PgEmail.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Page\msg\PgKirim.resx">
+      <DependentUpon>PgKirim.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Page\msg\pgMsg.resx">
+      <DependentUpon>pgMsg.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Page\atur\PgChPassword.resx">
+      <DependentUpon>PgChPassword.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Page\msg\PgSpamWA.resx">
+      <DependentUpon>PgSpamWA.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Page\msg\pgTemplate.resx">
+      <DependentUpon>pgTemplate.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Page\msg\pgVerifyNumber.resx">
+      <DependentUpon>pgVerifyNumber.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Page\PgDialog.resx">
+      <DependentUpon>PgDialog.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Page\pgNotifikasi.resx">
+      <DependentUpon>pgNotifikasi.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Page\PgOTP.resx">
+      <DependentUpon>PgOTP.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Page\pgset1.resx">
+      <DependentUpon>pgset1.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Page\pgSheet.resx">
+      <DependentUpon>pgSheet.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Page\PgValidation.resx">
+      <DependentUpon>PgValidation.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Page\UCformtext.resx">
+      <DependentUpon>UCformtext.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Page\UConnectDevice.resx">
+      <DependentUpon>UConnectDevice.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Page\call\frmlog.resx">
+      <DependentUpon>frmlog.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Page\UCDeviceUse.resx">
+      <DependentUpon>UCDeviceUse.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PgLoading.resx">
+      <DependentUpon>PgLoading.vb</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="My Project\app.manifest" />
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.5.2 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="WMPLib">
+      <Guid>{6BF52A50-394A-11D3-B153-00C04F79FAA6}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="icon.ico" />
+    <None Include="Resources\icons8-log-20.png" />
+    <None Include="Resources\icons8-stop-20.png" />
+    <None Include="Resources\icons8-play-20.png" />
+    <None Include="Resources\icons8-plus-30.png" />
+    <None Include="packages.config" />
+    <None Include="Resources\icons8-setup-25.png" />
+    <None Include="Resources\icons8-disconnected-25.png" />
+    <None Include="Resources\icons8-connected-25.png" />
+    <None Include="Resources\VideoPlaceholder.jpg" />
+    <None Include="Resources\ImagePlaceholder.jpg" />
+    <None Include="Resources\ErrorPlaceholder.png" />
+    <None Include="Resources\VideoThumbnail.png" />
+    <None Include="Resources\SearchIcon.png" />
+    <None Include="Resources\SingleCheck.png" />
+    <None Include="Resources\ClockIcon.png" />
+    <None Include="Resources\DoubleCheckBlue.png" />
+    <None Include="Resources\ErrorIcon.png" />
+    <None Include="Resources\DoubleCheck.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <Import Project="..\packages\Tesseract.4.1.1\build\Tesseract.targets" Condition="Exists('..\packages\Tesseract.4.1.1\build\Tesseract.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Tesseract.4.1.1\build\Tesseract.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Tesseract.4.1.1\build\Tesseract.targets'))" />
+    <Error Condition="!Exists('..\packages\SIPSorceryMedia.3.0.1\build\SIPSorceryMedia.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\SIPSorceryMedia.3.0.1\build\SIPSorceryMedia.props'))" />
+    <Error Condition="!Exists('..\packages\SIPSorceryMedia.3.0.1\build\SIPSorceryMedia.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\SIPSorceryMedia.3.0.1\build\SIPSorceryMedia.targets'))" />
+    <Error Condition="!Exists('..\packages\SIPSorceryMedia.Encoders.8.0.7\build\SIPSorceryMedia.Encoders.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\SIPSorceryMedia.Encoders.8.0.7\build\SIPSorceryMedia.Encoders.targets'))" />
+  </Target>
+  <Import Project="..\packages\SIPSorceryMedia.3.0.1\build\SIPSorceryMedia.targets" Condition="Exists('..\packages\SIPSorceryMedia.3.0.1\build\SIPSorceryMedia.targets')" />
+  <Import Project="..\packages\SIPSorceryMedia.Encoders.8.0.7\build\SIPSorceryMedia.Encoders.targets" Condition="Exists('..\packages\SIPSorceryMedia.Encoders.8.0.7\build\SIPSorceryMedia.Encoders.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
