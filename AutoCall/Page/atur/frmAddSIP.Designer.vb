@@ -38,10 +38,8 @@ Partial Class frmAddSIP
         Me.No = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.IDAKUN = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Concurrent = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.Dexpire = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.limit_perday = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.limit_recall = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.State = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.idlea = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.Label7 = New System.Windows.Forms.Label()
         Me.txtToken = New System.Windows.Forms.TextBox()
@@ -50,11 +48,11 @@ Partial Class frmAddSIP
         Me.lbIdle = New AutoCall.UCformtext()
         Me.lbTipeAkun = New AutoCall.UCformtext()
         Me.LblConcurrent = New AutoCall.UCformtext()
+        Me.BtnAdding = New System.Windows.Forms.Button()
         Me.LblTglExpire = New AutoCall.UCformtext()
         Me.LblTglCreate = New AutoCall.UCformtext()
         Me.LblAkunId = New AutoCall.UCformtext()
         Me.BtnChecking = New System.Windows.Forms.Button()
-        Me.BtnAdding = New System.Windows.Forms.Button()
         Me.Panel2 = New System.Windows.Forms.Panel()
         Me.Panel3 = New System.Windows.Forms.Panel()
         Me.Label3 = New System.Windows.Forms.Label()
@@ -64,8 +62,9 @@ Partial Class frmAddSIP
         Me.subscribe = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.lim_perday = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Lim_recall = New System.Windows.Forms.DataGridViewTextBoxColumn()
-        Me.TotCall = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.pick_tg = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.idle = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.worker = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Panel1.SuspendLayout()
         Me.Panel4.SuspendLayout()
         CType(Me.ViewTabel0, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -99,7 +98,7 @@ Partial Class frmAddSIP
         Me.Panel1.Controls.Add(Me.ViewTabel0)
         Me.Panel1.Location = New System.Drawing.Point(440, 12)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(534, 189)
+        Me.Panel1.Size = New System.Drawing.Size(588, 189)
         Me.Panel1.TabIndex = 245
         '
         'Panel4
@@ -109,7 +108,7 @@ Partial Class frmAddSIP
         Me.Panel4.Dock = System.Windows.Forms.DockStyle.Top
         Me.Panel4.Location = New System.Drawing.Point(0, 0)
         Me.Panel4.Name = "Panel4"
-        Me.Panel4.Size = New System.Drawing.Size(534, 41)
+        Me.Panel4.Size = New System.Drawing.Size(588, 41)
         Me.Panel4.TabIndex = 3
         '
         'Label5
@@ -147,7 +146,7 @@ Partial Class frmAddSIP
         DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
         Me.ViewTabel0.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
         Me.ViewTabel0.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.ViewTabel0.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.No, Me.IDAKUN, Me.Concurrent, Me.Dexpire, Me.limit_perday, Me.limit_recall, Me.State})
+        Me.ViewTabel0.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.No, Me.IDAKUN, Me.Concurrent, Me.State, Me.idlea})
         DataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
         DataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(CType(CType(30, Byte), Integer), CType(CType(30, Byte), Integer), CType(CType(30, Byte), Integer))
         DataGridViewCellStyle2.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -180,7 +179,7 @@ Partial Class frmAddSIP
         Me.ViewTabel0.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
         Me.ViewTabel0.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect
         Me.ViewTabel0.ShowCellToolTips = False
-        Me.ViewTabel0.Size = New System.Drawing.Size(528, 139)
+        Me.ViewTabel0.Size = New System.Drawing.Size(571, 139)
         Me.ViewTabel0.TabIndex = 187
         '
         'No
@@ -204,33 +203,19 @@ Partial Class frmAddSIP
         Me.Concurrent.ReadOnly = True
         Me.Concurrent.Width = 85
         '
-        'Dexpire
-        '
-        Me.Dexpire.HeaderText = "Expired"
-        Me.Dexpire.Name = "Dexpire"
-        Me.Dexpire.ReadOnly = True
-        Me.Dexpire.Width = 67
-        '
-        'limit_perday
-        '
-        Me.limit_perday.HeaderText = "Lim_Perday"
-        Me.limit_perday.Name = "limit_perday"
-        Me.limit_perday.ReadOnly = True
-        Me.limit_perday.Width = 87
-        '
-        'limit_recall
-        '
-        Me.limit_recall.HeaderText = "Limit_Recall"
-        Me.limit_recall.Name = "limit_recall"
-        Me.limit_recall.ReadOnly = True
-        Me.limit_recall.Width = 87
-        '
         'State
         '
         Me.State.HeaderText = "State"
         Me.State.Name = "State"
         Me.State.ReadOnly = True
         Me.State.Width = 56
+        '
+        'idlea
+        '
+        Me.idlea.HeaderText = "IDLE"
+        Me.idlea.Name = "idlea"
+        Me.idlea.ReadOnly = True
+        Me.idlea.Width = 52
         '
         'Label1
         '
@@ -306,7 +291,7 @@ Partial Class frmAddSIP
         'lbIdle
         '
         Me.lbIdle.BackColor = System.Drawing.Color.Transparent
-        Me.lbIdle.Location = New System.Drawing.Point(189, 189)
+        Me.lbIdle.Location = New System.Drawing.Point(189, 201)
         Me.lbIdle.Name = "lbIdle"
         Me.lbIdle.Size = New System.Drawing.Size(179, 62)
         Me.lbIdle.TabIndex = 238
@@ -314,7 +299,7 @@ Partial Class frmAddSIP
         'lbTipeAkun
         '
         Me.lbTipeAkun.BackColor = System.Drawing.Color.Transparent
-        Me.lbTipeAkun.Location = New System.Drawing.Point(0, 189)
+        Me.lbTipeAkun.Location = New System.Drawing.Point(0, 201)
         Me.lbTipeAkun.Name = "lbTipeAkun"
         Me.lbTipeAkun.Size = New System.Drawing.Size(195, 62)
         Me.lbTipeAkun.TabIndex = 237
@@ -322,15 +307,33 @@ Partial Class frmAddSIP
         'LblConcurrent
         '
         Me.LblConcurrent.BackColor = System.Drawing.Color.Transparent
-        Me.LblConcurrent.Location = New System.Drawing.Point(176, 7)
+        Me.LblConcurrent.Location = New System.Drawing.Point(176, 19)
         Me.LblConcurrent.Name = "LblConcurrent"
         Me.LblConcurrent.Size = New System.Drawing.Size(192, 63)
         Me.LblConcurrent.TabIndex = 236
         '
+        'BtnAdding
+        '
+        Me.BtnAdding.BackColor = System.Drawing.Color.FromArgb(CType(CType(80, Byte), Integer), CType(CType(65, Byte), Integer), CType(CType(90, Byte), Integer))
+        Me.BtnAdding.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.BtnAdding.FlatAppearance.BorderSize = 0
+        Me.BtnAdding.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.BtnAdding.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Italic), System.Drawing.FontStyle), System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnAdding.ForeColor = System.Drawing.SystemColors.ButtonFace
+        Me.BtnAdding.Image = CType(resources.GetObject("BtnAdding.Image"), System.Drawing.Image)
+        Me.BtnAdding.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.BtnAdding.Location = New System.Drawing.Point(304, 271)
+        Me.BtnAdding.Name = "BtnAdding"
+        Me.BtnAdding.Size = New System.Drawing.Size(103, 30)
+        Me.BtnAdding.TabIndex = 235
+        Me.BtnAdding.Text = "Aktifkan"
+        Me.BtnAdding.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.BtnAdding.UseVisualStyleBackColor = False
+        '
         'LblTglExpire
         '
         Me.LblTglExpire.BackColor = System.Drawing.Color.Transparent
-        Me.LblTglExpire.Location = New System.Drawing.Point(3, 131)
+        Me.LblTglExpire.Location = New System.Drawing.Point(3, 143)
         Me.LblTglExpire.Name = "LblTglExpire"
         Me.LblTglExpire.Size = New System.Drawing.Size(365, 62)
         Me.LblTglExpire.TabIndex = 115
@@ -338,7 +341,7 @@ Partial Class frmAddSIP
         'LblTglCreate
         '
         Me.LblTglCreate.BackColor = System.Drawing.Color.Transparent
-        Me.LblTglCreate.Location = New System.Drawing.Point(3, 67)
+        Me.LblTglCreate.Location = New System.Drawing.Point(3, 79)
         Me.LblTglCreate.Name = "LblTglCreate"
         Me.LblTglCreate.Size = New System.Drawing.Size(365, 62)
         Me.LblTglCreate.TabIndex = 114
@@ -346,7 +349,7 @@ Partial Class frmAddSIP
         'LblAkunId
         '
         Me.LblAkunId.BackColor = System.Drawing.Color.Transparent
-        Me.LblAkunId.Location = New System.Drawing.Point(4, 8)
+        Me.LblAkunId.Location = New System.Drawing.Point(4, 20)
         Me.LblAkunId.Name = "LblAkunId"
         Me.LblAkunId.Size = New System.Drawing.Size(191, 62)
         Me.LblAkunId.TabIndex = 112
@@ -369,31 +372,13 @@ Partial Class frmAddSIP
         Me.BtnChecking.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         Me.BtnChecking.UseVisualStyleBackColor = False
         '
-        'BtnAdding
-        '
-        Me.BtnAdding.BackColor = System.Drawing.Color.FromArgb(CType(CType(80, Byte), Integer), CType(CType(65, Byte), Integer), CType(CType(90, Byte), Integer))
-        Me.BtnAdding.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.BtnAdding.FlatAppearance.BorderSize = 0
-        Me.BtnAdding.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.BtnAdding.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Italic), System.Drawing.FontStyle), System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BtnAdding.ForeColor = System.Drawing.SystemColors.ButtonFace
-        Me.BtnAdding.Image = CType(resources.GetObject("BtnAdding.Image"), System.Drawing.Image)
-        Me.BtnAdding.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.BtnAdding.Location = New System.Drawing.Point(304, 257)
-        Me.BtnAdding.Name = "BtnAdding"
-        Me.BtnAdding.Size = New System.Drawing.Size(103, 44)
-        Me.BtnAdding.TabIndex = 235
-        Me.BtnAdding.Text = "Aktifkan"
-        Me.BtnAdding.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.BtnAdding.UseVisualStyleBackColor = False
-        '
         'Panel2
         '
         Me.Panel2.Controls.Add(Me.Panel3)
         Me.Panel2.Controls.Add(Me.DataGridView1)
         Me.Panel2.Location = New System.Drawing.Point(440, 207)
         Me.Panel2.Name = "Panel2"
-        Me.Panel2.Size = New System.Drawing.Size(534, 339)
+        Me.Panel2.Size = New System.Drawing.Size(588, 339)
         Me.Panel2.TabIndex = 252
         '
         'Panel3
@@ -403,7 +388,7 @@ Partial Class frmAddSIP
         Me.Panel3.Dock = System.Windows.Forms.DockStyle.Top
         Me.Panel3.Location = New System.Drawing.Point(0, 0)
         Me.Panel3.Name = "Panel3"
-        Me.Panel3.Size = New System.Drawing.Size(534, 41)
+        Me.Panel3.Size = New System.Drawing.Size(588, 41)
         Me.Panel3.TabIndex = 3
         '
         'Label3
@@ -441,7 +426,7 @@ Partial Class frmAddSIP
         DataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
         Me.DataGridView1.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle4
         Me.DataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.DataGridView1.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.DataGridViewTextBoxColumn1, Me.appkode, Me.subscribe, Me.lim_perday, Me.Lim_recall, Me.TotCall, Me.idle})
+        Me.DataGridView1.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.DataGridViewTextBoxColumn1, Me.appkode, Me.subscribe, Me.lim_perday, Me.Lim_recall, Me.pick_tg, Me.idle, Me.worker})
         DataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
         DataGridViewCellStyle5.BackColor = System.Drawing.Color.FromArgb(CType(CType(30, Byte), Integer), CType(CType(30, Byte), Integer), CType(CType(30, Byte), Integer))
         DataGridViewCellStyle5.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -474,7 +459,7 @@ Partial Class frmAddSIP
         Me.DataGridView1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
         Me.DataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect
         Me.DataGridView1.ShowCellToolTips = False
-        Me.DataGridView1.Size = New System.Drawing.Size(528, 139)
+        Me.DataGridView1.Size = New System.Drawing.Size(571, 139)
         Me.DataGridView1.TabIndex = 187
         '
         'DataGridViewTextBoxColumn1
@@ -512,12 +497,12 @@ Partial Class frmAddSIP
         Me.Lim_recall.ReadOnly = True
         Me.Lim_recall.Width = 84
         '
-        'TotCall
+        'pick_tg
         '
-        Me.TotCall.HeaderText = "Total Call"
-        Me.TotCall.Name = "TotCall"
-        Me.TotCall.ReadOnly = True
-        Me.TotCall.Width = 73
+        Me.pick_tg.HeaderText = "Pick Tg"
+        Me.pick_tg.Name = "pick_tg"
+        Me.pick_tg.ReadOnly = True
+        Me.pick_tg.Width = 65
         '
         'idle
         '
@@ -525,6 +510,13 @@ Partial Class frmAddSIP
         Me.idle.Name = "idle"
         Me.idle.ReadOnly = True
         Me.idle.Width = 47
+        '
+        'worker
+        '
+        Me.worker.HeaderText = "worker"
+        Me.worker.Name = "worker"
+        Me.worker.ReadOnly = True
+        Me.worker.Width = 66
         '
         'frmAddSIP
         '
@@ -578,23 +570,22 @@ Partial Class frmAddSIP
     Friend WithEvents LblTglExpire As UCformtext
     Friend WithEvents LblTglCreate As UCformtext
     Friend WithEvents LblAkunId As UCformtext
-    Friend WithEvents No As DataGridViewTextBoxColumn
-    Friend WithEvents IDAKUN As DataGridViewTextBoxColumn
-    Friend WithEvents Concurrent As DataGridViewTextBoxColumn
-    Friend WithEvents Dexpire As DataGridViewTextBoxColumn
-    Friend WithEvents limit_perday As DataGridViewTextBoxColumn
-    Friend WithEvents limit_recall As DataGridViewTextBoxColumn
-    Friend WithEvents State As DataGridViewTextBoxColumn
     Friend WithEvents BtnChecking As Button
     Friend WithEvents Panel2 As Panel
     Friend WithEvents Panel3 As Panel
     Friend WithEvents Label3 As Label
     Friend WithEvents DataGridView1 As DataGridView
+    Friend WithEvents No As DataGridViewTextBoxColumn
+    Friend WithEvents IDAKUN As DataGridViewTextBoxColumn
+    Friend WithEvents Concurrent As DataGridViewTextBoxColumn
+    Friend WithEvents State As DataGridViewTextBoxColumn
+    Friend WithEvents idlea As DataGridViewTextBoxColumn
     Friend WithEvents DataGridViewTextBoxColumn1 As DataGridViewTextBoxColumn
     Friend WithEvents appkode As DataGridViewTextBoxColumn
     Friend WithEvents subscribe As DataGridViewTextBoxColumn
     Friend WithEvents lim_perday As DataGridViewTextBoxColumn
     Friend WithEvents Lim_recall As DataGridViewTextBoxColumn
-    Friend WithEvents TotCall As DataGridViewTextBoxColumn
+    Friend WithEvents pick_tg As DataGridViewTextBoxColumn
     Friend WithEvents idle As DataGridViewTextBoxColumn
+    Friend WithEvents worker As DataGridViewTextBoxColumn
 End Class

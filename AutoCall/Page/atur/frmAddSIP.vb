@@ -19,6 +19,8 @@ Public Class frmAddSIP
 
     Private Sub lodsipserver()
 
+        ViewTabel0.Rows.Clear()
+
         Dim DPar = jsonpa.Json2aray(DatR)
         Dim username = DPar("body")("apk_user").ToString()
 
@@ -39,6 +41,7 @@ Public Class frmAddSIP
                 Dim unix_exp = item("unix_exp").ToString
                 Dim date_exp = item("date_exp").ToString
                 Dim idle = item("idle").ToString
+                Dim state = IIf(item("state").ToString = "AK", "AKTIF", "NOT AKTIF")
                 Dim limit_perday As Integer = item("limit_perday")
                 Dim limit_pernumber As Integer = item("limit_recall")
 
@@ -50,8 +53,10 @@ Public Class frmAddSIP
                     Dim appname = prop.Name
                 Next
 
-                Dim row As String() = New String() {ax, akunid, concurrent, date_exp, limit_perday, limit_pernumber, idle}
-                ViewTabel0.Rows.Add(row)
+                Dim row As String() = New String() {ax, akunid, concurrent, idle, state}
+                Dim rowIndex As Integer = ViewTabel0.Rows.Add(row)
+
+                ViewTabel0.Rows(rowIndex).Cells("IDAKUN").Tag = listapp
 
             Next
 
@@ -66,4 +71,41 @@ Public Class frmAddSIP
         Dim TokenIn = txtToken.Text.Trim
 
     End Sub
+
+    Private Sub ViewTabel0_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles ViewTabel0.CellContentClick
+        Dim indcol = e.ColumnIndex
+        Dim indrow = e.RowIndex
+
+        DataGridView1.Rows.Clear()
+
+        Dim listapp = ViewTabel0.Rows(indrow).Cells("IDAKUN").Tag.ToString.Trim
+
+        Dim Datitem = jsonpa.Json2aray(listapp)
+        Dim applist = Datitem("apk")
+        Dim approp As IEnumerable(Of JProperty) = applist.Properties()
+        Dim ax As Integer = 0
+        For Each prop As JProperty In approp
+            ax = ax + 1
+            Dim appname = prop.Name
+            Dim appkode = applist(appname)("appkode").ToString
+            Dim subscribe = applist(appname)("subscribe").ToString
+            Dim state = applist(appname)("state").ToString
+            Dim busy_by = applist(appname)("busy_by").ToString
+            Dim expired As Double = applist(appname)("expired")
+
+            Dim limit_perday_use_call As Integer = applist(appname)("limit_perday")("use_call")
+            Dim limit_perday_call As Integer = applist(appname)("limit_perday")("call")
+            Dim limit_pernumber_use_call = applist(appname)("limit_pernumber")("use_call")
+            Dim limit_pernumber_call = applist(appname)("limit_pernumber")("call")
+
+            Dim limit_perday = $"{limit_perday_use_call}/{limit_perday_call}"
+            Dim limit_pernumber = $"{limit_pernumber_use_call}/{limit_pernumber_call}"
+
+
+            Dim row As String() = New String() {ax, appkode, subscribe, limit_perday, limit_pernumber, state}
+            Dim rowIndex As Integer = DataGridView1.Rows.Add(row)
+        Next
+    End Sub
+
+
 End Class

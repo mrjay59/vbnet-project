@@ -126,23 +126,17 @@
   <metadata name="Concurrent.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
-  <metadata name="Dexpire.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="limit_perday.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="limit_recall.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
   <metadata name="State.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="idlea.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="BtnAdding.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABkAAAAZCAYAAADE6YVjAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAL
-        EwAACxMBAJqcGAAAAqlJREFUSEu9lu9LE3Ecx4WkZ/0NFdlfIEFIcFv1oKLoBwhWjwK3hWZqLQWfzCcr
+        EAAACxABrSO9dQAAAqlJREFUSEu9lu9LE3Ecx4WkZ/0NFdlfIEFIcFv1oKLoBwhWjwK3hWZqLQWfzCcr
         ISjIBNNWWQalPfFu2tamRlhSs1/b0tR5O1xpFplOLNvc3vG9a7u7791+PfENbziOu/drn8/nvt/vioo2
         UrZhFJtZHDGxsJqdaMxqFheYrvkaOiOr/gOGzByQr0vaxlHayYcYG4rpPF2RCuiQXCaQba0BlHaEA3Se
         rkwcaumQXE5BiHc7Zr10pkZmDnWplxs8gHMKcIWAzreAhQOuvgSuj0qud2khxGV3Z3vpXJWUEHcIaSUB
@@ -159,7 +153,7 @@
   <data name="BtnChecking.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABkAAAAZCAYAAADE6YVjAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAL
-        EwAACxMBAJqcGAAAAqlJREFUSEu9lu9LE3Ecx4WkZ/0NFdlfIEFIcFv1oKLoBwhWjwK3hWZqLQWfzCcr
+        EAAACxABrSO9dQAAAqlJREFUSEu9lu9LE3Ecx4WkZ/0NFdlfIEFIcFv1oKLoBwhWjwK3hWZqLQWfzCcr
         ISjIBNNWWQalPfFu2tamRlhSs1/b0tR5O1xpFplOLNvc3vG9a7u7791+PfENbziOu/drn8/nvt/vioo2
         UrZhFJtZHDGxsJqdaMxqFheYrvkaOiOr/gOGzByQr0vaxlHayYcYG4rpPF2RCuiQXCaQba0BlHaEA3Se
         rkwcaumQXE5BiHc7Zr10pkZmDnWplxs8gHMKcIWAzreAhQOuvgSuj0qud2khxGV3Z3vpXJWUEHcIaSUB
@@ -188,10 +182,13 @@
   <metadata name="Lim_recall.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
-  <metadata name="TotCall.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <metadata name="pick_tg.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
   <metadata name="idle.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="worker.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
 </root>

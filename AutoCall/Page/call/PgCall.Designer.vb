@@ -272,7 +272,7 @@ Partial Class PgCall
         Me.Label10.ForeColor = System.Drawing.Color.White
         Me.Label10.Location = New System.Drawing.Point(1, 1)
         Me.Label10.Name = "Label10"
-        Me.Label10.Size = New System.Drawing.Size(251, 32)
+        Me.Label10.Size = New System.Drawing.Size(250, 32)
         Me.Label10.TabIndex = 227
         Me.Label10.Text = "Multi Pusat Panggilan"
         '
@@ -307,9 +307,9 @@ Partial Class PgCall
         Me.Label3.ForeColor = System.Drawing.Color.White
         Me.Label3.Location = New System.Drawing.Point(417, 306)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(34, 13)
+        Me.Label3.Size = New System.Drawing.Size(48, 13)
         Me.Label3.TabIndex = 189
-        Me.Label3.Text = "Delay"
+        Me.Label3.Text = "Delay (s)"
         '
         'Label4
         '
@@ -318,9 +318,9 @@ Partial Class PgCall
         Me.Label4.ForeColor = System.Drawing.Color.White
         Me.Label4.Location = New System.Drawing.Point(278, 306)
         Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(37, 13)
+        Me.Label4.Size = New System.Drawing.Size(54, 13)
         Me.Label4.TabIndex = 187
-        Me.Label4.Text = "Durasi"
+        Me.Label4.Text = "Durasi (m)"
         '
         'TotClose
         '
@@ -385,9 +385,9 @@ Partial Class PgCall
         Me.Label6.ForeColor = System.Drawing.Color.White
         Me.Label6.Location = New System.Drawing.Point(350, 306)
         Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(37, 13)
+        Me.Label6.Size = New System.Drawing.Size(51, 13)
         Me.Label6.TabIndex = 186
-        Me.Label6.Text = "Recall"
+        Me.Label6.Text = "Recall (x)"
         '
         'rd0
         '

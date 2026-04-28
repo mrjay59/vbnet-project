@@ -156,7 +156,10 @@ Public Class PgCall
 
         Dim resp2arr = jsonpa.Json2aray(response)
         If (resp2arr("status")("code") = 1) Then
-            MsgBox(resp2arr("msg"))
+
+            For Each item In resp2arr("msg")
+                MsgBox(item)
+            Next
             Exit Sub
         End If
 
@@ -440,8 +443,11 @@ Public Class PgCall
 
         Dim resp2arr = jsonpa.Json2aray(response)
         If (resp2arr("status")("code") = 1) Then
-            MsgBox(resp2arr("msg"))
+            For Each item In resp2arr("msg")
+                MsgBox(item)
+            Next
             Exit Sub
+
         End If
 
         Dim reqid As String = resp2arr("data")("req_id").ToString
@@ -756,7 +762,9 @@ Public Class PgCall
 
         Dim resp2arr = jsonpa.Json2aray(response)
         If (resp2arr("status")("code") = 1) Then
-            MsgBox(resp2arr("msg"))
+            For Each item In resp2arr("msg")
+                MsgBox(item)
+            Next
             Exit Sub
         End If
 
@@ -1070,7 +1078,9 @@ Public Class PgCall
 
         Dim resp2arr = jsonpa.Json2aray(response)
         If (resp2arr("status")("code") = 1) Then
-            MsgBox(resp2arr("msg"))
+            For Each item In resp2arr("msg")
+                MsgBox(item)
+            Next
             Exit Sub
         End If
 
@@ -2151,10 +2161,11 @@ Public Class PgCall
     Private Sub BtnLog_Click(sender As Object, e As EventArgs) Handles BtnLog.Click
         Dim reqid = BtnLog.Tag.ToString.Trim
 
-        If (reqid = "") Then
+        If (reqid Is Nothing) Then
             MsgBox("reqid kosong silahkan create call")
             Exit Sub
         End If
+
         Dim DPar = jsonpa.Json2aray(DatR)
         Dim username = DPar("body")("apk_user").ToString()
 
@@ -2166,5 +2177,7 @@ Public Class PgCall
         Dim page As New PgDialog(NObj.ToString)
         page.ShowDialog()
     End Sub
+
+
 End Class
 
