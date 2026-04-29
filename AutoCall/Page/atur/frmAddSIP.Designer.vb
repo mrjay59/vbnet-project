@@ -44,14 +44,6 @@ Partial Class frmAddSIP
         Me.Label7 = New System.Windows.Forms.Label()
         Me.txtToken = New System.Windows.Forms.TextBox()
         Me.Label2 = New System.Windows.Forms.Label()
-        Me.PanelPusat = New AutoCall.RoundedPanel()
-        Me.lbIdle = New AutoCall.UCformtext()
-        Me.lbTipeAkun = New AutoCall.UCformtext()
-        Me.LblConcurrent = New AutoCall.UCformtext()
-        Me.BtnAdding = New System.Windows.Forms.Button()
-        Me.LblTglExpire = New AutoCall.UCformtext()
-        Me.LblTglCreate = New AutoCall.UCformtext()
-        Me.LblAkunId = New AutoCall.UCformtext()
         Me.BtnChecking = New System.Windows.Forms.Button()
         Me.Panel2 = New System.Windows.Forms.Panel()
         Me.Panel3 = New System.Windows.Forms.Panel()
@@ -65,13 +57,21 @@ Partial Class frmAddSIP
         Me.pick_tg = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.idle = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.worker = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.PanelPusat = New AutoCall.RoundedPanel()
+        Me.lbIdle = New AutoCall.UCformtext()
+        Me.lbTipeAkun = New AutoCall.UCformtext()
+        Me.LblConcurrent = New AutoCall.UCformtext()
+        Me.BtnAdding = New System.Windows.Forms.Button()
+        Me.LblTglExpire = New AutoCall.UCformtext()
+        Me.LblTglCreate = New AutoCall.UCformtext()
+        Me.LblAkunId = New AutoCall.UCformtext()
         Me.Panel1.SuspendLayout()
         Me.Panel4.SuspendLayout()
         CType(Me.ViewTabel0, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.PanelPusat.SuspendLayout()
         Me.Panel2.SuspendLayout()
         Me.Panel3.SuspendLayout()
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.PanelPusat.SuspendLayout()
         Me.SuspendLayout()
         '
         'Panel10
@@ -262,97 +262,12 @@ Partial Class frmAddSIP
         Me.Label2.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.Label2.Font = New System.Drawing.Font("Bodoni MT", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label2.ForeColor = System.Drawing.Color.White
-        Me.Label2.Location = New System.Drawing.Point(9, 203)
+        Me.Label2.Location = New System.Drawing.Point(9, 212)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(423, 28)
         Me.Label2.TabIndex = 250
         Me.Label2.Text = "Step  2 : Data Akun"
         Me.Label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'PanelPusat
-        '
-        Me.PanelPusat.AutoSizeHeight = False
-        Me.PanelPusat.BorderColor = System.Drawing.Color.Gray
-        Me.PanelPusat.BorderWidth = 1
-        Me.PanelPusat.Controls.Add(Me.lbIdle)
-        Me.PanelPusat.Controls.Add(Me.lbTipeAkun)
-        Me.PanelPusat.Controls.Add(Me.LblConcurrent)
-        Me.PanelPusat.Controls.Add(Me.BtnAdding)
-        Me.PanelPusat.Controls.Add(Me.LblTglExpire)
-        Me.PanelPusat.Controls.Add(Me.LblTglCreate)
-        Me.PanelPusat.Controls.Add(Me.LblAkunId)
-        Me.PanelPusat.CornerRadius = 10
-        Me.PanelPusat.Location = New System.Drawing.Point(9, 234)
-        Me.PanelPusat.Name = "PanelPusat"
-        Me.PanelPusat.RoundingStyle = AutoCall.RoundedPanel.RoundStyle.All
-        Me.PanelPusat.Size = New System.Drawing.Size(420, 312)
-        Me.PanelPusat.TabIndex = 249
-        '
-        'lbIdle
-        '
-        Me.lbIdle.BackColor = System.Drawing.Color.Transparent
-        Me.lbIdle.Location = New System.Drawing.Point(189, 201)
-        Me.lbIdle.Name = "lbIdle"
-        Me.lbIdle.Size = New System.Drawing.Size(179, 62)
-        Me.lbIdle.TabIndex = 238
-        '
-        'lbTipeAkun
-        '
-        Me.lbTipeAkun.BackColor = System.Drawing.Color.Transparent
-        Me.lbTipeAkun.Location = New System.Drawing.Point(0, 201)
-        Me.lbTipeAkun.Name = "lbTipeAkun"
-        Me.lbTipeAkun.Size = New System.Drawing.Size(195, 62)
-        Me.lbTipeAkun.TabIndex = 237
-        '
-        'LblConcurrent
-        '
-        Me.LblConcurrent.BackColor = System.Drawing.Color.Transparent
-        Me.LblConcurrent.Location = New System.Drawing.Point(176, 19)
-        Me.LblConcurrent.Name = "LblConcurrent"
-        Me.LblConcurrent.Size = New System.Drawing.Size(192, 63)
-        Me.LblConcurrent.TabIndex = 236
-        '
-        'BtnAdding
-        '
-        Me.BtnAdding.BackColor = System.Drawing.Color.FromArgb(CType(CType(80, Byte), Integer), CType(CType(65, Byte), Integer), CType(CType(90, Byte), Integer))
-        Me.BtnAdding.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.BtnAdding.FlatAppearance.BorderSize = 0
-        Me.BtnAdding.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.BtnAdding.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Italic), System.Drawing.FontStyle), System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BtnAdding.ForeColor = System.Drawing.SystemColors.ButtonFace
-        Me.BtnAdding.Image = CType(resources.GetObject("BtnAdding.Image"), System.Drawing.Image)
-        Me.BtnAdding.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.BtnAdding.Location = New System.Drawing.Point(304, 271)
-        Me.BtnAdding.Name = "BtnAdding"
-        Me.BtnAdding.Size = New System.Drawing.Size(103, 30)
-        Me.BtnAdding.TabIndex = 235
-        Me.BtnAdding.Text = "Aktifkan"
-        Me.BtnAdding.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.BtnAdding.UseVisualStyleBackColor = False
-        '
-        'LblTglExpire
-        '
-        Me.LblTglExpire.BackColor = System.Drawing.Color.Transparent
-        Me.LblTglExpire.Location = New System.Drawing.Point(3, 143)
-        Me.LblTglExpire.Name = "LblTglExpire"
-        Me.LblTglExpire.Size = New System.Drawing.Size(365, 62)
-        Me.LblTglExpire.TabIndex = 115
-        '
-        'LblTglCreate
-        '
-        Me.LblTglCreate.BackColor = System.Drawing.Color.Transparent
-        Me.LblTglCreate.Location = New System.Drawing.Point(3, 79)
-        Me.LblTglCreate.Name = "LblTglCreate"
-        Me.LblTglCreate.Size = New System.Drawing.Size(365, 62)
-        Me.LblTglCreate.TabIndex = 114
-        '
-        'LblAkunId
-        '
-        Me.LblAkunId.BackColor = System.Drawing.Color.Transparent
-        Me.LblAkunId.Location = New System.Drawing.Point(4, 20)
-        Me.LblAkunId.Name = "LblAkunId"
-        Me.LblAkunId.Size = New System.Drawing.Size(191, 62)
-        Me.LblAkunId.TabIndex = 112
         '
         'BtnChecking
         '
@@ -378,7 +293,7 @@ Partial Class frmAddSIP
         Me.Panel2.Controls.Add(Me.DataGridView1)
         Me.Panel2.Location = New System.Drawing.Point(440, 207)
         Me.Panel2.Name = "Panel2"
-        Me.Panel2.Size = New System.Drawing.Size(588, 339)
+        Me.Panel2.Size = New System.Drawing.Size(588, 351)
         Me.Panel2.TabIndex = 252
         '
         'Panel3
@@ -518,6 +433,91 @@ Partial Class frmAddSIP
         Me.worker.ReadOnly = True
         Me.worker.Width = 66
         '
+        'PanelPusat
+        '
+        Me.PanelPusat.AutoSizeHeight = False
+        Me.PanelPusat.BorderColor = System.Drawing.Color.Gray
+        Me.PanelPusat.BorderWidth = 1
+        Me.PanelPusat.Controls.Add(Me.lbIdle)
+        Me.PanelPusat.Controls.Add(Me.lbTipeAkun)
+        Me.PanelPusat.Controls.Add(Me.LblConcurrent)
+        Me.PanelPusat.Controls.Add(Me.BtnAdding)
+        Me.PanelPusat.Controls.Add(Me.LblTglExpire)
+        Me.PanelPusat.Controls.Add(Me.LblTglCreate)
+        Me.PanelPusat.Controls.Add(Me.LblAkunId)
+        Me.PanelPusat.CornerRadius = 10
+        Me.PanelPusat.Location = New System.Drawing.Point(9, 246)
+        Me.PanelPusat.Name = "PanelPusat"
+        Me.PanelPusat.RoundingStyle = AutoCall.RoundedPanel.RoundStyle.All
+        Me.PanelPusat.Size = New System.Drawing.Size(420, 312)
+        Me.PanelPusat.TabIndex = 249
+        '
+        'lbIdle
+        '
+        Me.lbIdle.BackColor = System.Drawing.Color.Transparent
+        Me.lbIdle.Location = New System.Drawing.Point(189, 201)
+        Me.lbIdle.Name = "lbIdle"
+        Me.lbIdle.Size = New System.Drawing.Size(179, 62)
+        Me.lbIdle.TabIndex = 238
+        '
+        'lbTipeAkun
+        '
+        Me.lbTipeAkun.BackColor = System.Drawing.Color.Transparent
+        Me.lbTipeAkun.Location = New System.Drawing.Point(0, 201)
+        Me.lbTipeAkun.Name = "lbTipeAkun"
+        Me.lbTipeAkun.Size = New System.Drawing.Size(195, 62)
+        Me.lbTipeAkun.TabIndex = 237
+        '
+        'LblConcurrent
+        '
+        Me.LblConcurrent.BackColor = System.Drawing.Color.Transparent
+        Me.LblConcurrent.Location = New System.Drawing.Point(176, 19)
+        Me.LblConcurrent.Name = "LblConcurrent"
+        Me.LblConcurrent.Size = New System.Drawing.Size(192, 63)
+        Me.LblConcurrent.TabIndex = 236
+        '
+        'BtnAdding
+        '
+        Me.BtnAdding.BackColor = System.Drawing.Color.FromArgb(CType(CType(80, Byte), Integer), CType(CType(65, Byte), Integer), CType(CType(90, Byte), Integer))
+        Me.BtnAdding.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.BtnAdding.FlatAppearance.BorderSize = 0
+        Me.BtnAdding.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.BtnAdding.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Italic), System.Drawing.FontStyle), System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnAdding.ForeColor = System.Drawing.SystemColors.ButtonFace
+        Me.BtnAdding.Image = CType(resources.GetObject("BtnAdding.Image"), System.Drawing.Image)
+        Me.BtnAdding.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.BtnAdding.Location = New System.Drawing.Point(304, 271)
+        Me.BtnAdding.Name = "BtnAdding"
+        Me.BtnAdding.Size = New System.Drawing.Size(103, 30)
+        Me.BtnAdding.TabIndex = 235
+        Me.BtnAdding.Text = "Aktifkan"
+        Me.BtnAdding.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.BtnAdding.UseVisualStyleBackColor = False
+        '
+        'LblTglExpire
+        '
+        Me.LblTglExpire.BackColor = System.Drawing.Color.Transparent
+        Me.LblTglExpire.Location = New System.Drawing.Point(3, 143)
+        Me.LblTglExpire.Name = "LblTglExpire"
+        Me.LblTglExpire.Size = New System.Drawing.Size(365, 62)
+        Me.LblTglExpire.TabIndex = 115
+        '
+        'LblTglCreate
+        '
+        Me.LblTglCreate.BackColor = System.Drawing.Color.Transparent
+        Me.LblTglCreate.Location = New System.Drawing.Point(3, 79)
+        Me.LblTglCreate.Name = "LblTglCreate"
+        Me.LblTglCreate.Size = New System.Drawing.Size(365, 62)
+        Me.LblTglCreate.TabIndex = 114
+        '
+        'LblAkunId
+        '
+        Me.LblAkunId.BackColor = System.Drawing.Color.Transparent
+        Me.LblAkunId.Location = New System.Drawing.Point(4, 20)
+        Me.LblAkunId.Name = "LblAkunId"
+        Me.LblAkunId.Size = New System.Drawing.Size(191, 62)
+        Me.LblAkunId.TabIndex = 112
+        '
         'frmAddSIP
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -542,11 +542,11 @@ Partial Class frmAddSIP
         Me.Panel4.ResumeLayout(False)
         Me.Panel4.PerformLayout()
         CType(Me.ViewTabel0, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.PanelPusat.ResumeLayout(False)
         Me.Panel2.ResumeLayout(False)
         Me.Panel3.ResumeLayout(False)
         Me.Panel3.PerformLayout()
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.PanelPusat.ResumeLayout(False)
         Me.ResumeLayout(False)
         Me.PerformLayout()
 

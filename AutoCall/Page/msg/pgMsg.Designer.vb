@@ -229,7 +229,7 @@ Partial Class pgMsg
         Me.Label5.ForeColor = System.Drawing.Color.White
         Me.Label5.Location = New System.Drawing.Point(234, 8)
         Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(49, 16)
+        Me.Label5.Size = New System.Drawing.Size(48, 16)
         Me.Label5.TabIndex = 219
         Me.Label5.Text = "Label5"
         '
@@ -243,6 +243,7 @@ Partial Class pgMsg
         Me.Button3.Size = New System.Drawing.Size(30, 30)
         Me.Button3.TabIndex = 218
         Me.Button3.UseVisualStyleBackColor = True
+        Me.Button3.Visible = False
         '
         'Button4
         '
@@ -254,6 +255,7 @@ Partial Class pgMsg
         Me.Button4.Size = New System.Drawing.Size(30, 30)
         Me.Button4.TabIndex = 217
         Me.Button4.UseVisualStyleBackColor = True
+        Me.Button4.Visible = False
         '
         'Button5
         '
@@ -265,6 +267,7 @@ Partial Class pgMsg
         Me.Button5.Size = New System.Drawing.Size(30, 30)
         Me.Button5.TabIndex = 216
         Me.Button5.UseVisualStyleBackColor = True
+        Me.Button5.Visible = False
         '
         'ComboBox1
         '
@@ -284,7 +287,7 @@ Partial Class pgMsg
         Me.Label4.ForeColor = System.Drawing.Color.White
         Me.Label4.Location = New System.Drawing.Point(53, 8)
         Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(67, 16)
+        Me.Label4.Size = New System.Drawing.Size(66, 16)
         Me.Label4.TabIndex = 214
         Me.Label4.Text = "Pengirim :"
         '

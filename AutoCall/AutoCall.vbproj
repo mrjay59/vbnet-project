@@ -774,7 +774,6 @@
     <Compile Include="Page\UCDeviceUse.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Parse\getuser.vb" />
     <Compile Include="PgLoading.Designer.vb">
       <DependentUpon>PgLoading.vb</DependentUpon>
     </Compile>

@@ -45,13 +45,11 @@ Partial Class frmkirim
         Me.lblCountState = New System.Windows.Forms.Label()
         Me.TxtMessage = New System.Windows.Forms.RichTextBox()
         Me.TxtSender = New System.Windows.Forms.TextBox()
-        Me.rd5 = New System.Windows.Forms.RadioButton()
         Me.BtnSelect = New System.Windows.Forms.Button()
         Me.rd4 = New System.Windows.Forms.RadioButton()
         Me.TxtNumber = New System.Windows.Forms.TextBox()
         Me.rd3 = New System.Windows.Forms.RadioButton()
         Me.Label7 = New System.Windows.Forms.Label()
-        Me.rd2 = New System.Windows.Forms.RadioButton()
         Me.btnSend = New System.Windows.Forms.Button()
         Me.rd1 = New System.Windows.Forms.RadioButton()
         Me.Label4 = New System.Windows.Forms.Label()
@@ -237,7 +235,7 @@ Partial Class frmkirim
         Me.Label3.ForeColor = System.Drawing.Color.White
         Me.Label3.Location = New System.Drawing.Point(133, 385)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(88, 16)
+        Me.Label3.Size = New System.Drawing.Size(87, 16)
         Me.Label3.TabIndex = 256
         Me.Label3.Text = "Delay Setting"
         '
@@ -356,18 +354,6 @@ Partial Class frmkirim
         Me.TxtSender.Size = New System.Drawing.Size(116, 345)
         Me.TxtSender.TabIndex = 239
         '
-        'rd5
-        '
-        Me.rd5.AutoSize = True
-        Me.rd5.ForeColor = System.Drawing.Color.White
-        Me.rd5.Location = New System.Drawing.Point(317, 69)
-        Me.rd5.Name = "rd5"
-        Me.rd5.Size = New System.Drawing.Size(74, 17)
-        Me.rd5.TabIndex = 254
-        Me.rd5.TabStop = True
-        Me.rd5.Text = "Email Text"
-        Me.rd5.UseVisualStyleBackColor = True
-        '
         'BtnSelect
         '
         Me.BtnSelect.BackColor = System.Drawing.Color.FromArgb(CType(CType(85, Byte), Integer), CType(CType(65, Byte), Integer), CType(CType(95, Byte), Integer))
@@ -387,12 +373,12 @@ Partial Class frmkirim
         '
         Me.rd4.AutoSize = True
         Me.rd4.ForeColor = System.Drawing.Color.White
-        Me.rd4.Location = New System.Drawing.Point(229, 69)
+        Me.rd4.Location = New System.Drawing.Point(248, 69)
         Me.rd4.Name = "rd4"
-        Me.rd4.Size = New System.Drawing.Size(82, 17)
+        Me.rd4.Size = New System.Drawing.Size(93, 17)
         Me.rd4.TabIndex = 253
         Me.rd4.TabStop = True
-        Me.rd4.Text = "SMS Server"
+        Me.rd4.Text = "Clould Android"
         Me.rd4.UseVisualStyleBackColor = True
         '
         'TxtNumber
@@ -413,12 +399,12 @@ Partial Class frmkirim
         '
         Me.rd3.AutoSize = True
         Me.rd3.ForeColor = System.Drawing.Color.White
-        Me.rd3.Location = New System.Drawing.Point(140, 69)
+        Me.rd3.Location = New System.Drawing.Point(136, 69)
         Me.rd3.Name = "rd3"
-        Me.rd3.Size = New System.Drawing.Size(85, 17)
+        Me.rd3.Size = New System.Drawing.Size(90, 17)
         Me.rd3.TabIndex = 252
         Me.rd3.TabStop = True
-        Me.rd3.Text = "SMS Device"
+        Me.rd3.Text = "Local Android"
         Me.rd3.UseVisualStyleBackColor = True
         '
         'Label7
@@ -432,18 +418,6 @@ Partial Class frmkirim
         Me.Label7.TabIndex = 242
         Me.Label7.Text = "Enter Number :"
         '
-        'rd2
-        '
-        Me.rd2.AutoSize = True
-        Me.rd2.ForeColor = System.Drawing.Color.White
-        Me.rd2.Location = New System.Drawing.Point(317, 44)
-        Me.rd2.Name = "rd2"
-        Me.rd2.Size = New System.Drawing.Size(80, 17)
-        Me.rd2.TabIndex = 251
-        Me.rd2.TabStop = True
-        Me.rd2.Text = "WA Device"
-        Me.rd2.UseVisualStyleBackColor = True
-        '
         'btnSend
         '
         Me.btnSend.BackColor = System.Drawing.Color.FromArgb(CType(CType(80, Byte), Integer), CType(CType(65, Byte), Integer), CType(CType(90, Byte), Integer))
@@ -454,7 +428,7 @@ Partial Class frmkirim
         Me.btnSend.ForeColor = System.Drawing.SystemColors.ButtonFace
         Me.btnSend.Image = CType(resources.GetObject("btnSend.Image"), System.Drawing.Image)
         Me.btnSend.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.btnSend.Location = New System.Drawing.Point(411, 16)
+        Me.btnSend.Location = New System.Drawing.Point(413, 3)
         Me.btnSend.Name = "btnSend"
         Me.btnSend.Size = New System.Drawing.Size(93, 36)
         Me.btnSend.TabIndex = 243
@@ -465,12 +439,12 @@ Partial Class frmkirim
         '
         Me.rd1.AutoSize = True
         Me.rd1.ForeColor = System.Drawing.Color.White
-        Me.rd1.Location = New System.Drawing.Point(229, 44)
+        Me.rd1.Location = New System.Drawing.Point(249, 45)
         Me.rd1.Name = "rd1"
-        Me.rd1.Size = New System.Drawing.Size(82, 17)
+        Me.rd1.Size = New System.Drawing.Size(108, 17)
         Me.rd1.TabIndex = 250
         Me.rd1.TabStop = True
-        Me.rd1.Text = "WA ScanQr"
+        Me.rd1.Text = "Local WAScanQr"
         Me.rd1.UseVisualStyleBackColor = True
         '
         'Label4
@@ -488,12 +462,12 @@ Partial Class frmkirim
         '
         Me.rd0.AutoSize = True
         Me.rd0.ForeColor = System.Drawing.Color.White
-        Me.rd0.Location = New System.Drawing.Point(140, 44)
+        Me.rd0.Location = New System.Drawing.Point(136, 44)
         Me.rd0.Name = "rd0"
-        Me.rd0.Size = New System.Drawing.Size(77, 17)
+        Me.rd0.Size = New System.Drawing.Size(106, 17)
         Me.rd0.TabIndex = 249
         Me.rd0.TabStop = True
-        Me.rd0.Text = "WA Server"
+        Me.rd0.Text = "Clould WAServer"
         Me.rd0.UseVisualStyleBackColor = True
         '
         'Label8
@@ -501,7 +475,7 @@ Partial Class frmkirim
         Me.Label8.AutoSize = True
         Me.Label8.Font = New System.Drawing.Font("Cambria", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label8.ForeColor = System.Drawing.Color.White
-        Me.Label8.Location = New System.Drawing.Point(129, 16)
+        Me.Label8.Location = New System.Drawing.Point(125, 16)
         Me.Label8.Name = "Label8"
         Me.Label8.Size = New System.Drawing.Size(213, 19)
         Me.Label8.TabIndex = 248
@@ -585,7 +559,7 @@ Partial Class frmkirim
         '
         Me.RdWAD.AutoSize = True
         Me.RdWAD.ForeColor = System.Drawing.Color.White
-        Me.RdWAD.Location = New System.Drawing.Point(140, 93)
+        Me.RdWAD.Location = New System.Drawing.Point(362, 44)
         Me.RdWAD.Name = "RdWAD"
         Me.RdWAD.Size = New System.Drawing.Size(118, 17)
         Me.RdWAD.TabIndex = 272
@@ -617,13 +591,11 @@ Partial Class frmkirim
         Me.Controls.Add(Me.Label6)
         Me.Controls.Add(Me.TxtMessage)
         Me.Controls.Add(Me.TxtSender)
-        Me.Controls.Add(Me.rd5)
         Me.Controls.Add(Me.BtnSelect)
         Me.Controls.Add(Me.rd4)
         Me.Controls.Add(Me.TxtNumber)
         Me.Controls.Add(Me.rd3)
         Me.Controls.Add(Me.Label7)
-        Me.Controls.Add(Me.rd2)
         Me.Controls.Add(Me.btnSend)
         Me.Controls.Add(Me.rd1)
         Me.Controls.Add(Me.Label4)
@@ -671,13 +643,11 @@ Partial Class frmkirim
     Friend WithEvents Label10 As Label
     Friend WithEvents TxtMessage As RichTextBox
     Friend WithEvents TxtSender As TextBox
-    Friend WithEvents rd5 As RadioButton
     Friend WithEvents BtnSelect As Button
     Friend WithEvents rd4 As RadioButton
     Friend WithEvents TxtNumber As TextBox
     Friend WithEvents rd3 As RadioButton
     Friend WithEvents Label7 As Label
-    Friend WithEvents rd2 As RadioButton
     Friend WithEvents btnSend As Button
     Friend WithEvents rd1 As RadioButton
     Friend WithEvents Label4 As Label

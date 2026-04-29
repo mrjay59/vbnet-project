@@ -149,11 +149,12 @@ Public Class PgDialog
 
                     Dim state = applist(appname)("state").ToString
                     Dim subscribe = applist(appname)("subscribe").ToString
-                    Dim expired = applist(appname)("expired").ToString
+                    Dim datexp = applist(appname)("datexp").ToString
+                    Dim state_exp As Boolean = applist(appname)("state_exp")
 
 
                     ' Tambah row dulu
-                    Dim rowIndex As Integer = DatTable1.Rows.Add(False, ax, akunid, appco, expired, subscribe, limit_perday, limit_pernumber, state)
+                    Dim rowIndex As Integer = DatTable1.Rows.Add(False, ax, akunid, appco, datexp, subscribe, limit_perday, limit_pernumber, state, state_exp)
 
 
                     ' Jika BUSY
@@ -165,6 +166,19 @@ Public Class PgDialog
 
                         ' warna merah seluruh baris
                         DatTable1.Rows(rowIndex).DefaultCellStyle.BackColor = Color.Red
+                        DatTable1.Rows(rowIndex).DefaultCellStyle.ForeColor = Color.Black
+
+                    End If
+
+                    ' Jika BUSY
+                    If state_exp = True Then
+
+                        ' disable checkbox / cell kolom pertama
+                        DatTable1.Rows(rowIndex).Cells("CheckBoxColumn").ReadOnly = True
+                        DatTable1.Rows(rowIndex).Cells("CheckBoxColumn").Value = False
+
+                        ' warna merah seluruh baris
+                        DatTable1.Rows(rowIndex).DefaultCellStyle.BackColor = Color.IndianRed
                         DatTable1.Rows(rowIndex).DefaultCellStyle.ForeColor = Color.Black
 
                     End If
@@ -421,6 +435,13 @@ Public Class PgDialog
         kolom.Name = "idle"
         kolom.HeaderText = "idle"
         kolom.DataPropertyName = "idle"
+        kolom.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight
+        DatTable1.Columns.Add(kolom)
+
+        kolom = New DataGridViewTextBoxColumn()
+        kolom.Name = "state_exp"
+        kolom.HeaderText = "state_exp"
+        kolom.DataPropertyName = "STATE_EXP"
         kolom.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight
         DatTable1.Columns.Add(kolom)
 
@@ -1217,6 +1238,7 @@ Public Class PgDialog
                 Dim Application = DatTable1.Rows(rowindex).Cells("app").Value.ToString()
                 Dim noserial = DatTable1.Rows(rowindex).Cells("akunid").Value.ToString()
                 Dim idle = DatTable1.Rows(rowindex).Cells("idle").Value.ToString()
+                Dim state_exp As Boolean = DatTable1.Rows(rowindex).Cells("state_exp").Value
 
                 If (idle = "BUSY") Then
                     MsgBox($"pick {Application} status busy / sedang sibuk ")
@@ -1224,6 +1246,14 @@ Public Class PgDialog
                     DatTable1.Rows(rowindex).Cells("CheckBoxColumn").ReadOnly = True
                     Exit Sub
                 End If
+
+                If (state_exp) Then
+                    MsgBox($"pick {Application} Sudah expired ")
+                    DatTable1.Rows(rowindex).Cells("CheckBoxColumn").Value = False
+                    DatTable1.Rows(rowindex).Cells("CheckBoxColumn").ReadOnly = True
+                    Exit Sub
+                End If
+
 
                 Dim NeData As New JObject
 

@@ -187,14 +187,14 @@ Public Class frmkirim
             metCal = "waserver"
         ElseIf (rd1.Checked) Then
             metCal = "wascanqr"
-        ElseIf (rd2.Checked) Then
-            metCal = "wadevice"
+            '  ElseIf (rd2.Checked) Then
+            '   metCal = "wadevice"
         ElseIf (rd3.Checked) Then
             metCal = "smsdevice"
         ElseIf (rd4.Checked) Then
             metCal = "smsserver"
-        ElseIf (rd5.Checked) Then
-            metCal = "emailserver"
+            'ElseIf (rd5.Checked) Then
+            '    metCal = "emailserver"
         Else
             MsgBox("pilih metode kirim pesan terlebih dahulu")
             Exit Sub
@@ -557,14 +557,14 @@ Public Class frmkirim
             metCal = "waserver"
         ElseIf (rd1.Checked) Then
             metCal = "wascanqr"
-        ElseIf (rd2.Checked) Then
-            metCal = "wadevice"
+            ' ElseIf (rd2.Checked) Then
+            '   metCal = "wadevice"
         ElseIf (rd3.Checked) Then
             metCal = "smsdevice"
         ElseIf (rd4.Checked) Then
             metCal = "smsserver"
-        ElseIf (rd5.Checked) Then
-            metCal = "emailserver"
+            ' ElseIf (rd5.Checked) Then
+            '     metCal = "emailserver"
         Else
             MsgBox("pilih metode kirim pesan terlebih dahulu")
 
@@ -688,14 +688,14 @@ Public Class frmkirim
             metCal = "waserver"
         ElseIf (rd1.Checked) Then
             metCal = "wascanqr"
-        ElseIf (rd2.Checked) Then
-            metCal = "wadevice"
+            'ElseIf (rd2.Checked) Then
+            '    metCal = "wadevice"
         ElseIf (rd3.Checked) Then
             metCal = "smsdevice"
         ElseIf (rd4.Checked) Then
             metCal = "smsserver"
-        ElseIf (rd5.Checked) Then
-            metCal = "emailserver"
+            'ElseIf (rd5.Checked) Then
+            '    metCal = "emailserver"
         Else
             MsgBox("pilih metode kirim pesan terlebih dahulu")
 
