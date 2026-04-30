@@ -24,6 +24,7 @@ Partial Class PgAturvb
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(PgAturvb))
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.BtnSIPServer = New System.Windows.Forms.Button()
         Me.Btn5 = New System.Windows.Forms.Button()
         Me.Btn4 = New System.Windows.Forms.Button()
         Me.Btn3 = New System.Windows.Forms.Button()
@@ -32,7 +33,6 @@ Partial Class PgAturvb
         Me.Btn1 = New System.Windows.Forms.Button()
         Me.Panelgb = New System.Windows.Forms.Panel()
         Me.PanelPusat = New System.Windows.Forms.Panel()
-        Me.BtnSIPServer = New System.Windows.Forms.Button()
         Me.Panel1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -52,6 +52,24 @@ Partial Class PgAturvb
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(1040, 53)
         Me.Panel1.TabIndex = 4
+        '
+        'BtnSIPServer
+        '
+        Me.BtnSIPServer.BackColor = System.Drawing.Color.FromArgb(CType(CType(90, Byte), Integer), CType(CType(80, Byte), Integer), CType(CType(91, Byte), Integer))
+        Me.BtnSIPServer.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.BtnSIPServer.FlatAppearance.BorderSize = 0
+        Me.BtnSIPServer.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.BtnSIPServer.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Italic), System.Drawing.FontStyle), System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnSIPServer.ForeColor = System.Drawing.SystemColors.ButtonFace
+        Me.BtnSIPServer.Image = CType(resources.GetObject("BtnSIPServer.Image"), System.Drawing.Image)
+        Me.BtnSIPServer.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.BtnSIPServer.Location = New System.Drawing.Point(253, 4)
+        Me.BtnSIPServer.Name = "BtnSIPServer"
+        Me.BtnSIPServer.Size = New System.Drawing.Size(119, 40)
+        Me.BtnSIPServer.TabIndex = 138
+        Me.BtnSIPServer.Text = "SIP Server"
+        Me.BtnSIPServer.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.BtnSIPServer.UseVisualStyleBackColor = False
         '
         'Btn5
         '
@@ -101,9 +119,9 @@ Partial Class PgAturvb
         Me.Btn3.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.Btn3.Location = New System.Drawing.Point(375, 4)
         Me.Btn3.Name = "Btn3"
-        Me.Btn3.Size = New System.Drawing.Size(106, 40)
+        Me.Btn3.Size = New System.Drawing.Size(103, 40)
         Me.Btn3.TabIndex = 128
-        Me.Btn3.Text = "       Data Server"
+        Me.Btn3.Text = "Data WhatsApp"
         Me.Btn3.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         Me.Btn3.UseVisualStyleBackColor = False
         '
@@ -167,24 +185,6 @@ Partial Class PgAturvb
         Me.PanelPusat.Name = "PanelPusat"
         Me.PanelPusat.Size = New System.Drawing.Size(1040, 590)
         Me.PanelPusat.TabIndex = 5
-        '
-        'BtnSIPServer
-        '
-        Me.BtnSIPServer.BackColor = System.Drawing.Color.FromArgb(CType(CType(90, Byte), Integer), CType(CType(80, Byte), Integer), CType(CType(91, Byte), Integer))
-        Me.BtnSIPServer.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.BtnSIPServer.FlatAppearance.BorderSize = 0
-        Me.BtnSIPServer.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.BtnSIPServer.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Italic), System.Drawing.FontStyle), System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BtnSIPServer.ForeColor = System.Drawing.SystemColors.ButtonFace
-        Me.BtnSIPServer.Image = CType(resources.GetObject("BtnSIPServer.Image"), System.Drawing.Image)
-        Me.BtnSIPServer.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.BtnSIPServer.Location = New System.Drawing.Point(253, 4)
-        Me.BtnSIPServer.Name = "BtnSIPServer"
-        Me.BtnSIPServer.Size = New System.Drawing.Size(119, 40)
-        Me.BtnSIPServer.TabIndex = 138
-        Me.BtnSIPServer.Text = "SIP Server"
-        Me.BtnSIPServer.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.BtnSIPServer.UseVisualStyleBackColor = False
         '
         'PgAturvb
         '

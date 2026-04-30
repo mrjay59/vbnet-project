@@ -458,7 +458,7 @@ Public Class frmSetupDev
         param.Add("username", username)
         param.Add("data", J2Obj.ToString)
         param.Add("serial", serial)
-
+        param.Add("tipe", "clandroid")
 
         Dim response = mj.regapp(param)
 

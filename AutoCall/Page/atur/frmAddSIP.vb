@@ -1,4 +1,5 @@
-﻿Imports Newtonsoft.Json.Linq
+﻿Imports Newtonsoft.Json
+Imports Newtonsoft.Json.Linq
 
 Public Class frmAddSIP
     Private EnDe As New DeEnCrypt
@@ -65,10 +66,112 @@ Public Class frmAddSIP
 
     Private Sub frmAddSIP_Load(sender As Object, e As EventArgs) Handles Me.Load
         lodsipserver()
+        nameL()
     End Sub
 
     Private Sub BtnChecking_Click(sender As Object, e As EventArgs) Handles BtnChecking.Click
-        Dim TokenIn = txtToken.Text.Trim
+
+        Dim DPar = jsonpa.Json2aray(DatR)
+        Dim username = DPar("body")("apk_user")
+
+        Dim TokenAndro = txtToken.Text.Trim
+
+
+        If (TokenAndro = "") Then
+            MsgBox("Token Masih kosong /belum diinput")
+            Exit Sub
+        End If
+        Dim param As New Dictionary(Of String, String)
+        param.Add("username", username)
+        param.Add("token", TokenAndro)
+        param.Add("tipe", "csipserver")
+
+        Try
+            Dim response = mj.dev_state(param)
+
+            Dim jsonObject = JsonConvert.DeserializeObject(response)
+
+            If (jsonObject("status")("code") = 1) Then
+                MsgBox(jsonObject("msg"))
+                Exit Sub
+            End If
+
+            If (jsonObject("status")("code") = 0) Then
+
+                Dim bodyDa = jsonObject("body")
+
+                Dim AkunId = bodyDa("apk_akunid")
+                Dim Concurrent = bodyDa("apk_concurrent")
+                Dim TglBuat = bodyDa("apk_create")
+                Dim TglExp = bodyDa("apk_expire")
+                Dim tipeAk = bodyDa("tipe_akun")
+                Dim state = bodyDa("apk_state")
+                Dim ap_sub = bodyDa("apk_subscribe")
+
+                Dim unixTime As Long = TglBuat
+                Dim epoch As New DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)
+                Dim localTime As DateTime = epoch.AddSeconds(unixTime).ToLocalTime()
+
+                Dim unixTimeEx As Long = TglExp
+                Dim epochEx As New DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)
+                Dim localTimeEx As DateTime = epochEx.AddSeconds(unixTimeEx).ToLocalTime()
+
+                LblAkunId.Lblname.Text = "Akun ID"
+                LblAkunId.txtinput.Enabled = True
+                LblAkunId.txtinput.ReadOnly = True
+                LblAkunId.txtinput.Text = AkunId
+
+                LblConcurrent.Lblname.Text = "Concurrent"
+                LblConcurrent.txtinput.Enabled = True
+                LblConcurrent.txtinput.ReadOnly = True
+                LblConcurrent.txtinput.Text = Concurrent
+
+                LblTglCreate.Lblname.Text = "Tgl Buat"
+                LblTglCreate.txtinput.Enabled = True
+                LblTglCreate.txtinput.ReadOnly = True
+                LblTglCreate.txtinput.Text = localTime
+
+                LblTglExpire.Lblname.Text = "Tgl Expire"
+                LblTglExpire.txtinput.Enabled = True
+                LblTglExpire.txtinput.ReadOnly = True
+                LblTglExpire.txtinput.Text = localTimeEx
+                LblTglExpire.txtinput.Tag = TglExp
+
+                lbTipeAkun.Lblname.Text = "Tipe Akun"
+                lbTipeAkun.txtinput.Enabled = True
+                lbTipeAkun.txtinput.ReadOnly = True
+                lbTipeAkun.txtinput.Text = tipeAk
+
+                lbIdle.Lblname.Text = "State"
+                lbIdle.txtinput.Enabled = True
+                lbIdle.txtinput.ReadOnly = True
+                lbIdle.txtinput.Text = IIf(state = "AK", "AKTIF", "TIDAK AKTIF")
+
+                uc_subscribe.Lblname.Text = "Subscribe"
+                uc_subscribe.txtinput.Enabled = True
+                uc_subscribe.txtinput.ReadOnly = True
+                uc_subscribe.txtinput.Text = ap_sub
+
+                BtnChecking.Enabled = False
+                txtToken.Enabled = False
+            End If
+        Catch ex As Exception
+
+        End Try
+
+        BtnChecking.Enabled = False
+        txtToken.Enabled = False
+    End Sub
+
+    Private Sub nameL()
+        LblAkunId.Lblname.Text = "Akun ID"
+        LblConcurrent.Lblname.Text = "Concurrent"
+        LblTglCreate.Lblname.Text = "Tgl Buat"
+        LblTglExpire.Lblname.Text = "Tgl Expire"
+        lbTipeAkun.Lblname.Text = "Tipe Akun"
+        lbIdle.Lblname.Text = "State"
+        uc_subscribe.Lblname.Text = "Subscribe"
+
 
     End Sub
 
@@ -107,5 +210,50 @@ Public Class frmAddSIP
         Next
     End Sub
 
+    Private Sub BtnAdding_Click(sender As Object, e As EventArgs) Handles BtnAdding.Click
+        Dim akunid = LblAkunId.txtinput.Text
+        Dim concurrent As Integer = LblConcurrent.txtinput.Text
+        Dim tipeA = lbTipeAkun.txtinput.Text
+        Dim subscribe = uc_subscribe.txtinput.Text
+        Dim Expired = LblTglExpire.txtinput.Tag
 
+        Dim DPar = jsonpa.Json2aray(DatR)
+        Dim username = DPar("body")("apk_user")
+
+
+        'simpan ke server
+        Dim param As New JObject
+        param.Add("username", username)
+        param.Add("concurrent", concurrent)
+        param.Add("akunid", akunid)
+        param.Add("subscribe", subscribe)
+        param.Add("expired", Expired)
+        param.Add("tipe", tipeA)
+
+        Try
+            Dim response = mj.regapp(param)
+
+            Dim jsonObject = JsonConvert.DeserializeObject(response)
+
+            If (jsonObject("status")("code") = 1) Then
+                MsgBox(jsonObject("msg"))
+                Exit Sub
+            End If
+
+            If (jsonObject("status")("code") = 0) Then
+                MsgBox(jsonObject("msg"))
+                lodsipserver()
+            End If
+        Catch ex As Exception
+
+        End Try
+
+
+
+    End Sub
+
+    Private Sub Label21_Click(sender As Object, e As EventArgs) Handles Label21.Click
+        txtToken.Enabled = True
+        BtnChecking.Enabled = True
+    End Sub
 End Class
