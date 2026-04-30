@@ -195,6 +195,7 @@ Public Class frmAddSIP
             Dim state = applist(appname)("state").ToString
             Dim busy_by = applist(appname)("busy_by").ToString
             Dim expired As Double = applist(appname)("expired")
+            Dim pick_tg_by = applist(appname)("pick_tg_by")
 
             Dim limit_perday_use_call As Integer = applist(appname)("limit_perday")("use_call")
             Dim limit_perday_call As Integer = applist(appname)("limit_perday")("call")
@@ -205,9 +206,29 @@ Public Class frmAddSIP
             Dim limit_pernumber = $"{limit_pernumber_use_call}/{limit_pernumber_call}"
 
 
-            Dim row As String() = New String() {ax, appkode, subscribe, limit_perday, limit_pernumber, state}
+            Dim row As String() = New String() {ax, appkode, subscribe, limit_perday, limit_pernumber, pick_tg_by, state}
             Dim rowIndex As Integer = DataGridView1.Rows.Add(row)
+
+
+            ' disable checkbox / cell kolom pertama
+
+            DataGridView1.Rows(rowIndex).Cells("pick_tg").ReadOnly = False
+
+
         Next
+    End Sub
+
+    Private Sub DataGridView1_EditingControlShowing(sender As Object, e As DataGridViewEditingControlShowingEventArgs) Handles DataGridView1.EditingControlShowing
+
+        If DataGridView1.CurrentCell.ColumnIndex = DataGridView1.Columns("pick_tg").Index Then
+
+            Dim tb As TextBox = CType(e.Control, TextBox)
+
+            RemoveHandler tb.KeyPress, AddressOf OnlyNumber_KeyPress
+            AddHandler tb.KeyPress, AddressOf OnlyNumber_KeyPress
+
+        End If
+
     End Sub
 
     Private Sub BtnAdding_Click(sender As Object, e As EventArgs) Handles BtnAdding.Click
@@ -256,4 +277,16 @@ Public Class frmAddSIP
         txtToken.Enabled = True
         BtnChecking.Enabled = True
     End Sub
+
+
+    Private Sub OnlyNumber_KeyPress(sender As Object, e As KeyPressEventArgs)
+
+        'boleh angka + backspace
+        If Not Char.IsControl(e.KeyChar) AndAlso Not Char.IsDigit(e.KeyChar) Then
+            e.Handled = True
+        End If
+
+    End Sub
+
+
 End Class
