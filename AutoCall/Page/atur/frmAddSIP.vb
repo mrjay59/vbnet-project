@@ -181,6 +181,7 @@ Public Class frmAddSIP
 
         DataGridView1.Rows.Clear()
 
+
         Dim listapp = ViewTabel0.Rows(indrow).Cells("IDAKUN").Tag.ToString.Trim
 
         Dim Datitem = jsonpa.Json2aray(listapp)
@@ -210,9 +211,7 @@ Public Class frmAddSIP
             Dim rowIndex As Integer = DataGridView1.Rows.Add(row)
 
 
-            ' disable checkbox / cell kolom pertama
 
-            DataGridView1.Rows(rowIndex).Cells("pick_tg").ReadOnly = False
 
 
         Next
@@ -288,5 +287,7 @@ Public Class frmAddSIP
 
     End Sub
 
-
+    Private Sub DataGridView1_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellContentClick
+        DataGridView1.Columns("pick_tg").ReadOnly = False
+    End Sub
 End Class

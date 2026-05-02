@@ -328,6 +328,7 @@
     <Compile Include="Class\PagingControl.vb">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Class\QRManager.vb" />
     <Compile Include="Class\QueueEngine.vb" />
     <Compile Include="Class\RoundedPanel.vb">
       <SubType>Component</SubType>

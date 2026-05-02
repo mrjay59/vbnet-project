@@ -10,14 +10,7 @@ Public Class pgMultiBarcode
     Private jsonpa As New ClassJson
     Private dbConn As New ClassConnect
     Public Event SendDataJson As EventHandler(Of ClassData)
-    Public Sub New()
 
-        ' This call is required by the designer.
-        InitializeComponent()
-
-        ' Add any initialization after the InitializeComponent() call.
-
-    End Sub
 
     Public Property SendDataUser() As String
         Get
@@ -27,7 +20,6 @@ Public Class pgMultiBarcode
             DatR = value
         End Set
     End Property
-
 
     Private Sub btnclose_Click(sender As Object, e As EventArgs) Handles btnclose.Click
         Me.Close()

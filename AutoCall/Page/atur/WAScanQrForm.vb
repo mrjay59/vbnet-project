@@ -22,17 +22,14 @@ Public Class WAScanQrForm
     Private Sub BtnADD_Click(sender As Object, e As EventArgs) Handles BtnADD.Click
         Dim TipeSeassion = String.Empty
         Dim WAname = String.Empty
-        Dim starnum As Integer
 
+        Dim nprovide As String = naprovider.Text.Trim
+        WAname = seassionid.Text.Trim
 
-        If (RdTipe1.Checked) Then
-            TipeSeassion = "NewSeassion"
-            WAname = seassionid.Text.Trim
-            starnum = seassionid.Tag
-        ElseIf (RdTipe2.Checked) Then
-            TipeSeassion = "OldSeassion"
-            WAname = ComboBox1.Text
-            starnum = CType(ComboBox1.SelectedValue, Integer)
+        If (rqQrcode.Checked) Then
+            TipeSeassion = "rqQrkode"
+        ElseIf (RqRegCode.Checked) Then
+            TipeSeassion = "rqRegcode"
         Else
             MsgBox("belum dipilih silahkan checked ")
             Exit Sub
@@ -64,9 +61,10 @@ Public Class WAScanQrForm
         param.Add("name", WAname)
         param.Add("username", username)
         param.Add("counwa", counwa)
+        param.Add("navendor", nprovide)
         param.Add("platform", "wascanqr")
         param.Add("tipe", TipeSeassion)
-        param.Add("starnum", starnum)
+
 
         Dim respon = WApp.OnCreateWAScan(param)
         Dim jsonObject = JsonConvert.DeserializeObject(respon)
@@ -78,8 +76,8 @@ Public Class WAScanQrForm
         Else
 
 
-            RaiseEvent SendDataJson(Me, New ClassData(respon.ToString))
-            Threading.Thread.Sleep(500)
+            ' RaiseEvent SendDataJson(Me, New ClassData(respon.ToString))
+            ' Threading.Thread.Sleep(500)
             Dim page As New pgMultiBarcode()
             page.LoadBarcodeMulti(respon.ToString)
             page.SendDataUser = DatR
@@ -94,21 +92,14 @@ Public Class WAScanQrForm
         End If
     End Sub
 
-    Private Sub RdTipe1_CheckedChanged(sender As Object, e As EventArgs) Handles RdTipe1.CheckedChanged
-        seassionid.Enabled = True
-        seassionid.ReadOnly = False
-        ComboBox1.Visible = False
-        seassionid.Tag = 0
-        seassionid.Visible = True
+    Private Sub RdTipe1_CheckedChanged(sender As Object, e As EventArgs) Handles rqQrcode.CheckedChanged
+
+        CountWa.Maximum = 4
     End Sub
 
-    Private Sub RdTipe2_CheckedChanged(sender As Object, e As EventArgs) Handles RdTipe2.CheckedChanged
-        seassionid.Enabled = False
-        seassionid.ReadOnly = True
-        ComboBox1.Visible = True
-        seassionid.Visible = False
-        'cek data scan wa ada apa gak 
-        LoadDataWAScan()
+    Private Sub RdTipe2_CheckedChanged(sender As Object, e As EventArgs) Handles RqRegCode.CheckedChanged
+
+        CountWa.Maximum = 1
     End Sub
 
     Private Sub BtnADD_Paint(sender As Object, e As PaintEventArgs) Handles BtnADD.Paint
@@ -141,13 +132,13 @@ Public Class WAScanQrForm
 
         If (WaScan.Count > 0) Then
 
-            ComboBox1.Controls.Clear()
+            naprovider.Controls.Clear()
             ' Isi ComboBox
-            ComboBox1.DataSource = WaScan
-            ComboBox1.DisplayMember = "aichat_name"
-            ComboBox1.ValueMember = "aichat_count"
+            naprovider.DataSource = WaScan
+            naprovider.DisplayMember = "aichat_name"
+            naprovider.ValueMember = "aichat_count"
 
-            ComboBox1.SelectedIndex = 0
+            naprovider.SelectedIndex = 0
         End If
     End Sub
 
