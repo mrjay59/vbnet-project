@@ -3,7 +3,6 @@ Imports System.Timers
 Imports Newtonsoft.Json.Linq
 
 
-
 Public Class QRManager
 
     Private session As String
@@ -18,6 +17,13 @@ Public Class QRManager
     Private isRunning As Boolean = True
 
     Public Property Picture As PictureBox
+
+    ' EVENT LOG
+    Public Event OnLog(message As String)
+
+    Private Sub Log(msg As String)
+        RaiseEvent OnLog($"[{session}] {msg}")
+    End Sub
 
     Public Sub New(sessionName As String, pic As PictureBox)
         session = sessionName
@@ -34,25 +40,26 @@ Public Class QRManager
         qrCount += 1
 
         If qrCount > maxQR Then
-            Console.WriteLine("QR limit reached")
-
+            Log("QR limit reached")
             Await HandleRestart()
             Return
         End If
 
-        Console.WriteLine($"Generate QR #{qrCount}")
+        Log($"Generate QR #{qrCount}")
 
         Dim qr = Await GetQRCode()
 
         If qr IsNot Nothing Then
             ShowQR(qr)
             StartTimer()
+        Else
+            Log("Failed get QR")
         End If
 
     End Sub
 
     ' =========================
-    ' TIMER EXPIRE
+    ' TIMER
     ' =========================
     Private Sub StartTimer()
 
@@ -63,16 +70,16 @@ Public Class QRManager
         qrTimer = New Timer()
 
         If qrCount = 1 Then
-            qrTimer.Interval = 60000 ' 60 detik
+            qrTimer.Interval = 60000
         Else
-            qrTimer.Interval = 20000 ' 20 detik
+            qrTimer.Interval = 20000
         End If
 
         AddHandler qrTimer.Elapsed, AddressOf OnQRExpired
         qrTimer.AutoReset = False
         qrTimer.Start()
 
-        Console.WriteLine($"Timer {qrTimer.Interval / 1000}s")
+        Log($"Timer start {qrTimer.Interval / 1000}s")
 
     End Sub
 
@@ -80,16 +87,15 @@ Public Class QRManager
 
         If Not isRunning Then Exit Sub
 
-        Console.WriteLine("QR expired")
+        Log("QR expired")
 
         Await Task.Delay(100)
-
         OnScanRequired()
 
     End Sub
 
     ' =========================
-    ' GET QR (UPDATED FORMAT)
+    ' GET QR
     ' =========================
     Private Async Function GetQRCode() As Task(Of String)
 
@@ -104,19 +110,13 @@ Public Class QRManager
                     Dim json = Await res.Content.ReadAsStringAsync()
                     Dim obj = JObject.Parse(json)
 
-                    ' FORMAT BARU:
-                    ' {
-                    '   "mimetype":"image/png",
-                    '   "data":"base64..."
-                    ' }
-
                     Return obj("data").ToString()
 
                 End If
             End Using
 
         Catch ex As Exception
-            Console.WriteLine("QR Error: " & ex.Message)
+            Log("QR Error: " & ex.Message)
         End Try
 
         Return Nothing
@@ -135,27 +135,28 @@ Public Class QRManager
                 Picture.Image = Image.FromStream(ms)
             End Using
 
+            Log("QR displayed")
+
         Catch ex As Exception
-            Console.WriteLine("Show QR Error: " & ex.Message)
+            Log("Show QR Error: " & ex.Message)
         End Try
 
     End Sub
 
     ' =========================
-    ' HANDLE RESTART (LIMITED)
+    ' HANDLE RESTART
     ' =========================
     Private Async Function HandleRestart() As Task
 
         restartCount += 1
 
         If restartCount > maxRestart Then
-            Console.WriteLine("Max restart reached → STOP")
-
+            Log("Max restart reached → STOP")
             StopAll()
             Return
         End If
 
-        Console.WriteLine($"Restart session ({restartCount}/{maxRestart})")
+        Log($"Restart session ({restartCount}/{maxRestart})")
 
         qrCount = 0
 
@@ -164,7 +165,7 @@ Public Class QRManager
     End Function
 
     ' =========================
-    ' RESTART SESSION
+    ' RESTART API
     ' =========================
     Private Async Function RestartSession() As Task
 
@@ -175,14 +176,16 @@ Public Class QRManager
                 Await client.PostAsync(url, Nothing)
             End Using
 
+            Log("Restart request sent")
+
         Catch ex As Exception
-            Console.WriteLine("Restart Error: " & ex.Message)
+            Log("Restart Error: " & ex.Message)
         End Try
 
     End Function
 
     ' =========================
-    ' STOP TOTAL
+    ' STOP
     ' =========================
     Public Sub StopAll()
 
@@ -192,12 +195,12 @@ Public Class QRManager
             qrTimer.Stop()
         End If
 
-        Console.WriteLine("QR Manager STOPPED")
+        Log("QR Manager STOPPED")
 
     End Sub
 
     ' =========================
-    ' RESET (CONNECTED)
+    ' RESET
     ' =========================
     Public Sub Reset()
 
@@ -208,7 +211,7 @@ Public Class QRManager
             qrTimer.Stop()
         End If
 
-        Console.WriteLine("QR Reset")
+        Log("QR Reset")
 
     End Sub
 
