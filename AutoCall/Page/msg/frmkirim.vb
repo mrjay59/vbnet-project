@@ -14,10 +14,35 @@ Public Class frmkirim
     Private DataJson = Nothing
     Private DatTemp As New JArray
     Public Event SendDataJson As EventHandler(Of ClassData)
-    Public cts As CancellationTokenSource
-    Private sessionMap As New Dictionary(Of String, SessionData)
-    Private sessionActive As New HashSet(Of String)()
 
+    Public BatchSenderStarted As Boolean = False
+    Public DeviceUIMap As New Dictionary(Of String, UCDeviceUse)
+    Public engine As New QueueEngine()
+
+    Private WSSBuffer As New List(Of JObject)
+    Private WSSLock As New Object()
+    Private BatchSize As Integer = 5
+    Private BatchDelayMs As Integer = 1000
+
+    Private batchTimerRunning As Boolean = False
+    Public IsStopped As Boolean = False
+
+    Private DeviceTotal As New Dictionary(Of String, Integer)
+    Private DeviceProgress As New Dictionary(Of String, Integer)
+    Private DeviceDelay As New Dictionary(Of String, Integer)
+
+    Private _akunid As New JArray
+    Private _appArray As New JArray
+
+    Public Enum DeviceStatus
+        Idle
+        Queued
+        Sending
+        Paused
+        Retry
+        ErrorState
+        Done
+    End Enum
 
     Public Property SendDataUser() As String
         Get
@@ -153,7 +178,34 @@ Public Class frmkirim
         btnSend.Region = New Region(path)
     End Sub
 
-    Private Async Sub btnSend_Click(sender As Object, e As EventArgs) Handles btnSend.Click
+    Private Async Sub kirim_msg()
+        Dim metCal As String = String.Empty
+        Dim templchk As String = String.Empty
+        Dim TempTex As String = String.Empty
+        Dim Coone As String = String.Empty
+        If (rd0.Checked) Then
+            metCal = "waserver"
+            Coone = "WhatsApp"
+        ElseIf (rd1.Checked) Then
+            metCal = "wascanqr"
+            Coone = "WhatsApp"
+        ElseIf (rd2.Checked) Then
+            metCal = "wadesktop"
+            Coone = "Local"
+        ElseIf (rd3.Checked) Then
+            metCal = "LcAndroid"
+            Coone = "TERMUX"
+        ElseIf (rd4.Checked) Then
+            metCal = "ClAndroid"
+            Coone = "TERMUX"
+        Else
+            MsgBox("pilih metode kirim pesan terlebih dahulu")
+            Exit Sub
+        End If
+
+        Dim tsender = TxtSender.Text.Trim
+        Dim tmsg = TxtMessage.Text
+        Dim tnumber = TxtNumber.Text
 
         Dim apkname = dbConn.ApkProfile("name")
         Dim fodev = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) & "\" & apkname
@@ -162,62 +214,6 @@ Public Class frmkirim
 
         Dim DPar = jsonpa.Json2aray(DatR)
         Dim username = DPar("body")("apk_user")
-
-        Dim tsender = TxtSender.Text.Trim
-        Dim tmsg = TxtMessage.Text
-        Dim tnumber = TxtNumber.Text
-        Dim DataNumber = tnumber.Split(",")
-        Dim jmData As Integer = TxtNumber.Text.Split(",").Count
-        Dim jmSend As Integer = TotSender.Value
-        Dim onefile As Integer = jmData / jmSend
-        Dim metCal As String = String.Empty
-        Dim del_msg As Integer = Delay.Value
-        Dim bre_msg As Integer = breakmsg.Value
-        Dim bre_time As Integer = Breaktime.Value
-        Dim sisa As Integer = jmData Mod jmSend
-
-        Dim allData As List(Of String) = DataNumber.ToList
-        Dim dataPerSession(jmSend - 1) As List(Of String)
-
-        Dim rnd As New Random()
-        Dim delradom As Integer = rnd.Next(del_msg - 10, del_msg)
-        Dim templchk As String = String.Empty
-
-        If (rd0.Checked) Then
-            metCal = "waserver"
-        ElseIf (rd1.Checked) Then
-            metCal = "wascanqr"
-            '  ElseIf (rd2.Checked) Then
-            '   metCal = "wadevice"
-        ElseIf (rd3.Checked) Then
-            metCal = "smsdevice"
-        ElseIf (rd4.Checked) Then
-            metCal = "smsserver"
-            'ElseIf (rd5.Checked) Then
-            '    metCal = "emailserver"
-        Else
-            MsgBox("pilih metode kirim pesan terlebih dahulu")
-            Exit Sub
-        End If
-
-        If (Rsm.Checked) Then
-            templchk = "manual"
-        ElseIf (Rrm.Checked)
-            templchk = "multi"
-        Else
-            MsgBox("pilih Template Single / multi")
-            Exit Sub
-        End If
-
-        If (tnumber = "") Then
-            MsgBox("Data Number kosong ")
-            Exit Sub
-        End If
-
-        If (tmsg = "") Then
-            MsgBox("Data Message Kosong ")
-            Exit Sub
-        End If
 
         If Not (IO.Directory.Exists(fodev)) Then
             IO.Directory.CreateDirectory(fodev)
@@ -230,62 +226,118 @@ Public Class frmkirim
         If Not (IO.Directory.Exists(Foldsdr)) Then
             IO.Directory.CreateDirectory(Foldsdr)
         End If
-        btnSend.Enabled = False
+
+        If (tsender = "") Then
+            MsgBox("Akun Caller kosong/blank harap dipilih dulu")
+            Exit Sub
+        End If
+
+        If (TxtNumber.Text = "") Then
+            MsgBox("Data Number belum di Isi")
+            Exit Sub
+        End If
+
+        If WSManager.Client Is Nothing OrElse Not WSManager.Client.IsConnected Then
+            MsgBox("Web Socket belum terhubung silahkan close buka lagi ")
+            Exit Sub
+        End If
+
+        If (Rsm.Checked) Then
+            templchk = "manual"
+        ElseIf (Rrm.Checked) Then
+            templchk = "multi"
+        Else
+            MsgBox("pilih Template Single / multi")
+            Exit Sub
+        End If
+
+        Dim jArrNumber As New JArray(
+    TxtNumber.Text.Split(","c).
+        Select(Function(x) New String(x.Where(Function(c) Char.IsDigit(c)).ToArray())).
+        Where(Function(x) x <> "")
+)
+
+        BtnStateC.Enabled = True
+
+        Dim newDev, JObject As New JObject
+        Dim obj = JObject.Parse(DataJson)
+
+        Dim appArray As New JArray(
+    obj.Properties().
+        First().
+        Value.
+        Select(Function(x) x("app").ToString()))
+
+        Dim akunid As New JArray(obj.Properties().Select(Function(x) x.Name).ToArray())
 
 
-        Dim pingResult As PingReply = dbConn.PingDomain("www.mrjay59.com")
-        ' Tampilkan hasil ping
-        If pingResult.Status = 11010 Then
-            MsgBox("Sepertinya Koneksi Ke Server Gagal Coba Gunakan Jaringan lain")
+        engine.Komu = "PU" '  
+        engine.DelayMs = Delay.Value * 1000
+        engine.MaxPutaran = 1
+
+        Dim param As New JObject
+
+        param.Add("akunid", akunid)
+        param.Add("username", username)
+        param.Add("app", appArray)
+        param.Add("number", jArrNumber)
+        param.Add("tipe_akun", metCal)
+
+        Dim response = Ap_mrjay59.callsip(param)
+
+        ' 🔥 VALIDASI STRING RESPONSE
+        If String.IsNullOrWhiteSpace(response) Then
+
+            MsgBox("Response Dari server gagal coba ulangi lagi ")
+            Exit Sub
+        End If
+
+        Dim resp2arra As JObject = Nothing
+
+        Try
+            resp2arra = jsonpa.Json2aray(response)
+        Catch ex As Exception
+            MsgBox("Response bukan JSON valid: " & ex.Message)
+
+            Exit Sub
+        End Try
+
+        ' 🔥 VALIDASI OBJECT
+        If resp2arra Is Nothing OrElse Not resp2arra.HasValues Then
+            MsgBox("JSON kosong")
 
             Exit Sub
         End If
 
+        Dim resp2arr = jsonpa.Json2aray(response)
+        If (resp2arr("status")("code") = 1) Then
+            MsgBox(resp2arr("msg"))
+            Exit Sub
+        End If
 
-        Dim newDev, JObject As New JObject
-        JObject = JObject.Parse(DataJson)
-        Dim ur = 0
-        Dim aw = 0
-        Dim ak = 0
+        Dim reqid As String = resp2arr("data")("req_id").ToString
+        Dim devArr As IEnumerable(Of JProperty) = resp2arr("data").Properties()
 
         Dim ai = 0
-        Dim af = 0
-        Dim properties As IEnumerable(Of JProperty) = JObject.Properties()
         Dim control = PnlogActivty.Controls.OfType(Of UCDeviceUse)()
         Dim datc = control.Count
         Dim pin As Integer = 0
-        Dim indx As Integer = 0
-        AddHandler Form1.SendDataJson, AddressOf OnReceiveData
-
-        Dim TempTex As String = String.Empty
-
-        For Each prop As JProperty In properties
-            Dim DataDev = prop.Name
-            Dim jmsender = JObject.Count
-            Dim txsender = JObject.SelectToken(DataDev).Item("number").ToString
-            Dim numkey = JObject.SelectToken(DataDev).Item("numkey").ToString
-            Dim prefix = JObject.SelectToken(DataDev).Item("prefix").ToString
-            ur = ur + 1
-            Dim xr = ur - 1
-
-            Dim count As Integer = onefile
-            If xr < sisa Then count += 1
+        BtnLog.Tag = reqid
 
 
-            ' Pastikan tidak melebihi panjang data
-            If indx + count > allData.Count Then
-                count = allData.Count - indx
+        For Each app In devArr
+            Dim appName As String = app.Name
+
+            If (appName = "req_id") Then
+                Continue For
             End If
 
-            dataPerSession(xr) = allData.GetRange(indx, count)
-            indx += count
-
-
-            Dim filog = Foldsdr & $"{DataDev}.json"
+            Dim redev = 0
+            Dim filog = Foldsdr & $"{appName}.json"
             If (File.Exists(filog)) Then
                 File.Delete(filog)
-            End If
 
+            End If
 
             If Not (File.Exists(filog)) Then
                 Dim ad = File.Create(filog)
@@ -293,8 +345,13 @@ Public Class frmkirim
                 ad.Dispose()
             End If
 
+
+
             Dim oe = 0
-            For Each nomor As String In dataPerSession(xr)
+            For Each number In app.Value
+                Dim callnum As String = number
+                Dim newData, subData As New JObject
+                Dim newDataArray As New JArray()
 
                 If (templchk = "manual") Then
                     TempTex = tmsg
@@ -303,14 +360,14 @@ Public Class frmkirim
                     TempTex = DatTemp(TempT)("IsiPesan").ToString
                 End If
 
-                Dim number = nomor
-                Dim newData, subData As New JObject
-                Dim newDataArray As New JArray()
-                newData.Add("to", prefix & number)
-                newData.Add("from", txsender)
+                newData.Add("connection", Coone)
+                newData.Add("device", appName)
+                newData.Add("to", callnum)
+                newData.Add("platform", metCal)
+                newData.Add("from", appName)
                 newData.Add("text", TempTex)
-                newData.Add("numkey", numkey)
                 newData.Add("state", "")
+                newData.Add("komu", "PU")
 
                 Dim logParse As New JObject
                 Dim Rlog As String = File.ReadAllText(filog)
@@ -318,236 +375,121 @@ Public Class frmkirim
                     logParse = JObject.Parse(Rlog)
                 End If
 
-                If Not (logParse.ContainsKey(DataDev)) Then
+                If Not (logParse.ContainsKey(appName)) Then
                     newDataArray.Add(newData)
-                    logParse.Add("delay", del_msg)
-                    logParse.Add("breakm", bre_msg)
-                    logParse.Add("breakt", bre_time)
-                    logParse.Add("username", username)
-                    logParse.Add("metCal", metCal)
-
-                    logParse.Add(DataDev, newDataArray)
+                    logParse.Add("delay", Delay.Value)
+                    'logParse.Add("tocall", JmRecall)
+                    logParse.Add("komu", "PU")
+                    logParse.Add(appName, newDataArray)
                     File.WriteAllText(filog, logParse.ToString())
                 Else
-                    Dim japkx As JArray = logParse.SelectToken(DataDev)
+                    Dim japkx As JArray = logParse.SelectToken(appName)
                     japkx.Add(newData)
 
                     File.WriteAllText(filog, logParse.ToString())
                 End If
-                oe += 1
+
+                If Not engine.DeviceQueues.ContainsKey(appName) Then
+                    engine.DeviceQueues(appName) = New Concurrent.ConcurrentQueue(Of JObject)
+                End If
+
+                engine.DeviceQueues(appName).Enqueue(newData)
+
+
             Next
 
-            Try
+            Dim nameFile As String = appName
+            ai = ai + 1
+            Dim c = ai - 1
+
+            If (datc > 0) Then
+                Dim ab = datc + c
+                pin = 35 * ab
+            Else
+                pin = 35 * c
+            End If
 
 
-                Dim nameFile As String = DataDev
-                Dim b As String = File.ReadAllText(filog)
-                Dim jObj = JObject.Parse(b)
-                ai = ai + 1
-                Dim c = ai - 1
+            Dim Uiuse As New UCDeviceUse
+            Uiuse.lbname.Text = "Queued"
+            Uiuse.lburut.Text = ai
+            Uiuse.Location = New Point(0, pin)
 
+            PnlogActivty.Controls.Add(Uiuse)
 
-                If (datc > 0) Then
-                    Dim ab = datc + c
-                    pin = 35 * ab
-                Else
-                    pin = 35 * c
-                End If
+            ' 🔴 REGISTER UI DEVICE
+            DeviceUIMap(appName) = Uiuse
+            engine.DeviceTotal(appName) = engine.DeviceQueues(appName).Count
+            DeviceTotal(appName) = app.Value.Count
+            DeviceProgress(appName) = 0
 
-                Dim dataList As New List(Of JObject)
-
-                If jObj.ContainsKey(nameFile) Then
-                    dataList = jObj(nameFile).Select(Function(x) CType(x, JObject)).ToList()
-                End If
-
-                Dim sessionData As New SessionData With {
-                    .Messages = dataList,
-                    .Username = username,
-                    .MetCall = metCal
-                }
-
-
-                sessionMap(nameFile) = sessionData
-                sessionActive.Add(nameFile)
-
-
-                Dim Uiuse As New UCDeviceUse
-                Uiuse.lbname.Text = Trim(DataDev.Trim)
-                Uiuse.lburut.Text = ai
-                Uiuse.lbstatus.Text = "Wait.."
-                Uiuse.Location = New Point(0, pin)
-                Uiuse.OpenMirrorToolStripMenuItem.Visible = False
-                Uiuse.BtnStat.Visible = False
-                Uiuse.BtnNext.Visible = False
-                Uiuse.ContextMenuStrip = Uiuse.KlikAnan
-                PnlogActivty.Controls.Add(Uiuse)
-
-
-            Catch ex As Exception
-                Console.WriteLine(ex.Message)
-            End Try
         Next
-        cts = New CancellationTokenSource()
-        Dim index As Integer = 0
-        Dim ure As Integer = 0
-
-        Try
-
-            Do While sessionActive.Count > 0
-                ure = ure + 1
-                Dim batchTasks As New List(Of Task(Of JObject))()
-
-                ' Cek semua session yang masih aktif
-                For Each sessionName In sessionActive.ToList() ' Salin ke list agar bisa diubah saat iterasi
-                    Dim session = sessionMap(sessionName)
-
-                    Dim messages = session.Messages
-                    Dim userna = session.Username
-                    Dim metCall = session.MetCall
-
-                    ' Kirim data ke session ini
-                    If index < messages.Count Then
-                        Dim item = messages(index)
-                        batchTasks.Add(Task.Run(Function()
-                                                    Return SendSingleMessageAsync(item, sessionName, userna, metCall, index, messages.Count, cts.Token)
-                                                End Function))
-                    Else
-                        ' Data habis → keluarkan dari set aktif
-                        sessionActive.Remove(sessionName)
-
-                        ' Update UI atau status
-                        Dim controlx = PnlogActivty.Controls.OfType(Of UCDeviceUse)().
-                              FirstOrDefault(Function(x) x.lbname.Text = sessionName)
-                        If controlx IsNot Nothing Then
-                            controlx.Invoke(Sub()
-                                                controlx.lbstatus.Text = "SELESAI - Semua pesan terkirim"
-                                            End Sub)
-                        End If
-                    End If
-                Next
 
 
-                ' Tunggu semua task dalam batch ini
-                If batchTasks.Count > 0 Then
-                    Dim hasil = Await Task.WhenAll(batchTasks)
-                    Dim hasilJArray As New JArray()
-                    Dim ObjBody As New JObject
-                    hasilJArray.Add(hasil)
-                    ObjBody.Add("body", hasilJArray)
+        ' 🔥 CONNECT UI STATUS
+        AddHandler engine.OnDeviceUpdate,
+        Sub(dev, status, info)
+            UpdateDeviceStatus(dev, status, info)
+        End Sub
 
-                    RaiseEvent SendDataJson(Me, New ClassData(ObjBody.ToString(Newtonsoft.Json.Formatting.None)))
+        ' 🔥 CONNECT WSS BATCHING (INI YANG KAMU TANYA)
+        AddHandler engine.OnSendWSS,
+        Sub(item)
 
-                    'Console.WriteLine(ObjBody.ToString)
-                    Dim aaWait As Integer = 0
+            SyncLock WSSLock
+                WSSBuffer.Add(item)
 
-                    If (ure = bre_msg) Then
-                        aaWait = bre_time * 60
-                        ure = 0
-                    Else
-                        aaWait = delradom
-                    End If
-
-
-                    Dim waitTime As TimeSpan = TimeSpan.FromSeconds(aaWait)
-                    Dim interval As TimeSpan = TimeSpan.FromSeconds(30) ' Cek setiap 30 detik
-
-                    While waitTime > TimeSpan.Zero
-                        Dim delayTime = If(waitTime > interval, interval, waitTime)
-                        Await Task.Delay(delayTime, cts.Token)
-                        waitTime -= delayTime
-
-                        ' Update UI dengan sisa waktu
-                        lblCountState.Text = $"Menunggu {waitTime:mm\:ss} lagi..."
-                    End While
+                If WSSBuffer.Count >= BatchSize Then
+                    FlushWSS(reqid)
                 End If
+            End SyncLock
 
-                index += 1
-            Loop
+        End Sub
 
-        Catch ex As OperationCanceledException
-            MsgBox("Task dibatalkan")
-        End Try
+        ' 🔥 START TIMER BATCH (optional tapi recommended)
+        StartBatchTimer(reqid)
 
+        _akunid = akunid
+        _appArray = appArray
+        AddHandler engine.OnAllCompleted,
+       Sub()
 
+           ' stop timer batch
+           batchTimerRunning = False
 
-        RemoveHandler Form1.SendDataJson, AddressOf OnReceiveData
+           ' flush sisa data
+           FlushWSS(reqid)
 
-        btnSend.Enabled = True
+           If (engine._isRunning) Then
+               For Each dev In DeviceUIMap.Keys
+                   UpdateDeviceStatus(dev, DeviceStatus.Done, "")
+                   DeviceTotal(dev) = 0
+               Next
+               engine._isRunning = False
+               engine.ClearAll()
 
+               username = DPar("body")("apk_user").ToString()
 
+               Dim varp As New JObject
 
+               varp.Add("username", username)
+               varp.Add("akunid", _akunid)
+               varp.Add("app", _appArray)
+               varp.Add("tipeAk", metCal)
+               varp.Add("type", "msg_done")
+
+               Ap_mrjay59.ws_receive(varp)
+           End If
+
+       End Sub
+
+        ' 🔥 START ENGINE
+        Await engine.StartAsync()
     End Sub
 
-    Private Async Function SendSingleMessageAsync(item As JObject, sessionName As String, username As String, metCall As String, ur As Integer,
-                                              totalCount As Integer, ct As CancellationToken) As Task(Of JObject)
-        ct.ThrowIfCancellationRequested()
+    Private Sub btnSend_Click(sender As Object, e As EventArgs) Handles btnSend.Click
 
-        Dim tonu = item("to").ToString()
-        Dim fromx = item("from").ToString()
-        Dim numkey = item("numkey").ToString()
-        Dim text = item("text").ToString()
-
-        Dim jsdata As New JObject From {
-        {"name", sessionName},
-        {"username", username},
-        {"tonum", tonu},
-        {"tsender", fromx},
-        {"text", text},
-        {"metCall", metCall},
-        {"func", "OnReceive"}
-    }
-
-        ' --- Update UI (status pengiriman) ---
-        Dim control = PnlogActivty.Controls.
-                  OfType(Of UCDeviceUse)().
-                  FirstOrDefault(Function(x) x.lbname IsNot Nothing AndAlso
-                                               x.lbname.Text.Trim().Equals(sessionName.Trim(), StringComparison.OrdinalIgnoreCase))
-
-        If control IsNot Nothing Then
-            control.Invoke(Sub()
-                               control.lbstatus.Text = $"SEND ke {tonu} [{Now:HH:mm:ss}] TTL:{ur}/{totalCount}"
-                           End Sub)
-        End If
-
-        ' Simulasi delay + UI
-        Await Task.Delay(200, ct)
-        Return jsdata
-    End Function
-
-
-    Private Sub OnReceiveData(sender As Object, e As ClassData)
-        Dim msg = e.Data
-        'Console.WriteLine(msg.ToString)
-        Try
-            Dim DPar = jsonpa.Json2aray(msg)
-            Dim seassionId As String = DPar("sessionId")
-            Dim state As String = DPar("state")
-            Dim message As String = DPar("message")
-
-            If (state = "CLOSE") Then
-                ' Data habis → keluarkan dari set aktif
-                sessionActive.Remove(seassionId)
-            End If
-
-            ' Update UI atau status
-            Dim controlx = PnlogActivty.Controls.OfType(Of UCDeviceUse)().
-                          FirstOrDefault(Function(x) x.lbname.Text = seassionId)
-
-            If controlx IsNot Nothing Then
-                controlx.Invoke(Sub()
-                                    controlx.lbstatus.Text = message
-
-                                    If (state = "CLOSE") Then
-
-                                        controlx.BackColor = Color.DarkGreen
-                                        controlx.ForeColor = Color.White
-                                    End If
-                                End Sub)
-            End If
-
-        Catch ex As Exception
-
-        End Try
+        kirim_msg()
 
     End Sub
 
@@ -601,37 +543,27 @@ Public Class frmkirim
         End If
     End Sub
 
-    Private Sub BtnContact_Click(sender As Object, e As EventArgs) Handles BtnContact.Click
-        TxtNumber.Text = ""
-
-        Dim NObj As New JObject
-        NObj.Add("title", "Connect Link Spreadsheet")
-        NObj.Add("func", "lolistKontak")
-        Dim page As New PgDialog(NObj.ToString)
-        AddHandler page.DataSelected, AddressOf DataMasuk
-        page.ShowDialog()
-    End Sub
-
     Private Sub InData(ByVal DataNumber As String)
         Dim arnum As New ArrayList
         Dim number As String = String.Empty
         For Each strLine As String In DataNumber.Split(vbNewLine)
-            Dim strnum = Trim(strLine.Trim).Replace("-", "").Replace("\n", "")
-            If Not (strnum = "") Then
+            Dim strnum = Trim(strLine.Trim).Replace("-", "").Replace("+", "")
+
+            If strnum.All(AddressOf Char.IsDigit) Then
                 Dim nol As Integer = strnum.Substring(0, 1)
                 Dim endua As Integer = strnum.Substring(0, 2)
                 If (nol = 0) Then
-                    number = strnum.Trim.ToString.Substring(1)
+                    number = strLine.Trim.ToString.Substring(1)
                 ElseIf (endua = 62) Then
-                    number = strnum.Trim.ToString.Substring(2)
+                    number = strLine.Trim.ToString.Substring(2)
                 Else
-                    number = strnum
+                    number = strLine
                 End If
 
                 arnum.Add(number)
             End If
-        Next
 
+        Next
 
         Dim jmDial As Integer = TotSender.Text
 
@@ -658,29 +590,192 @@ Public Class frmkirim
     End Sub
 
     Private Sub BtnPaste_Click(sender As Object, e As EventArgs) Handles BtnPaste.Click
-        Dim DataNumber = Clipboard.GetText().TrimEnd
-
-
+        Dim DataNumber = Clipboard.GetText().TrimEnd.Replace("+", "")
         InData(DataNumber)
+    End Sub
+
+    Private Sub SendBatchToWSS(batch As JArray, ByVal reqid As String)
+
+        Dim DPar = jsonpa.Json2aray(DatR)
+        Dim username = DPar("body")("apk_user").ToString()
+
+        Dim payload As New JObject From {
+            {"request_id", reqid},
+            {"to", username},
+            {"data", batch},
+            {"message", "send whatsapp via autocall"}
+        }
+
+        ' 🚀 KIRIM KE WSS (1x)
+        RaiseEvent SendDataJson(Me, New ClassData(payload.ToString(Newtonsoft.Json.Formatting.None)))
+
+        ' 🔥 UPDATE UI PER DEVICE
+        For Each itm As JObject In batch
+
+            Dim dev = itm("device").ToString()
+            Dim number = itm("to").ToString()
+            Dim komu = itm("komu").ToString().ToUpper()
+
+            ' 🔥 progress +
+            If DeviceProgress.ContainsKey(dev) Then
+                DeviceProgress(dev) += 1
+            Else
+                DeviceProgress(dev) = 1
+            End If
+
+            Dim total = If(DeviceTotal.ContainsKey(dev), DeviceTotal(dev), 0)
+            Dim current = DeviceProgress(dev)
+
+            ' 🔥 Hitung putaran (cycle)
+            ' contoh total=5
+            ' current=1..5   => putaran 1
+            ' current=6..10  => putaran 2
+            ' current=11..15 => putaran 3
+
+            Dim putaran As Integer = Math.Ceiling(current / total)
+
+            ' posisi di putaran saat ini
+            Dim posisi As Integer = current Mod total
+            If posisi = 0 Then posisi = total
+
+            ' 🔥 Format UI
+            ' contoh:
+            ' 6281xx PU Ke 1 2/5
+            ' 6281xx PU Ke 2 5/5
+
+            Dim maskedNumber As String = number
+
+            If number.Length > 8 Then
+                maskedNumber =
+        number.Substring(0, 4) &
+        New String("x"c, number.Length - 8) &
+        number.Substring(number.Length - 4)
+            End If
+
+            Dim statusText As String =
+    $"{maskedNumber} TotData:{posisi}/{total}"
+
+            UpdateDeviceStatus(dev,
+        DeviceStatus.Sending,
+        statusText)
+
+        Next
+
+    End Sub
+
+    Private Sub FlushWSS(ByVal reqid As String)
+
+        If WSSBuffer.Count = 0 Then Exit Sub
+
+        Dim arr As New JArray(WSSBuffer)
+        WSSBuffer.Clear()
+
+        SendBatchToWSS(arr, reqid)
+
+    End Sub
+
+    Private Async Sub StartBatchTimer(ByVal reqid As String)
+
+        If batchTimerRunning Then Exit Sub
+        batchTimerRunning = True
+
+        Dim rnd As New Random()
+
+        ' tracking waktu delay panjang terakhir
+        Dim lastLongDelayTime As DateTime = DateTime.Now
+
+        While batchTimerRunning
+
+            ' =========================
+            ' DELAY NORMAL
+            ' =========================
+            Await Task.Delay(BatchDelayMs)
+
+            SyncLock WSSLock
+                If WSSBuffer.Count > 0 Then
+                    FlushWSS(reqid)
+                End If
+            End SyncLock
+
+            ' =========================
+            ' DELAY TAMBAHAN (SETIAP 5 MENIT)
+            ' =========================
+            Dim elapsed = DateTime.Now - lastLongDelayTime
+
+            If elapsed.TotalMinutes >= breakmsg.Value Then
+
+                ' random delay 1 - 5 menit
+                Dim delayMinutes As Integer = rnd.Next(1, 6) ' 1 sampai 5
+                Dim delayMs As Integer = delayMinutes * 60 * 1000
+
+                Console.WriteLine($"[BATCH] Long delay triggered: {delayMinutes} menit")
+
+                Await Task.Delay(delayMs)
+
+                ' reset timer
+                lastLongDelayTime = DateTime.Now
+
+            End If
+
+        End While
+
+    End Sub
 
 
     End Sub
 
-    Private Sub BtnStopCall_Click(sender As Object, e As EventArgs) Handles BtnStopCall.Click
-        If cts IsNot Nothing Then
-            cts.Cancel()
+    Private Sub UpdateDeviceStatus(deviceKey As String,
+                               status As DeviceStatus,
+                               Optional info As String = "")
 
-            PnlogActivty.Controls.Clear()
+        If Not DeviceUIMap.ContainsKey(deviceKey) Then Exit Sub
 
-            RemoveHandler Form1.SendDataJson, AddressOf OnReceiveData
+        Dim ui = DeviceUIMap(deviceKey)
+
+        If ui.InvokeRequired Then
+            ui.Invoke(Sub() UpdateDeviceStatus(deviceKey, status, info))
+            Exit Sub
         End If
-    End Sub
+        ui.lburut.Visible = True
+        ui.lbname.Text = deviceKey
 
-    Public Class SessionData
-        Public Property Messages As List(Of JObject)
-        Public Property Username As String
-        Public Property MetCall As String
-    End Class
+        Select Case status
+            Case DeviceStatus.Idle
+
+                ui.lbstatus.Text = "Idle"
+                ui.lbstatus.ForeColor = Color.Gray
+
+            Case DeviceStatus.Queued
+                ui.lbstatus.Text = $"Queue {info}"
+                ui.lbstatus.ForeColor = Color.Orange
+
+            Case DeviceStatus.Sending
+
+                If info <> "" Then
+                    ui.lbstatus.Text = "Proses " & info
+                Else
+                    ui.lbstatus.Text = "Proses"
+                End If
+
+                ui.lbstatus.ForeColor = Color.White
+
+            Case DeviceStatus.Paused
+                ui.lbstatus.Text = "Paused"
+                ui.lbstatus.ForeColor = Color.DarkOrange
+
+            Case DeviceStatus.Retry
+                ui.lbstatus.Text = $"Retry {info}"
+                ui.lbstatus.ForeColor = Color.Purple
+
+            Case DeviceStatus.ErrorState
+                ui.lbstatus.Text = "Error"
+                ui.lbstatus.ForeColor = Color.Red
+
+            Case DeviceStatus.Done
+                ui.lbstatus.Text = "Done"
+                ui.lbstatus.ForeColor = Color.Green
+        End Select
+    End Sub
 
     Private Sub BtnTmpl_Click(sender As Object, e As EventArgs) Handles BtnTmpl.Click
         Dim metCal As String = String.Empty
@@ -740,5 +835,92 @@ Public Class frmkirim
     Private Sub Rsm_CheckedChanged(sender As Object, e As EventArgs) Handles Rsm.CheckedChanged
         BtnTmpl.Enabled = False
         TxtMessage.ReadOnly = False
+    End Sub
+
+    Private Async Sub BtnResumeCall_Click(sender As Object, e As EventArgs) Handles BtnResumeCall.Click
+
+        If (engine._isRunning) Then
+
+            BtnResumeCall.Text = "Play All"
+            BtnResumeCall.Image = My.Resources.icons8_play_20
+            BtnStateC.BackColor = Color.Red
+
+            For Each deviceKey In DeviceUIMap.Keys
+                UpdateDeviceStatus(deviceKey, DeviceStatus.Paused)
+            Next
+
+            engine.Stop()
+
+        Else
+
+            If (DeviceUIMap.Keys.Count = 0) Then
+                MsgBox("Data sudah habis silahkan klik clear ")
+                Exit Sub
+            End If
+
+            BtnResumeCall.Text = "Stop All"
+            BtnResumeCall.Image = My.Resources.icons8_stop_20
+            BtnStateC.BackColor = Color.Orange
+
+
+            For Each deviceKey In DeviceUIMap.Keys
+                UpdateDeviceStatus(deviceKey, DeviceStatus.Sending)
+            Next
+
+            Await engine.ResumeAsync()
+
+        End If
+    End Sub
+
+    Private Sub BtnRemoveCall_Click(sender As Object, e As EventArgs) Handles BtnRemoveCall.Click
+
+        If engine._isRunning Then
+
+            Dim result = MessageBox.Show(
+        "Proses masih berjalan!" & vbCrLf &
+        "Hapus semua data?",
+        "Warning",
+        MessageBoxButtons.YesNo,
+        MessageBoxIcon.Warning
+    )
+
+            If result = DialogResult.No Then Exit Sub
+
+        End If
+
+        ' 🔴 Stop dulu
+        engine.Stop()
+
+        ' 🔴 Clear queue
+        engine.ClearAll()
+
+
+        ' 🔴 Update UI
+        For Each deviceKey In DeviceUIMap.Keys
+            DeviceTotal(deviceKey) = 0
+            UpdateDeviceStatus(deviceKey, DeviceStatus.Idle, "Cleared")
+        Next
+        BtnStateC.BackColor = Color.DimGray
+        PnlogActivty.Controls.Clear()
+    End Sub
+
+    Private Sub BtnLog_Click(sender As Object, e As EventArgs) Handles BtnLog.Click
+        Dim reqid = BtnLog.Tag.ToString.Trim
+
+        If (reqid Is Nothing) Then
+            MsgBox("reqid kosong silahkan create call")
+            Exit Sub
+        End If
+
+        Dim DPar = jsonpa.Json2aray(DatR)
+        Dim username = DPar("body")("apk_user").ToString()
+
+        Dim NObj As New JObject
+        NObj.Add("title", "Cek LogCall Reqid " & reqid)
+        NObj.Add("func", "log_sip")
+        NObj.Add("reqid", reqid)
+        NObj.Add("username", username)
+        Dim page As New PgDialog(NObj.ToString)
+        page.ShowDialog()
     End Sub
 End Class

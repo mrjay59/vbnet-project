@@ -75,31 +75,15 @@ Public Class WAScanQrForm
             Exit Sub
         Else
 
-
-            ' RaiseEvent SendDataJson(Me, New ClassData(respon.ToString))
-            ' Threading.Thread.Sleep(500)
             Dim page As New pgMultiBarcode()
             page.LoadBarcodeMulti(respon.ToString)
             page.SendDataUser = DatR
-            '  AddHandler page.SendDataJson, AddressOf Form1.OnMessageSendServer
-            AddHandler Form1.SendDataJson, AddressOf page.OnReceiveData
 
             page.ShowDialog()
-            LoadDataWAScan()
 
-            RemoveHandler Form1.SendDataJson, AddressOf page.OnReceiveData
-            ' RemoveHandler page.SendDataJson, AddressOf Form1.OnMessageSendServer
+
+
         End If
-    End Sub
-
-    Private Sub RdTipe1_CheckedChanged(sender As Object, e As EventArgs) Handles rqQrcode.CheckedChanged
-
-        CountWa.Maximum = 4
-    End Sub
-
-    Private Sub RdTipe2_CheckedChanged(sender As Object, e As EventArgs) Handles RqRegCode.CheckedChanged
-
-        CountWa.Maximum = 1
     End Sub
 
     Private Sub BtnADD_Paint(sender As Object, e As PaintEventArgs) Handles BtnADD.Paint
@@ -116,30 +100,6 @@ Public Class WAScanQrForm
         path.CloseAllFigures()
 
         BtnADD.Region = New Region(path)
-    End Sub
-
-    Private Sub LoadDataWAScan()
-        Dim param As New Dictionary(Of String, String)
-        Dim DPar = jsonpa.Json2aray(DatR)
-        Dim username = DPar("body")("apk_user")
-        param.Add("username", username)
-
-
-        Dim ListWA As String = WApp.OnListWAScan(param)
-        Dim DatParse = jsonpa.Json2aray(ListWA)
-        Dim WaScan As JArray = DatParse("body")
-
-
-        If (WaScan.Count > 0) Then
-
-            naprovider.Controls.Clear()
-            ' Isi ComboBox
-            naprovider.DataSource = WaScan
-            naprovider.DisplayMember = "aichat_name"
-            naprovider.ValueMember = "aichat_count"
-
-            naprovider.SelectedIndex = 0
-        End If
     End Sub
 
     Private Sub seassionid_TextChanged(sender As Object, e As EventArgs) Handles seassionid.TextChanged
@@ -159,4 +119,6 @@ Public Class WAScanQrForm
         End If
 
     End Sub
+
+
 End Class

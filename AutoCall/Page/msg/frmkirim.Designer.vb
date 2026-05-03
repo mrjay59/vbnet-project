@@ -39,8 +39,6 @@ Partial Class frmkirim
         Me.Panel4 = New System.Windows.Forms.Panel()
         Me.PnlogActivty = New System.Windows.Forms.Panel()
         Me.Panel5 = New System.Windows.Forms.Panel()
-        Me.BtnStopCall = New System.Windows.Forms.Button()
-        Me.Button1 = New System.Windows.Forms.Button()
         Me.Label10 = New System.Windows.Forms.Label()
         Me.lblCountState = New System.Windows.Forms.Label()
         Me.TxtMessage = New System.Windows.Forms.RichTextBox()
@@ -55,13 +53,16 @@ Partial Class frmkirim
         Me.Label4 = New System.Windows.Forms.Label()
         Me.rd0 = New System.Windows.Forms.RadioButton()
         Me.Label8 = New System.Windows.Forms.Label()
-        Me.BtnContact = New System.Windows.Forms.Button()
         Me.BtnPaste = New System.Windows.Forms.Button()
         Me.LblTotData = New System.Windows.Forms.Label()
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.Label11 = New System.Windows.Forms.Label()
-        Me.RdWAD = New System.Windows.Forms.RadioButton()
+        Me.rd2 = New System.Windows.Forms.RadioButton()
+        Me.BtnLog = New System.Windows.Forms.Button()
+        Me.BtnRemoveCall = New System.Windows.Forms.Button()
+        Me.BtnStateC = New System.Windows.Forms.Button()
+        Me.BtnResumeCall = New System.Windows.Forms.Button()
         CType(Me.TotSender, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Breaktime, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.breakmsg, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -116,7 +117,7 @@ Partial Class frmkirim
         Me.Label12.AutoSize = True
         Me.Label12.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label12.ForeColor = System.Drawing.Color.White
-        Me.Label12.Location = New System.Drawing.Point(36, 402)
+        Me.Label12.Location = New System.Drawing.Point(34, 398)
         Me.Label12.Name = "Label12"
         Me.Label12.Size = New System.Drawing.Size(63, 13)
         Me.Label12.TabIndex = 264
@@ -129,7 +130,7 @@ Partial Class frmkirim
         Me.TotSender.Enabled = False
         Me.TotSender.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TotSender.ForeColor = System.Drawing.Color.White
-        Me.TotSender.Location = New System.Drawing.Point(27, 418)
+        Me.TotSender.Location = New System.Drawing.Point(25, 414)
         Me.TotSender.Name = "TotSender"
         Me.TotSender.ReadOnly = True
         Me.TotSender.Size = New System.Drawing.Size(84, 20)
@@ -141,7 +142,7 @@ Partial Class frmkirim
         Me.Label9.AutoSize = True
         Me.Label9.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label9.ForeColor = System.Drawing.Color.White
-        Me.Label9.Location = New System.Drawing.Point(290, 438)
+        Me.Label9.Location = New System.Drawing.Point(290, 424)
         Me.Label9.Name = "Label9"
         Me.Label9.Size = New System.Drawing.Size(33, 13)
         Me.Label9.TabIndex = 263
@@ -153,7 +154,7 @@ Partial Class frmkirim
         Me.Breaktime.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Breaktime.ForeColor = System.Drawing.Color.White
         Me.Breaktime.Increment = New Decimal(New Integer() {5, 0, 0, 0})
-        Me.Breaktime.Location = New System.Drawing.Point(222, 436)
+        Me.Breaktime.Location = New System.Drawing.Point(222, 422)
         Me.Breaktime.Maximum = New Decimal(New Integer() {30, 0, 0, 0})
         Me.Breaktime.Minimum = New Decimal(New Integer() {5, 0, 0, 0})
         Me.Breaktime.Name = "Breaktime"
@@ -168,7 +169,7 @@ Partial Class frmkirim
         Me.Label6.AutoSize = True
         Me.Label6.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label6.ForeColor = System.Drawing.Color.White
-        Me.Label6.Location = New System.Drawing.Point(288, 409)
+        Me.Label6.Location = New System.Drawing.Point(288, 395)
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(95, 13)
         Me.Label6.TabIndex = 261
@@ -179,7 +180,7 @@ Partial Class frmkirim
         Me.Label5.AutoSize = True
         Me.Label5.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label5.ForeColor = System.Drawing.Color.White
-        Me.Label5.Location = New System.Drawing.Point(456, 440)
+        Me.Label5.Location = New System.Drawing.Point(456, 426)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(50, 13)
         Me.Label5.TabIndex = 260
@@ -191,7 +192,7 @@ Partial Class frmkirim
         Me.breakmsg.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.breakmsg.ForeColor = System.Drawing.Color.White
         Me.breakmsg.Increment = New Decimal(New Integer() {5, 0, 0, 0})
-        Me.breakmsg.Location = New System.Drawing.Point(386, 436)
+        Me.breakmsg.Location = New System.Drawing.Point(386, 422)
         Me.breakmsg.Maximum = New Decimal(New Integer() {50, 0, 0, 0})
         Me.breakmsg.Minimum = New Decimal(New Integer() {5, 0, 0, 0})
         Me.breakmsg.Name = "breakmsg"
@@ -206,7 +207,7 @@ Partial Class frmkirim
         Me.Label1.AutoSize = True
         Me.Label1.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label1.ForeColor = System.Drawing.Color.White
-        Me.Label1.Location = New System.Drawing.Point(347, 438)
+        Me.Label1.Location = New System.Drawing.Point(347, 424)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(34, 13)
         Me.Label1.TabIndex = 258
@@ -218,7 +219,7 @@ Partial Class frmkirim
         Me.Delay.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Delay.ForeColor = System.Drawing.Color.White
         Me.Delay.Increment = New Decimal(New Integer() {10, 0, 0, 0})
-        Me.Delay.Location = New System.Drawing.Point(221, 406)
+        Me.Delay.Location = New System.Drawing.Point(221, 392)
         Me.Delay.Maximum = New Decimal(New Integer() {240, 0, 0, 0})
         Me.Delay.Minimum = New Decimal(New Integer() {20, 0, 0, 0})
         Me.Delay.Name = "Delay"
@@ -233,7 +234,7 @@ Partial Class frmkirim
         Me.Label3.AutoSize = True
         Me.Label3.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label3.ForeColor = System.Drawing.Color.White
-        Me.Label3.Location = New System.Drawing.Point(133, 385)
+        Me.Label3.Location = New System.Drawing.Point(133, 371)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(87, 16)
         Me.Label3.TabIndex = 256
@@ -243,9 +244,9 @@ Partial Class frmkirim
         '
         Me.Panel4.Controls.Add(Me.PnlogActivty)
         Me.Panel4.Controls.Add(Me.Panel5)
-        Me.Panel4.Location = New System.Drawing.Point(509, 32)
+        Me.Panel4.Location = New System.Drawing.Point(509, 45)
         Me.Panel4.Name = "Panel4"
-        Me.Panel4.Size = New System.Drawing.Size(427, 419)
+        Me.Panel4.Size = New System.Drawing.Size(427, 406)
         Me.Panel4.TabIndex = 255
         '
         'PnlogActivty
@@ -254,53 +255,18 @@ Partial Class frmkirim
         Me.PnlogActivty.Dock = System.Windows.Forms.DockStyle.Fill
         Me.PnlogActivty.Location = New System.Drawing.Point(0, 41)
         Me.PnlogActivty.Name = "PnlogActivty"
-        Me.PnlogActivty.Size = New System.Drawing.Size(427, 378)
+        Me.PnlogActivty.Size = New System.Drawing.Size(427, 365)
         Me.PnlogActivty.TabIndex = 144
         '
         'Panel5
         '
         Me.Panel5.BackColor = System.Drawing.Color.Gray
-        Me.Panel5.Controls.Add(Me.BtnStopCall)
-        Me.Panel5.Controls.Add(Me.Button1)
         Me.Panel5.Controls.Add(Me.Label10)
         Me.Panel5.Dock = System.Windows.Forms.DockStyle.Top
         Me.Panel5.Location = New System.Drawing.Point(0, 0)
         Me.Panel5.Name = "Panel5"
         Me.Panel5.Size = New System.Drawing.Size(427, 41)
         Me.Panel5.TabIndex = 4
-        '
-        'BtnStopCall
-        '
-        Me.BtnStopCall.BackColor = System.Drawing.Color.DimGray
-        Me.BtnStopCall.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.BtnStopCall.Dock = System.Windows.Forms.DockStyle.Right
-        Me.BtnStopCall.FlatAppearance.BorderSize = 0
-        Me.BtnStopCall.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.BtnStopCall.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BtnStopCall.ForeColor = System.Drawing.Color.Black
-        Me.BtnStopCall.Image = CType(resources.GetObject("BtnStopCall.Image"), System.Drawing.Image)
-        Me.BtnStopCall.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.BtnStopCall.Location = New System.Drawing.Point(309, 0)
-        Me.BtnStopCall.Name = "BtnStopCall"
-        Me.BtnStopCall.Size = New System.Drawing.Size(118, 41)
-        Me.BtnStopCall.TabIndex = 182
-        Me.BtnStopCall.Text = "Stop All"
-        Me.BtnStopCall.UseVisualStyleBackColor = False
-        '
-        'Button1
-        '
-        Me.Button1.BackColor = System.Drawing.Color.Transparent
-        Me.Button1.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.Button1.FlatAppearance.BorderSize = 0
-        Me.Button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.Button1.ForeColor = System.Drawing.Color.Transparent
-        Me.Button1.Image = CType(resources.GetObject("Button1.Image"), System.Drawing.Image)
-        Me.Button1.Location = New System.Drawing.Point(432, 5)
-        Me.Button1.Name = "Button1"
-        Me.Button1.Padding = New System.Windows.Forms.Padding(5)
-        Me.Button1.Size = New System.Drawing.Size(40, 30)
-        Me.Button1.TabIndex = 78
-        Me.Button1.UseVisualStyleBackColor = False
         '
         'Label10
         '
@@ -334,7 +300,7 @@ Partial Class frmkirim
         Me.TxtMessage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TxtMessage.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TxtMessage.ForeColor = System.Drawing.Color.White
-        Me.TxtMessage.Location = New System.Drawing.Point(128, 259)
+        Me.TxtMessage.Location = New System.Drawing.Point(128, 231)
         Me.TxtMessage.Name = "TxtMessage"
         Me.TxtMessage.ReadOnly = True
         Me.TxtMessage.Size = New System.Drawing.Size(375, 119)
@@ -387,7 +353,7 @@ Partial Class frmkirim
         Me.TxtNumber.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TxtNumber.Font = New System.Drawing.Font("Calibri", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TxtNumber.ForeColor = System.Drawing.Color.White
-        Me.TxtNumber.Location = New System.Drawing.Point(128, 155)
+        Me.TxtNumber.Location = New System.Drawing.Point(128, 127)
         Me.TxtNumber.Multiline = True
         Me.TxtNumber.Name = "TxtNumber"
         Me.TxtNumber.ReadOnly = True
@@ -412,7 +378,7 @@ Partial Class frmkirim
         Me.Label7.AutoSize = True
         Me.Label7.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label7.ForeColor = System.Drawing.Color.White
-        Me.Label7.Location = New System.Drawing.Point(124, 137)
+        Me.Label7.Location = New System.Drawing.Point(124, 109)
         Me.Label7.Name = "Label7"
         Me.Label7.Size = New System.Drawing.Size(78, 13)
         Me.Label7.TabIndex = 242
@@ -452,7 +418,7 @@ Partial Class frmkirim
         Me.Label4.AutoSize = True
         Me.Label4.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label4.ForeColor = System.Drawing.Color.White
-        Me.Label4.Location = New System.Drawing.Point(128, 208)
+        Me.Label4.Location = New System.Drawing.Point(128, 180)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(63, 13)
         Me.Label4.TabIndex = 244
@@ -481,21 +447,6 @@ Partial Class frmkirim
         Me.Label8.TabIndex = 248
         Me.Label8.Text = "Metode Kirim Pesan Melalui ?"
         '
-        'BtnContact
-        '
-        Me.BtnContact.BackColor = System.Drawing.Color.Transparent
-        Me.BtnContact.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.BtnContact.FlatAppearance.BorderSize = 0
-        Me.BtnContact.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.BtnContact.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Italic), System.Drawing.FontStyle), System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BtnContact.ForeColor = System.Drawing.SystemColors.ButtonFace
-        Me.BtnContact.Image = CType(resources.GetObject("BtnContact.Image"), System.Drawing.Image)
-        Me.BtnContact.Location = New System.Drawing.Point(478, 124)
-        Me.BtnContact.Name = "BtnContact"
-        Me.BtnContact.Size = New System.Drawing.Size(25, 25)
-        Me.BtnContact.TabIndex = 247
-        Me.BtnContact.UseVisualStyleBackColor = False
-        '
         'BtnPaste
         '
         Me.BtnPaste.BackColor = System.Drawing.Color.Transparent
@@ -505,7 +456,7 @@ Partial Class frmkirim
         Me.BtnPaste.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Italic), System.Drawing.FontStyle), System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.BtnPaste.ForeColor = System.Drawing.SystemColors.ButtonFace
         Me.BtnPaste.Image = CType(resources.GetObject("BtnPaste.Image"), System.Drawing.Image)
-        Me.BtnPaste.Location = New System.Drawing.Point(445, 124)
+        Me.BtnPaste.Location = New System.Drawing.Point(478, 97)
         Me.BtnPaste.Name = "BtnPaste"
         Me.BtnPaste.Size = New System.Drawing.Size(25, 25)
         Me.BtnPaste.TabIndex = 245
@@ -517,7 +468,7 @@ Partial Class frmkirim
         Me.LblTotData.BackColor = System.Drawing.Color.FromArgb(CType(CType(80, Byte), Integer), CType(CType(90, Byte), Integer), CType(CType(61, Byte), Integer))
         Me.LblTotData.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LblTotData.ForeColor = System.Drawing.Color.White
-        Me.LblTotData.Location = New System.Drawing.Point(209, 137)
+        Me.LblTotData.Location = New System.Drawing.Point(209, 109)
         Me.LblTotData.Name = "LblTotData"
         Me.LblTotData.Size = New System.Drawing.Size(57, 13)
         Me.LblTotData.TabIndex = 246
@@ -528,7 +479,7 @@ Partial Class frmkirim
         Me.Panel1.Controls.Add(Me.Rsm)
         Me.Panel1.Controls.Add(Me.BtnTmpl)
         Me.Panel1.Controls.Add(Me.Rrm)
-        Me.Panel1.Location = New System.Drawing.Point(128, 221)
+        Me.Panel1.Location = New System.Drawing.Point(128, 193)
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(375, 34)
         Me.Panel1.TabIndex = 269
@@ -538,7 +489,7 @@ Partial Class frmkirim
         Me.Label2.AutoSize = True
         Me.Label2.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label2.ForeColor = System.Drawing.Color.White
-        Me.Label2.Location = New System.Drawing.Point(138, 409)
+        Me.Label2.Location = New System.Drawing.Point(138, 395)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(65, 15)
         Me.Label2.TabIndex = 270
@@ -549,23 +500,93 @@ Partial Class frmkirim
         Me.Label11.AutoSize = True
         Me.Label11.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label11.ForeColor = System.Drawing.Color.White
-        Me.Label11.Location = New System.Drawing.Point(138, 437)
+        Me.Label11.Location = New System.Drawing.Point(138, 423)
         Me.Label11.Name = "Label11"
         Me.Label11.Size = New System.Drawing.Size(65, 15)
         Me.Label11.TabIndex = 271
         Me.Label11.Text = "2. Wait For"
         '
-        'RdWAD
+        'rd2
         '
-        Me.RdWAD.AutoSize = True
-        Me.RdWAD.ForeColor = System.Drawing.Color.White
-        Me.RdWAD.Location = New System.Drawing.Point(362, 44)
-        Me.RdWAD.Name = "RdWAD"
-        Me.RdWAD.Size = New System.Drawing.Size(118, 17)
-        Me.RdWAD.TabIndex = 272
-        Me.RdWAD.TabStop = True
-        Me.RdWAD.Text = "WhatsApp Desktop"
-        Me.RdWAD.UseVisualStyleBackColor = True
+        Me.rd2.AutoSize = True
+        Me.rd2.ForeColor = System.Drawing.Color.White
+        Me.rd2.Location = New System.Drawing.Point(362, 44)
+        Me.rd2.Name = "rd2"
+        Me.rd2.Size = New System.Drawing.Size(118, 17)
+        Me.rd2.TabIndex = 272
+        Me.rd2.TabStop = True
+        Me.rd2.Text = "WhatsApp Desktop"
+        Me.rd2.UseVisualStyleBackColor = True
+        '
+        'BtnLog
+        '
+        Me.BtnLog.BackColor = System.Drawing.Color.DimGray
+        Me.BtnLog.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.BtnLog.FlatAppearance.BorderSize = 0
+        Me.BtnLog.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.BtnLog.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnLog.ForeColor = System.Drawing.Color.Black
+        Me.BtnLog.Image = Global.AutoCall.My.Resources.Resources.icons8_log_20
+        Me.BtnLog.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.BtnLog.Location = New System.Drawing.Point(651, 10)
+        Me.BtnLog.Name = "BtnLog"
+        Me.BtnLog.Size = New System.Drawing.Size(86, 30)
+        Me.BtnLog.TabIndex = 276
+        Me.BtnLog.Text = "Check Log"
+        Me.BtnLog.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.BtnLog.UseVisualStyleBackColor = False
+        '
+        'BtnRemoveCall
+        '
+        Me.BtnRemoveCall.BackColor = System.Drawing.Color.DimGray
+        Me.BtnRemoveCall.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.BtnRemoveCall.FlatAppearance.BorderSize = 0
+        Me.BtnRemoveCall.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.BtnRemoveCall.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnRemoveCall.ForeColor = System.Drawing.Color.Black
+        Me.BtnRemoveCall.Image = CType(resources.GetObject("BtnRemoveCall.Image"), System.Drawing.Image)
+        Me.BtnRemoveCall.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.BtnRemoveCall.Location = New System.Drawing.Point(743, 10)
+        Me.BtnRemoveCall.Name = "BtnRemoveCall"
+        Me.BtnRemoveCall.Size = New System.Drawing.Size(75, 30)
+        Me.BtnRemoveCall.TabIndex = 275
+        Me.BtnRemoveCall.Text = "Clear All"
+        Me.BtnRemoveCall.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.BtnRemoveCall.UseVisualStyleBackColor = False
+        '
+        'BtnStateC
+        '
+        Me.BtnStateC.BackColor = System.Drawing.Color.DimGray
+        Me.BtnStateC.Cursor = System.Windows.Forms.Cursors.Default
+        Me.BtnStateC.FlatAppearance.BorderSize = 0
+        Me.BtnStateC.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.BtnStateC.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnStateC.ForeColor = System.Drawing.Color.Black
+        Me.BtnStateC.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.BtnStateC.Location = New System.Drawing.Point(906, 10)
+        Me.BtnStateC.Name = "BtnStateC"
+        Me.BtnStateC.Size = New System.Drawing.Size(30, 30)
+        Me.BtnStateC.TabIndex = 273
+        Me.BtnStateC.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.BtnStateC.UseVisualStyleBackColor = False
+        '
+        'BtnResumeCall
+        '
+        Me.BtnResumeCall.BackColor = System.Drawing.Color.DimGray
+        Me.BtnResumeCall.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.BtnResumeCall.FlatAppearance.BorderSize = 0
+        Me.BtnResumeCall.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.BtnResumeCall.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnResumeCall.ForeColor = System.Drawing.Color.Black
+        Me.BtnResumeCall.Image = Global.AutoCall.My.Resources.Resources.icons8_stop_20
+        Me.BtnResumeCall.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.BtnResumeCall.Location = New System.Drawing.Point(825, 10)
+        Me.BtnResumeCall.Name = "BtnResumeCall"
+        Me.BtnResumeCall.Size = New System.Drawing.Size(75, 30)
+        Me.BtnResumeCall.TabIndex = 274
+        Me.BtnResumeCall.Text = "Stop All"
+        Me.BtnResumeCall.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.BtnResumeCall.UseVisualStyleBackColor = False
         '
         'frmkirim
         '
@@ -573,7 +594,11 @@ Partial Class frmkirim
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.FromArgb(CType(CType(60, Byte), Integer), CType(CType(80, Byte), Integer), CType(CType(60, Byte), Integer))
         Me.ClientSize = New System.Drawing.Size(943, 460)
-        Me.Controls.Add(Me.RdWAD)
+        Me.Controls.Add(Me.BtnLog)
+        Me.Controls.Add(Me.BtnRemoveCall)
+        Me.Controls.Add(Me.BtnStateC)
+        Me.Controls.Add(Me.BtnResumeCall)
+        Me.Controls.Add(Me.rd2)
         Me.Controls.Add(Me.lblCountState)
         Me.Controls.Add(Me.Label5)
         Me.Controls.Add(Me.breakmsg)
@@ -601,7 +626,6 @@ Partial Class frmkirim
         Me.Controls.Add(Me.Label4)
         Me.Controls.Add(Me.rd0)
         Me.Controls.Add(Me.Label8)
-        Me.Controls.Add(Me.BtnContact)
         Me.Controls.Add(Me.BtnPaste)
         Me.Controls.Add(Me.LblTotData)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
@@ -638,8 +662,6 @@ Partial Class frmkirim
     Friend WithEvents Panel4 As Panel
     Friend WithEvents PnlogActivty As Panel
     Friend WithEvents Panel5 As Panel
-    Friend WithEvents BtnStopCall As Button
-    Friend WithEvents Button1 As Button
     Friend WithEvents Label10 As Label
     Friend WithEvents TxtMessage As RichTextBox
     Friend WithEvents TxtSender As TextBox
@@ -653,12 +675,15 @@ Partial Class frmkirim
     Friend WithEvents Label4 As Label
     Friend WithEvents rd0 As RadioButton
     Friend WithEvents Label8 As Label
-    Friend WithEvents BtnContact As Button
     Friend WithEvents BtnPaste As Button
     Friend WithEvents LblTotData As Label
     Friend WithEvents Panel1 As Panel
     Friend WithEvents Label2 As Label
     Friend WithEvents Label11 As Label
     Friend WithEvents lblCountState As Label
-    Friend WithEvents RdWAD As RadioButton
+    Friend WithEvents rd2 As RadioButton
+    Friend WithEvents BtnLog As Button
+    Friend WithEvents BtnRemoveCall As Button
+    Friend WithEvents BtnStateC As Button
+    Friend WithEvents BtnResumeCall As Button
 End Class

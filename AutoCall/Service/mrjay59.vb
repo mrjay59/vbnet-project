@@ -332,25 +332,6 @@ Public Class mrjay59
         Return jsonparse
     End Function
 
-    Public Function testDev(ByVal data As Dictionary(Of String, String))
-        ' Dim parameters As String = JsonConvert.SerializeObject(data, Formatting.None)
-        'Dim response = Api.GetData("getuser", data, nameapk)
-        'Dim parameters As String = JsonConvert.SerializeObject(data, Formatting.None)
-        Dim response = Api.GetData("OnTestDev", data, nameapk)
-
-        Dim jsonparse As String = String.Empty
-
-        If (Not (response) Is Nothing) Then
-            Try
-                jsonparse = response
-            Catch generatedExceptionName As JsonSerializationException
-                Console.WriteLine("The string is not valid JSON.")
-            End Try
-        End If
-
-        Return jsonparse
-    End Function
-
     Public Function dev_state(ByVal data As Dictionary(Of String, String))
         ' Dim parameters As String = JsonConvert.SerializeObject(data, Formatting.None)
         'Dim response = Api.GetData("getuser", data, nameapk)

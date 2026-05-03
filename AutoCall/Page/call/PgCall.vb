@@ -11,7 +11,6 @@ Public Class PgCall
     Private dbConn As New ClassConnect
 
     Private Ap_mrjay59 As New mrjay59
-    Public threadShouldStop As Boolean = False
     Private DatR As String = String.Empty
     Private DataJson = Nothing
 

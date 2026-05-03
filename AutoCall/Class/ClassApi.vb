@@ -155,30 +155,7 @@ Public Class ClassApi
 
     End Function
 
-    Public Sub FtpUpload(ByVal fpath As String)
-        Dim filenama As String = Path.GetFileName(fpath)
-        ' Create an FtpWebRequest object
-        Dim request As FtpWebRequest = DirectCast(WebRequest.Create("ftp://files.000webhost.com/" & filenama), FtpWebRequest)
 
-        ' Set the login credentials
-        request.Credentials = New NetworkCredential("list-col", "M1sterj@y59")
-
-        ' Specify the request as an upload
-        request.Method = WebRequestMethods.Ftp.UploadFile
-
-        ' Create a stream to write the file to the FTP server
-        Dim fileStream As Stream = request.GetRequestStream()
-
-        ' Read the contents of the file into a byte array
-        Dim fileBytes As Byte() = File.ReadAllBytes(fpath)
-
-        ' Write the contents of the file to the FTP server
-        fileStream.Write(fileBytes, 0, fileBytes.Length)
-
-        ' Close the stream
-        fileStream.Close()
-
-    End Sub
 
 
 

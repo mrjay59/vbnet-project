@@ -84,10 +84,10 @@ Public Class PgDialog
             Dim privilageType As String = PObj("permission")
             LoadDataAndroid(privilageType, "clould", user)
             ChkAll.Visible = False
-        ElseIf (func = "Vi_Email") Then
-
-        ElseIf (func = "Vi_WASER") Then
-            '  LoadWASer
+        ElseIf (func = "wascanqr") Then
+            LoadWASer("wascanqr", user)
+        ElseIf (func = "waserver") Then
+            LoadWASer("waserver", user)
         ElseIf (func = "log_sip") Then
             Dim reqid As String = PObj("reqid")
             LoadSip_log(user, reqid)
@@ -823,37 +823,84 @@ Public Class PgDialog
 
         Dim param As New Dictionary(Of String, String)
         param.Add("username", username)
-        param.Add("platform", tipe)
-        param.Add("all", "open")
-        param.Add("carik", "")
-        ' "wascanqr"
-        Dim ListWA As String = WApp.OnListServer(param)
-        Dim DatParse = jsonpa.Json2aray(ListWA)
-        Dim ax = 0
+        param.Add("tipe", tipe)
 
-        Dim datSer As JArray = DatParse("body")("data")
+        Dim response = Mjay59.getAkunAkses(param)
+        '  Console.WriteLine(response)
+        Dim resp2arr = jsonpa.Json2aray(response)
 
-
-        For Each item In datSer
-            Dim useA As Integer = item("aichat_use")
-            Dim Name As String = item("aichat_name")
-            Dim service = item("aichat_service")
-            Dim use = IIf(useA = 0, "Tidak", "YA")
-            Dim platform = item("aichat_platform")
-            Dim NumberWa = item("aichat_number")
-            Dim numkey = item("aichat_numkey")
-            Dim kodcontry = item("aichat_CountryCode")
-            Dim login = IIf(IsDBNull(item("aichat_number")), "TIDAK", "YA")
-
-            ax = ax + 1
+        If (resp2arr("status")("code") = 0) Then
+            Dim ax = 0
+            For Each item In resp2arr("body")
+                Dim akunid = item("akunid").ToString
+                Dim concurrent = item("concurrent").ToString
+                Dim listapp = item("listapp").ToString
 
 
-            Dim row As String() = New String() {False, ax, Name, platform, NumberWa, service, login, use}
-            DatTable1.Rows.Add(row)
+                Dim Datitem = jsonpa.Json2aray(listapp)
+                Dim applist = Datitem("apk")
+                Dim approp As IEnumerable(Of JProperty) = applist.Properties()
+
+                For Each prop As JProperty In approp
+                    Dim appname = prop.Name
+
+                    ax = ax + 1
+                    Dim appco = applist(appname)("appkode").ToString
+
+                    Dim limit_perday_use_call As Integer = applist(appname)("limit_perday")("use_call")
+                    Dim limit_perday_call As Integer = applist(appname)("limit_perday")("call")
+                    Dim limit_pernumber_use_call = applist(appname)("limit_pernumber")("use_call")
+                    Dim limit_pernumber_call = applist(appname)("limit_pernumber")("call")
+
+                    Dim limit_perday = $"{limit_perday_use_call}/{limit_perday_call}"
+                    Dim limit_pernumber = $"{limit_pernumber_use_call}/{limit_pernumber_call}"
+
+                    Dim state = applist(appname)("state").ToString
+                    Dim subscribe = applist(appname)("subscribe").ToString
+                    Dim datexp = applist(appname)("datexp").ToString
+                    Dim state_exp As Boolean = applist(appname)("state_exp")
 
 
-        Next
+                    ' Tambah row dulu
+                    Dim rowIndex As Integer = DatTable1.Rows.Add(False, ax, akunid, appco, datexp, subscribe, limit_perday, limit_pernumber, state, state_exp)
 
+
+                    ' Jika BUSY
+                    If state = "BUSY" Then
+
+                        ' disable checkbox / cell kolom pertama
+                        DatTable1.Rows(rowIndex).Cells("CheckBoxColumn").ReadOnly = True
+                        DatTable1.Rows(rowIndex).Cells("CheckBoxColumn").Value = False
+
+                        ' warna merah seluruh baris
+                        DatTable1.Rows(rowIndex).DefaultCellStyle.BackColor = Color.Red
+                        DatTable1.Rows(rowIndex).DefaultCellStyle.ForeColor = Color.Black
+
+                    End If
+
+                    ' Jika BUSY
+                    If state_exp = True Then
+
+                        ' disable checkbox / cell kolom pertama
+                        DatTable1.Rows(rowIndex).Cells("CheckBoxColumn").ReadOnly = True
+                        DatTable1.Rows(rowIndex).Cells("CheckBoxColumn").Value = False
+
+                        ' warna merah seluruh baris
+                        DatTable1.Rows(rowIndex).DefaultCellStyle.BackColor = Color.IndianRed
+                        DatTable1.Rows(rowIndex).DefaultCellStyle.ForeColor = Color.Black
+
+                    End If
+
+
+                Next
+
+
+                'Dim row As String() = New String() {False, ax, akunid, String.Join(",", arrApp.ToArray), concurrent, date_exp, limit_perday, limit_pernumber, idle}
+                'DatTable1.Rows.Add(row)
+
+            Next
+
+        End If
     End Sub
 
     Private Sub LoadWADesktop()

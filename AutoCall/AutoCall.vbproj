@@ -333,7 +333,6 @@
     <Compile Include="Class\RoundedPanel.vb">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Class\ServerWa.vb" />
     <Compile Include="Class\SIPAutomation.vb" />
     <Compile Include="Class\sipclient.vb" />
     <Compile Include="Class\SmoothPanel.vb">

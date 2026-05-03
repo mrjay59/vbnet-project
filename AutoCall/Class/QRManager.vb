@@ -15,6 +15,7 @@ Public Class QRManager
 
     Private qrTimer As Timer
     Private isRunning As Boolean = True
+    Private ApiClient As New ClassApi
 
     Public Property Picture As PictureBox
 
@@ -97,23 +98,20 @@ Public Class QRManager
     ' =========================
     ' GET QR
     ' =========================
-    Private Async Function GetQRCode() As Task(Of String)
+    Private Function GetQRCode()
 
         Try
-            Dim url As String = "http://127.0.0.1:3000/api/sessions/" & session & "/qr"
 
-            Using client As New HttpClient()
-                Dim res = Await client.GetAsync(url)
+            Dim param As New JObject
+            param.Add("name", session)
+            param.Add("action", "qr")
 
-                If res.IsSuccessStatusCode Then
+            Dim response = ApiClient.PostData("OnSeassion", param, "MRJAY59")
 
-                    Dim json = Await res.Content.ReadAsStringAsync()
-                    Dim obj = JObject.Parse(json)
+            Dim obj = JObject.Parse(response)
 
-                    Return obj("data").ToString()
+            Return obj("data").ToString()
 
-                End If
-            End Using
 
         Catch ex As Exception
             Log("QR Error: " & ex.Message)
@@ -167,20 +165,26 @@ Public Class QRManager
     ' =========================
     ' RESTART API
     ' =========================
-    Private Async Function RestartSession() As Task
+    Private Function RestartSession()
 
         Try
-            Dim url As String = "http://127.0.0.1:3000/api/sessions/" & session & "/restart"
 
-            Using client As New HttpClient()
-                Await client.PostAsync(url, Nothing)
-            End Using
+            Dim param As New JObject
+            param.Add("name", session)
+            param.Add("action", "restart")
 
-            Log("Restart request sent")
+            Dim response = ApiClient.PostData("OnSeassion", param, "MRJAY59")
+
+            Dim obj = JObject.Parse(response)
+
+            Return obj("data").ToString()
+
 
         Catch ex As Exception
-            Log("Restart Error: " & ex.Message)
+            Log("QR Error: " & ex.Message)
         End Try
+
+        Return Nothing
 
     End Function
 
