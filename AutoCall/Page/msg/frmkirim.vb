@@ -722,7 +722,7 @@ Public Class frmkirim
     End Sub
 
 
-    End Sub
+
 
     Private Sub UpdateDeviceStatus(deviceKey As String,
                                status As DeviceStatus,

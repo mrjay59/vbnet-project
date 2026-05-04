@@ -31,6 +31,8 @@ Partial Class WAScanQrForm
         Me.RqRegCode = New System.Windows.Forms.RadioButton()
         Me.naprovider = New System.Windows.Forms.ComboBox()
         Me.Label1 = New System.Windows.Forms.Label()
+        Me.Label2 = New System.Windows.Forms.Label()
+        Me.Cbx_AkunID = New System.Windows.Forms.ComboBox()
         CType(Me.CountWa, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -38,9 +40,10 @@ Partial Class WAScanQrForm
         '
         Me.CountWa.BackColor = System.Drawing.Color.FromArgb(CType(CType(80, Byte), Integer), CType(CType(60, Byte), Integer), CType(CType(71, Byte), Integer))
         Me.CountWa.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.CountWa.Enabled = False
         Me.CountWa.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.CountWa.ForeColor = System.Drawing.Color.White
-        Me.CountWa.Location = New System.Drawing.Point(252, 104)
+        Me.CountWa.Location = New System.Drawing.Point(252, 169)
         Me.CountWa.Maximum = New Decimal(New Integer() {4, 0, 0, 0})
         Me.CountWa.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
         Me.CountWa.Name = "CountWa"
@@ -55,7 +58,7 @@ Partial Class WAScanQrForm
         Me.Label6.AutoSize = True
         Me.Label6.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label6.ForeColor = System.Drawing.Color.White
-        Me.Label6.Location = New System.Drawing.Point(251, 83)
+        Me.Label6.Location = New System.Drawing.Point(251, 145)
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(69, 15)
         Me.Label6.TabIndex = 205
@@ -69,9 +72,9 @@ Partial Class WAScanQrForm
         Me.BtnADD.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.BtnADD.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.BtnADD.ForeColor = System.Drawing.SystemColors.ButtonFace
-        Me.BtnADD.Location = New System.Drawing.Point(252, 165)
+        Me.BtnADD.Location = New System.Drawing.Point(403, 166)
         Me.BtnADD.Name = "BtnADD"
-        Me.BtnADD.Size = New System.Drawing.Size(147, 37)
+        Me.BtnADD.Size = New System.Drawing.Size(108, 37)
         Me.BtnADD.TabIndex = 207
         Me.BtnADD.Text = "Create "
         Me.BtnADD.UseVisualStyleBackColor = False
@@ -85,7 +88,6 @@ Partial Class WAScanQrForm
         Me.seassionid.ForeColor = System.Drawing.Color.White
         Me.seassionid.Location = New System.Drawing.Point(12, 166)
         Me.seassionid.Name = "seassionid"
-        Me.seassionid.ReadOnly = True
         Me.seassionid.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
         Me.seassionid.Size = New System.Drawing.Size(234, 37)
         Me.seassionid.TabIndex = 208
@@ -97,9 +99,9 @@ Partial Class WAScanQrForm
         Me.Label9.ForeColor = System.Drawing.Color.White
         Me.Label9.Location = New System.Drawing.Point(10, 146)
         Me.Label9.Name = "Label9"
-        Me.Label9.Size = New System.Drawing.Size(135, 15)
+        Me.Label9.Size = New System.Drawing.Size(153, 15)
         Me.Label9.TabIndex = 206
-        Me.Label9.Text = "Buat Nama SeassionID"
+        Me.Label9.Text = "SeassionID (Exp : WAHAP)"
         '
         'rqQrcode
         '
@@ -136,11 +138,11 @@ Partial Class WAScanQrForm
         Me.naprovider.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.naprovider.ForeColor = System.Drawing.Color.White
         Me.naprovider.FormattingEnabled = True
+        Me.naprovider.Items.AddRange(New Object() {"WAHA_4.27"})
         Me.naprovider.Location = New System.Drawing.Point(14, 103)
         Me.naprovider.Name = "naprovider"
         Me.naprovider.Size = New System.Drawing.Size(233, 32)
         Me.naprovider.TabIndex = 211
-        Me.naprovider.Visible = False
         '
         'Label1
         '
@@ -153,12 +155,38 @@ Partial Class WAScanQrForm
         Me.Label1.TabIndex = 212
         Me.Label1.Text = "Provider WhatsApp"
         '
+        'Label2
+        '
+        Me.Label2.AutoSize = True
+        Me.Label2.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label2.ForeColor = System.Drawing.Color.White
+        Me.Label2.Location = New System.Drawing.Point(250, 85)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(52, 15)
+        Me.Label2.TabIndex = 214
+        Me.Label2.Text = "AkunID :"
+        '
+        'Cbx_AkunID
+        '
+        Me.Cbx_AkunID.BackColor = System.Drawing.Color.FromArgb(CType(CType(60, Byte), Integer), CType(CType(65, Byte), Integer), CType(CType(65, Byte), Integer))
+        Me.Cbx_AkunID.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.Cbx_AkunID.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Cbx_AkunID.ForeColor = System.Drawing.Color.White
+        Me.Cbx_AkunID.FormattingEnabled = True
+        Me.Cbx_AkunID.Items.AddRange(New Object() {"WAHA_4.27"})
+        Me.Cbx_AkunID.Location = New System.Drawing.Point(252, 103)
+        Me.Cbx_AkunID.Name = "Cbx_AkunID"
+        Me.Cbx_AkunID.Size = New System.Drawing.Size(173, 32)
+        Me.Cbx_AkunID.TabIndex = 213
+        '
         'WAScanQrForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.FromArgb(CType(CType(60, Byte), Integer), CType(CType(65, Byte), Integer), CType(CType(65, Byte), Integer))
         Me.ClientSize = New System.Drawing.Size(523, 228)
+        Me.Controls.Add(Me.Label2)
+        Me.Controls.Add(Me.Cbx_AkunID)
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.naprovider)
         Me.Controls.Add(Me.RqRegCode)
@@ -186,4 +214,6 @@ Partial Class WAScanQrForm
     Friend WithEvents RqRegCode As RadioButton
     Friend WithEvents naprovider As ComboBox
     Friend WithEvents Label1 As Label
+    Friend WithEvents Label2 As Label
+    Friend WithEvents Cbx_AkunID As ComboBox
 End Class

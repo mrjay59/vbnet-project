@@ -26,10 +26,9 @@ Public Class pgMultiBarcode
         Me.Close()
     End Sub
 
-
     Public Sub LoadMultiRegKode(ByVal DatObj As String)
         AddHandler WSManager.Client.MessageReceived, AddressOf wsClient_MessageReceived
-
+        Console.WriteLine(DatObj)
         Dim PObj = jsonpa.Json2aray(DatObj)
 
         Dim ai = 0
@@ -98,7 +97,7 @@ Public Class pgMultiBarcode
         For Each item In PObj("body")
 
             Dim nama = item("name").ToString
-            Dim tipe = item("tipe").ToString
+            Dim navendor = item("result")("config")("metadata")("navendor").ToString
 
             ai += 1
 
@@ -136,11 +135,12 @@ Public Class pgMultiBarcode
             ' ======================
             ' CREATE MANAGER
             ' ======================
-            Dim manager As New QRManager(nama, ScanQr.picQRCode)
+            Dim manager As New QRManager(nama, navendor, ScanQr.picQRCode)
 
             qrManagers.Add(nama, manager)
             qrControls.Add(nama, ScanQr)
 
+            manager.OnScanRequired()
             ' ======================
             ' BIND LOG EVENT (IMPORTANT)
             ' ======================
@@ -205,6 +205,9 @@ Public Class pgMultiBarcode
                 ' biarkan manager handle restart logic
 
                 Case "CONNECTED"
+                    manager.Reset()
+
+                Case "WORKING"
                     manager.Reset()
 
                 Case "STOPPED"

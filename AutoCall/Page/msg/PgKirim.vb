@@ -75,13 +75,10 @@ Public Class PgKirim
     Private Sub btnclose_Click(sender As Object, e As EventArgs) Handles btnclose.Click
         Dim frmkirim As frmkirim = Application.OpenForms.OfType(Of frmkirim)().FirstOrDefault()
         If frmkirim IsNot Nothing Then
-            ' Kirim data ke Form2
-            If frmkirim.cts IsNot Nothing Then
-                frmkirim.cts.Cancel()
-
-                frmkirim.PnlogActivty.Controls.Clear()
-
-
+            If (frmkirim.engine._isRunning) Then
+                frmkirim.engine.Stop()
+                ' 🔴 Clear queue
+                frmkirim.engine.ClearAll()
             End If
         End If
 

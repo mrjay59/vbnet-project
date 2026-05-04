@@ -1,11 +1,14 @@
 ﻿Imports System.Net.Http
+Imports System.Text
 Imports System.Timers
+Imports System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel
 Imports Newtonsoft.Json.Linq
 
 
 Public Class QRManager
 
     Private session As String
+    Private vendor As String
 
     Private qrCount As Integer = 0
     Private maxQR As Integer = 6
@@ -15,9 +18,10 @@ Public Class QRManager
 
     Private qrTimer As Timer
     Private isRunning As Boolean = True
-    Private ApiClient As New ClassApi
 
     Public Property Picture As PictureBox
+
+    Private BaseUrl As String = "https://www.mrjay59.com"
 
     ' EVENT LOG
     Public Event OnLog(message As String)
@@ -26,9 +30,10 @@ Public Class QRManager
         RaiseEvent OnLog($"[{session}] {msg}")
     End Sub
 
-    Public Sub New(sessionName As String, pic As PictureBox)
+    Public Sub New(sessionName As String, navendor As String, pic As PictureBox)
         session = sessionName
         Picture = pic
+        vendor = navendor
     End Sub
 
     ' =========================
@@ -98,20 +103,27 @@ Public Class QRManager
     ' =========================
     ' GET QR
     ' =========================
-    Private Function GetQRCode()
-
+    Private Async Function GetQRCode() As Task(Of String)
         Try
 
+            Dim endpoint As String = "/api/cpost/whatsapp/OnSeassion?"
+
             Dim param As New JObject
-            param.Add("name", session)
             param.Add("action", "qr")
+            param.Add("name", session)
+            param.Add("navendor", vendor)
 
-            Dim response = ApiClient.PostData("OnSeassion", param, "MRJAY59")
 
-            Dim obj = JObject.Parse(response)
+            Dim res = Await PostAsync(endpoint, param)
+
+            If String.IsNullOrEmpty(res) Then
+                Log("QR API empty response")
+                Return Nothing
+            End If
+
+            Dim obj = JObject.Parse(res)
 
             Return obj("data").ToString()
-
 
         Catch ex As Exception
             Log("QR Error: " & ex.Message)
@@ -165,26 +177,27 @@ Public Class QRManager
     ' =========================
     ' RESTART API
     ' =========================
-    Private Function RestartSession()
+    Private Async Function RestartSession() As Task
 
         Try
+            Dim endpoint As String = "/api/cpost/whatsapp/OnSeassion?"
 
             Dim param As New JObject
-            param.Add("name", session)
             param.Add("action", "restart")
+            param.Add("name", session)
+            param.Add("navendor", vendor)
 
-            Dim response = ApiClient.PostData("OnSeassion", param, "MRJAY59")
+            Dim res = Await PostAsync(endpoint, param)
 
-            Dim obj = JObject.Parse(response)
-
-            Return obj("data").ToString()
-
+            If res Is Nothing Then
+                Log("Restart failed (no response)")
+            Else
+                Log("Restart request sent")
+            End If
 
         Catch ex As Exception
-            Log("QR Error: " & ex.Message)
+            Log("Restart Error: " & ex.Message)
         End Try
-
-        Return Nothing
 
     End Function
 
@@ -219,5 +232,30 @@ Public Class QRManager
 
     End Sub
 
+    Private Async Function PostAsync(endpoint As String, Optional jsonBody As String = "") As Task(Of String)
+
+        Try
+            Dim url = BaseUrl & endpoint
+
+            Dim content As New StringContent(jsonBody, Encoding.UTF8, "application/json")
+            Dim client As New HttpClient()
+
+
+            Dim res = Await Client.PostAsync(url, content)
+
+            If res.IsSuccessStatusCode Then
+                Return Await res.Content.ReadAsStringAsync()
+            Else
+                Return Nothing
+            End If
+
+        Catch ex As Exception
+            Return Nothing
+        End Try
+
+    End Function
+
 End Class
+
+
 

@@ -540,13 +540,11 @@ Public Class Form1
 
                     Dim frmkirim As frmkirim = Application.OpenForms.OfType(Of frmkirim)().FirstOrDefault()
                     If frmkirim IsNot Nothing Then
-                        ' Kirim data ke Form2
-                        If frmkirim.cts IsNot Nothing Then
-                            frmkirim.cts.Cancel()
 
-                            frmkirim.PnlogActivty.Controls.Clear()
-
-
+                        If (frmkirim.engine._isRunning) Then
+                            frmkirim.engine.Stop()
+                            ' 🔴 Clear queue
+                            frmkirim.engine.ClearAll()
                         End If
                     End If
 
@@ -733,20 +731,18 @@ Public Class Form1
             Ap_mrjay59.logout(param)
             Threading.Thread.Sleep(2000)
             Dim PgCall As PgCall = Application.OpenForms.OfType(Of PgCall)().FirstOrDefault()
-            If PgCall IsNot Nothing Then
-                ' Kirim data ke Form2
-                PgCall.IsStopped = True
+            If (PgCall.engine._isRunning) Then
+                PgCall.engine.Stop()
+                ' 🔴 Clear queue
+                PgCall.engine.ClearAll()
             End If
 
             Dim frmkirim As frmkirim = Application.OpenForms.OfType(Of frmkirim)().FirstOrDefault()
             If frmkirim IsNot Nothing Then
-                ' Kirim data ke Form2
-                If frmkirim.cts IsNot Nothing Then
-                    frmkirim.cts.Cancel()
-
-                    frmkirim.PnlogActivty.Controls.Clear()
-
-
+                If (frmkirim.engine._isRunning) Then
+                    frmkirim.engine.Stop()
+                    ' 🔴 Clear queue
+                    frmkirim.engine.ClearAll()
                 End If
             End If
             Me.Close()

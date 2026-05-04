@@ -703,7 +703,7 @@ Public Class PgCall
         Where(Function(x) x <> "")
 )
 
-        threadShouldStop = False
+
         BtnStateC.Enabled = True
 
         Dim newDev, JObject As New JObject
@@ -1025,7 +1025,7 @@ Public Class PgCall
         Where(Function(x) x <> "")
 )
 
-        threadShouldStop = False
+
         BtnStateC.Enabled = True
 
         Dim newDev, JObject As New JObject

@@ -8,7 +8,6 @@ Public Class WAScanQrForm
     Private WApp As New WhatsAppClass
     Private jsonpa As New ClassJson
     Private dbConn As New ClassConnect
-    Public Event SendDataJson As EventHandler(Of ClassData)
 
     Public Property SendDataUser() As String
         Get
@@ -67,21 +66,29 @@ Public Class WAScanQrForm
 
 
         Dim respon = WApp.OnCreateWAScan(param)
+
+        Console.WriteLine(respon)
         Dim jsonObject = JsonConvert.DeserializeObject(respon)
 
 
         If (jsonObject("status")("code") = 1) Then
-            MsgBox(jsonObject("error"))
+            MsgBox(jsonObject("msg"))
             Exit Sub
         Else
 
-            Dim page As New pgMultiBarcode()
-            page.LoadBarcodeMulti(respon.ToString)
-            page.SendDataUser = DatR
+            If (TipeSeassion = "rqQrkode") Then
+                Dim page As New pgMultiBarcode()
+                page.LoadBarcodeMulti(respon.ToString)
+                page.SendDataUser = DatR
 
-            page.ShowDialog()
+                page.ShowDialog()
+            ElseIf (TipeSeassion = "rqRegcode") Then
+                Dim page As New pgMultiBarcode()
+                page.LoadMultiRegKode(respon.ToString)
+                page.SendDataUser = DatR
 
-
+                page.ShowDialog()
+            End If
 
         End If
     End Sub
@@ -119,6 +126,26 @@ Public Class WAScanQrForm
         End If
 
     End Sub
+
+    Private Sub naprovider_SelectedIndexChanged(sender As Object, e As EventArgs) Handles naprovider.SelectedIndexChanged
+        If naprovider.SelectedIndex >= 0 Then
+            seassionid.Enabled = True
+            CountWa.Enabled = True
+        Else
+            seassionid.Enabled = False
+            CountWa.Enabled = False
+        End If
+
+    End Sub
+
+    Private Sub listAkuns()
+
+    End Sub
+
+    Private Sub Listvendors()
+
+    End Sub
+
 
 
 End Class
