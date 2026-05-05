@@ -67,7 +67,7 @@ Public Class pgSetSession
         UCformtext5.Lblname.Text = "Server WhatsApp"
         UCformtext6.Lblname.Text = "Nama Session"
         UCformtext7.Lblname.Text = "Nomer Session"
-
+        UCformtext8.Lblname.Text = "AkunID Telegram"
 
         UCformtext1.txtinput.Text = DatParse("body")("created")
         UCformtext2.txtinput.Text = DatParse("body")("subscribe")
@@ -75,7 +75,8 @@ Public Class pgSetSession
         UCformtext4.txtinput.Text = ""
         UCformtext5.txtinput.Text = DatParse("body")("vendr")
         UCformtext6.txtinput.Text = DatParse("body")("appkode")
-        'UCformtext7.txtinput.Text = DatParse("body")("number")
+        UCformtext7.txtinput.Text = DatParse("body")("number").ToString
+        UCformtext8.txtinput.Text = DatParse("body")("pick_tg_by")
 
         'UCformtext1.txtinput.Enabled = IsReadOnline
         'UCformtext2.txtinput.Enabled = IsReadOnline
@@ -136,6 +137,7 @@ Public Class pgSetSession
         End If
     End Sub
 
+    Private Sub BtnDel_Click(sender As Object, e As EventArgs) Handles BtnDel.Click
 
-
+    End Sub
 End Class

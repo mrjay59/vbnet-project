@@ -464,54 +464,57 @@ Public Class PgDialog
         DatTable1.Columns.Add(kolom)
 
         kolom = New DataGridViewTextBoxColumn()
+        kolom.Name = "akunid"
+        kolom.HeaderText = "AKUN ID"
+        kolom.DataPropertyName = "akunid"
+        kolom.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight
+        DatTable1.Columns.Add(kolom)
+
+        kolom = New DataGridViewTextBoxColumn()
         kolom.Name = "name"
-        kolom.HeaderText = "Nama WA"
+        kolom.HeaderText = "Nama seassion"
         kolom.DataPropertyName = "name"
         kolom.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight
         DatTable1.Columns.Add(kolom)
 
 
         kolom = New DataGridViewTextBoxColumn()
-        kolom.Name = "platform"
-        kolom.HeaderText = "platform"
-        kolom.DataPropertyName = "platform"
+        kolom.Name = "EXPIRED"
+        kolom.HeaderText = "EXPIRED"
+        kolom.DataPropertyName = "EXPIRED"
+        kolom.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight
+        DatTable1.Columns.Add(kolom)
+
+
+        kolom = New DataGridViewTextBoxColumn()
+        kolom.Name = "limitperday"
+        kolom.HeaderText = "LIMIT/ HARI"
+        kolom.DataPropertyName = "limitperday"
         kolom.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight
         DatTable1.Columns.Add(kolom)
 
         kolom = New DataGridViewTextBoxColumn()
-        kolom.Name = "NumberWa"
-        kolom.HeaderText = "Nomer WA"
-        kolom.DataPropertyName = "NumberWa"
+        kolom.Name = "limitpernum"
+        kolom.HeaderText = "LIMIT/ SEND"
+        kolom.DataPropertyName = "limitpernum"
         kolom.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight
         DatTable1.Columns.Add(kolom)
 
         kolom = New DataGridViewTextBoxColumn()
-        kolom.Name = "Service"
-        kolom.HeaderText = "SERVICE"
-        kolom.DataPropertyName = "Service"
+        kolom.Name = "idle"
+        kolom.HeaderText = "STATE"
+        kolom.DataPropertyName = "idle"
         kolom.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight
         DatTable1.Columns.Add(kolom)
 
         kolom = New DataGridViewTextBoxColumn()
-        kolom.Name = "StateLogin"
-        kolom.HeaderText = "State Login"
-        kolom.DataPropertyName = "StateLogin"
+        kolom.Name = "STATUS"
+        kolom.HeaderText = "STATUS"
+        kolom.DataPropertyName = "STATUS"
         kolom.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight
         DatTable1.Columns.Add(kolom)
 
-        kolom = New DataGridViewTextBoxColumn()
-        kolom.Name = "Used"
-        kolom.HeaderText = "Used"
-        kolom.DataPropertyName = "Used"
-        kolom.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight
-        DatTable1.Columns.Add(kolom)
 
-        kolom = New DataGridViewTextBoxColumn()
-        kolom.Name = "prefix"
-        kolom.HeaderText = "prefix"
-        kolom.DataPropertyName = "prefix"
-        kolom.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight
-        DatTable1.Columns.Add(kolom)
 
     End Sub
 
@@ -824,6 +827,7 @@ Public Class PgDialog
         Dim param As New Dictionary(Of String, String)
         param.Add("username", username)
         param.Add("tipe", tipe)
+        param.Add("data", "applist")
 
         Dim response = Mjay59.getAkunAkses(param)
         '  Console.WriteLine(response)
@@ -832,73 +836,53 @@ Public Class PgDialog
         If (resp2arr("status")("code") = 0) Then
             Dim ax = 0
             For Each item In resp2arr("body")
+
+
+                ax = ax + 1
+                Dim appkode = item("appkode").ToString
+                Dim STATE = item("state").ToString
+                Dim state_exp As Boolean = item("state_exp")
+                Dim datexp = item("datexp").ToString
+                Dim state_wa = item("state_wa").ToString
+                Dim subscribe = item("subscribe").ToString
+                Dim limit_perday = item("limit_perday").ToString
+                Dim limit_pernumber = item("limit_pernumber").ToString
                 Dim akunid = item("akunid").ToString
-                Dim concurrent = item("concurrent").ToString
-                Dim listapp = item("listapp").ToString
 
 
-                Dim Datitem = jsonpa.Json2aray(listapp)
-                Dim applist = Datitem("apk")
-                Dim approp As IEnumerable(Of JProperty) = applist.Properties()
 
-                For Each prop As JProperty In approp
-                    Dim appname = prop.Name
+                ' Tambah row dulu
+                Dim rowIndex As Integer = DatTable1.Rows.Add(False, ax, akunid, appkode, datexp, limit_perday, limit_pernumber, STATE, state_wa)
 
-                    ax = ax + 1
-                    Dim appco = applist(appname)("appkode").ToString
+                'DatTable1.Rows(rowIndex).Cells("CheckBoxColumn").Tag = 
+                ' Jika BUSY
+                If STATE = "BUSY" Then
 
-                    Dim limit_perday_use_call As Integer = applist(appname)("limit_perday")("use_call")
-                    Dim limit_perday_call As Integer = applist(appname)("limit_perday")("call")
-                    Dim limit_pernumber_use_call = applist(appname)("limit_pernumber")("use_call")
-                    Dim limit_pernumber_call = applist(appname)("limit_pernumber")("call")
+                    ' disable checkbox / cell kolom pertama
+                    DatTable1.Rows(rowIndex).Cells("CheckBoxColumn").ReadOnly = True
+                    DatTable1.Rows(rowIndex).Cells("CheckBoxColumn").Value = False
 
-                    Dim limit_perday = $"{limit_perday_use_call}/{limit_perday_call}"
-                    Dim limit_pernumber = $"{limit_pernumber_use_call}/{limit_pernumber_call}"
+                    ' warna merah seluruh baris
+                    DatTable1.Rows(rowIndex).DefaultCellStyle.BackColor = Color.Red
+                    DatTable1.Rows(rowIndex).DefaultCellStyle.ForeColor = Color.Black
 
-                    Dim state = applist(appname)("state").ToString
-                    Dim subscribe = applist(appname)("subscribe").ToString
-                    Dim datexp = applist(appname)("datexp").ToString
-                    Dim state_exp As Boolean = applist(appname)("state_exp")
+                End If
 
+                ' Jika BUSY
+                If state_exp = True Then
 
-                    ' Tambah row dulu
-                    Dim rowIndex As Integer = DatTable1.Rows.Add(False, ax, akunid, appco, datexp, subscribe, limit_perday, limit_pernumber, state, state_exp)
+                    ' disable checkbox / cell kolom pertama
+                    DatTable1.Rows(rowIndex).Cells("CheckBoxColumn").ReadOnly = True
+                    DatTable1.Rows(rowIndex).Cells("CheckBoxColumn").Value = False
 
+                    ' warna merah seluruh baris
+                    DatTable1.Rows(rowIndex).DefaultCellStyle.BackColor = Color.IndianRed
+                    DatTable1.Rows(rowIndex).DefaultCellStyle.ForeColor = Color.Black
 
-                    ' Jika BUSY
-                    If state = "BUSY" Then
-
-                        ' disable checkbox / cell kolom pertama
-                        DatTable1.Rows(rowIndex).Cells("CheckBoxColumn").ReadOnly = True
-                        DatTable1.Rows(rowIndex).Cells("CheckBoxColumn").Value = False
-
-                        ' warna merah seluruh baris
-                        DatTable1.Rows(rowIndex).DefaultCellStyle.BackColor = Color.Red
-                        DatTable1.Rows(rowIndex).DefaultCellStyle.ForeColor = Color.Black
-
-                    End If
-
-                    ' Jika BUSY
-                    If state_exp = True Then
-
-                        ' disable checkbox / cell kolom pertama
-                        DatTable1.Rows(rowIndex).Cells("CheckBoxColumn").ReadOnly = True
-                        DatTable1.Rows(rowIndex).Cells("CheckBoxColumn").Value = False
-
-                        ' warna merah seluruh baris
-                        DatTable1.Rows(rowIndex).DefaultCellStyle.BackColor = Color.IndianRed
-                        DatTable1.Rows(rowIndex).DefaultCellStyle.ForeColor = Color.Black
-
-                    End If
-
-
-                Next
-
-
-                'Dim row As String() = New String() {False, ax, akunid, String.Join(",", arrApp.ToArray), concurrent, date_exp, limit_perday, limit_pernumber, idle}
-                'DatTable1.Rows.Add(row)
+                End If
 
             Next
+
 
         End If
     End Sub

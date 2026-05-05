@@ -104,8 +104,8 @@ Public Class QRManager
     ' GET QR
     ' =========================
     Private Async Function GetQRCode() As Task(Of String)
-        Try
 
+        Try
             Dim endpoint As String = "/api/cpost/whatsapp/OnSeassion?"
 
             Dim param As New JObject
@@ -113,8 +113,7 @@ Public Class QRManager
             param.Add("name", session)
             param.Add("navendor", vendor)
 
-
-            Dim res = Await PostAsync(endpoint, param)
+            Dim res = Await PostAsync(endpoint, param.ToString)
 
             If String.IsNullOrEmpty(res) Then
                 Log("QR API empty response")
@@ -123,7 +122,30 @@ Public Class QRManager
 
             Dim obj = JObject.Parse(res)
 
-            Return obj("data").ToString()
+            ' 🔥 HANDLE ERROR RESPONSE
+            If obj("status") IsNot Nothing Then
+
+                Dim status = obj("status").ToString()
+
+                If status = "FAILED" Then
+                    Log("Session FAILED → restarting...")
+
+                    ' 🔥 restart session
+                    Await HandleRestart()
+
+                    ' tunggu sebentar biar ready
+                    Await Task.Delay(2000)
+
+                    ' 🔥 retry ambil QR
+                    Return Await GetQRCode()
+                End If
+
+            End If
+
+            ' normal ambil QR
+            If obj("data") IsNot Nothing Then
+                Return obj("data").ToString()
+            End If
 
         Catch ex As Exception
             Log("QR Error: " & ex.Message)
@@ -137,6 +159,7 @@ Public Class QRManager
     ' SHOW QR
     ' =========================
     Private Sub ShowQR(base64Qr As String)
+
 
         Try
             Dim bytes = Convert.FromBase64String(base64Qr)
@@ -187,7 +210,7 @@ Public Class QRManager
             param.Add("name", session)
             param.Add("navendor", vendor)
 
-            Dim res = Await PostAsync(endpoint, param)
+            Dim res = Await PostAsync(endpoint, param.ToString)
 
             If res Is Nothing Then
                 Log("Restart failed (no response)")
@@ -241,8 +264,8 @@ Public Class QRManager
             Dim client As New HttpClient()
 
 
-            Dim res = Await Client.PostAsync(url, content)
-
+            Dim res = Await client.PostAsync(url, content)
+            Console.WriteLine($"POST {url} - Status: {res.StatusCode} {res}")
             If res.IsSuccessStatusCode Then
                 Return Await res.Content.ReadAsStringAsync()
             Else

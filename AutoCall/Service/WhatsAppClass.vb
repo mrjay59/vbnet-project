@@ -216,4 +216,21 @@ Public Class WhatsAppClass
 
         Return jsonparse
     End Function
+
+    Public Function OnSeassion(ByVal data As Dictionary(Of String, String))
+        Dim parameters As String = JsonConvert.SerializeObject(data, Formatting.None)
+        Dim response = Api.PostData("OnTemplate", parameters, nameapk)
+
+        Dim jsonparse As String = String.Empty
+
+        If (Not (response) Is Nothing) Then
+            Try
+                jsonparse = response
+            Catch generatedExceptionName As JsonSerializationException
+                Console.WriteLine("The string is not valid JSON.")
+            End Try
+        End If
+
+        Return jsonparse
+    End Function
 End Class

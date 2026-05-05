@@ -40,7 +40,7 @@ Public Class pgMultiBarcode
         For Each item In PObj("body")
 
             Dim nama = item("name").ToString
-            Dim tipe = item("tipe").ToString
+            Dim navendor = item("navendor").ToString
 
             ai += 1
 
@@ -74,7 +74,63 @@ Public Class pgMultiBarcode
 
             PanelPusat.Controls.Add(ScanQr)
 
+            ' ======================
+            ' EVENT BUTTON REQUEST CODE
+            ' ======================
+            AddHandler ScanQr.BtnReqKode.Click,
+            Async Sub(s, ev)
 
+                Try
+                    Dim nomor = ScanQr.TxtNoWA.Text.Trim()
+
+                    If String.IsNullOrEmpty(nomor) Then
+                        ScanQr.lstLog.Items.Add("Nomor WA tidak boleh kosong")
+                        Exit Sub
+                    End If
+
+                    ScanQr.lstLog.Items.Add($"[Sesi : {nama}] Request code ke {nomor}...")
+
+                    Dim endpoint As String = "/api/cpost/whatsapp/OnSeassion?"
+
+                    Dim param As New JObject
+                    param.Add("action", "request_code")
+                    param.Add("name", nama)
+                    param.Add("navendor", navendor)
+                    param.Add("phone", nomor)
+
+                    Dim res = Await PostAsync(endpoint, param.ToString)
+
+                    If String.IsNullOrEmpty(res) Then
+                        ScanQr.lstLog.Items.Add("Response kosong dari server")
+                        Exit Sub
+                    End If
+
+                    Dim obj = JObject.Parse(res)
+
+                    ' 🔥 HANDLE RESPONSE
+                    If obj("status") IsNot Nothing Then
+
+                        Dim status = obj("status").ToString()
+
+                        If status = "FAILED" Then
+                            ScanQr.lstLog.Items.Add("Request code FAILED → restart session")
+
+                            ' optional restart
+                            Await RestartSession(nama, navendor)
+
+                            Exit Sub
+                        End If
+
+                    End If
+
+                    ScanQr.LblR.Text = obj("code")
+                    ScanQr.lstLog.Items.Add(obj("code"))
+
+                Catch ex As Exception
+                    ScanQr.lstLog.Items.Add("Error: " & ex.Message)
+                End Try
+
+            End Sub
 
         Next
     End Sub
@@ -97,7 +153,7 @@ Public Class pgMultiBarcode
         For Each item In PObj("body")
 
             Dim nama = item("name").ToString
-            Dim navendor = item("result")("config")("metadata")("navendor").ToString
+            Dim navendor = item("navendor").ToString
 
             ai += 1
 
@@ -140,15 +196,18 @@ Public Class pgMultiBarcode
             qrManagers.Add(nama, manager)
             qrControls.Add(nama, ScanQr)
 
-            manager.OnScanRequired()
             ' ======================
-            ' BIND LOG EVENT (IMPORTANT)
+            ' BIND LOG EVENT (HARUS DI ATAS)
             ' ======================
             AddHandler manager.OnLog,
             Sub(msg)
                 HandleLog(nama, msg)
             End Sub
 
+            ' ======================
+            ' BARU JALANKAN
+            ' ======================
+            manager.OnScanRequired()
         Next
 
     End Sub
@@ -167,13 +226,30 @@ Public Class pgMultiBarcode
 
             If ctrl.lstLog.InvokeRequired Then
                 ctrl.lstLog.Invoke(Sub()
+
+
+
                                        ctrl.lstLog.Items.Add(message)
+
+                                       If (message.Contains("QR displayed")) Then
+                                           ctrl.LblR.Visible = False
+                                           ctrl.picQRCode.Visible = True
+                                           ctrl.picQRCode.Size = New Point(195, 195)
+
+                                       End If
 
                                        ' auto scroll
                                        ctrl.lstLog.TopIndex = ctrl.lstLog.Items.Count - 1
                                    End Sub)
             Else
                 ctrl.lstLog.Items.Add(message)
+
+                If (message.Contains("QR displayed")) Then
+                    ctrl.LblR.Visible = False
+                    ctrl.picQRCode.Visible = True
+                    ctrl.picQRCode.Size = New Point(195, 195)
+
+                End If
                 ctrl.lstLog.TopIndex = ctrl.lstLog.Items.Count - 1
             End If
 
@@ -197,6 +273,8 @@ Public Class pgMultiBarcode
             Dim status = obj("payload")("status").ToString()
 
             Select Case status
+                Case "STARTING"
+                    manager.OnScanRequired()
 
                 Case "SCAN_QR_CODE"
                     manager.OnScanRequired()

@@ -87,18 +87,55 @@ Public Class PgDaServer
             Dim ax = 0
             For Each item In resp2arr("body")
                 ax = ax + 1
-                Dim appkode = item("appkode").ToString
-                Dim STATE = item("state").ToString
-                Dim state_exp As Boolean = item("state_exp")
-                Dim datexp = item("datexp").ToString
-                Dim state_wa = item("state_wa").ToString
-                Dim subscribe = item("subscribe").ToString
+
+                Dim appkode As String = String.Empty
+                Dim STATE As String = String.Empty
+                Dim state_exp As Boolean
+                Dim datexp As String = String.Empty
+                Dim state_wa As String = String.Empty
+                Dim subscribe As String = String.Empty
+                Dim navendor As String = String.Empty
+                Dim rowIndex As Integer
+
+                Dim akunid As String = String.Empty
+                Dim concurrent As Integer
+                Dim appcount As Integer
+                Dim idle As String = String.Empty
+                Dim create As String = String.Empty
+
+                If (data = "akun") Then
+                    akunid = item("akunid").ToString
+                    concurrent = item("concurrent")
+                    appcount = item("appcount")
+                    idle = item("idle").ToString
+                    STATE = item("state").ToString
+                    create = item("create").ToString
 
 
-                ' Tambah row dulu
-                Dim rowIndex As Integer = DatTable1.Rows.Add(False, ax, appkode, datexp, STATE, state_wa)
 
-                'DatTable1.Rows(rowIndex).Cells("CheckBoxColumn").Tag = 
+                    ' Tambah row dulu
+                    rowIndex = DatTable1.Rows.Add(False, ax, akunid, concurrent, appcount, idle, STATE)
+                Else
+                    appkode = item("appkode").ToString
+                    STATE = item("state").ToString
+                    state_exp = item("state_exp")
+                    datexp = item("datexp").ToString
+                    state_wa = item("state_wa").ToString
+                    subscribe = item("subscribe").ToString
+                    navendor = item("vendr").ToString
+
+                    ' Tambah row dulu
+                    rowIndex = DatTable1.Rows.Add(False, ax, appkode, datexp, STATE, state_wa)
+                    Dim obj As New JObject
+                    obj.Add("name", appkode)
+                    obj.Add("navendor", navendor)
+                    DatTable1.Rows(rowIndex).Cells("CheckBoxColumn").Tag = obj.ToString
+                End If
+
+
+
+
+
                 ' Jika BUSY
                 If STATE = "BUSY" Then
 
@@ -133,6 +170,8 @@ Public Class PgDaServer
 
     Private Sub BtnClould_Click(sender As Object, e As EventArgs) Handles BtnClould.Click
         Label1.Text = "Form WA CLOULD"
+        TabWAScanQr()
+
         LoadDataWA("waserver", "applist")
 
         BtnLocal.BackColor = Color.Gray
@@ -226,8 +265,68 @@ Public Class PgDaServer
 
     End Sub
 
+    Private Sub TabWAAkunID()
+        DatTable1.Columns.Clear()
+        DatTable1.Rows.Clear()
+        DatTable1.AutoGenerateColumns = False
+
+
+        CheckAll()
+
+        ' Buat kolom secara dinamis
+        Dim kolom As New DataGridViewTextBoxColumn()
+        Dim kolomb As New DataGridViewButtonColumn()
+        kolom = New DataGridViewTextBoxColumn()
+        kolom.Name = "id"
+        kolom.HeaderText = "NO"
+        kolom.DataPropertyName = "id"
+        kolom.Width = 70
+        DatTable1.Columns.Add(kolom)
+
+        kolom = New DataGridViewTextBoxColumn()
+        kolom.Name = "akunid"
+        kolom.HeaderText = "AKUN ID"
+        kolom.DataPropertyName = "akunid"
+        kolom.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight
+        DatTable1.Columns.Add(kolom)
+
+        kolom = New DataGridViewTextBoxColumn()
+        kolom.Name = "max_id"
+        kolom.HeaderText = "MAX WA"
+        kolom.DataPropertyName = "max_id"
+        kolom.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight
+        DatTable1.Columns.Add(kolom)
+
+        kolom = New DataGridViewTextBoxColumn()
+        kolom.Name = "TOTWA"
+        kolom.HeaderText = "Total WA"
+        kolom.DataPropertyName = "TOTWA"
+        kolom.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight
+        DatTable1.Columns.Add(kolom)
+
+        kolom = New DataGridViewTextBoxColumn()
+        kolom.Name = "idle"
+        kolom.HeaderText = "idle"
+        kolom.DataPropertyName = "idle"
+        kolom.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight
+        DatTable1.Columns.Add(kolom)
+
+        kolom = New DataGridViewTextBoxColumn()
+        kolom.Name = "state"
+        kolom.HeaderText = "state"
+        kolom.DataPropertyName = "state"
+        kolom.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight
+        DatTable1.Columns.Add(kolom)
+
+
+    End Sub
+
     Private Sub BtnAddAkuns_Click(sender As Object, e As EventArgs) Handles BtnAddAkuns.Click
         Label1.Text = "Form Create AKUN WA"
+
+        TabWAAkunID()
+
+
         LoadDataWA("alls_wa", "akun")
 
         BtnLocal.BackColor = Color.Gray
@@ -301,6 +400,101 @@ Public Class PgDaServer
     End Sub
 
     Private Sub BtnReqkode_Click(sender As Object, e As EventArgs) Handles BtnReqkode.Click
+        proses_chk("rqRegcode")
+    End Sub
 
+    Private Sub BtnQr_Click(sender As Object, e As EventArgs) Handles BtnQr.Click
+        proses_chk("rqQrkode")
+    End Sub
+
+    Private Sub proses_chk(ByVal tipe As String)
+        If (DatTable1.Rows.Count = 0) Then
+            MessageBox.Show("Data kosong")
+            Exit Sub
+        End If
+
+        Dim selectedRows = DatTable1.Rows.Cast(Of DataGridViewRow)().
+    Where(Function(r) Not r.IsNewRow AndAlso
+          r.Cells("CheckBoxColumn").Value IsNot Nothing AndAlso
+          Convert.ToBoolean(r.Cells("CheckBoxColumn").Value))
+
+        If Not selectedRows.Any() Then
+            MessageBox.Show("Silahkan pilih minimal 1 data")
+            Exit Sub
+        End If
+
+        Dim newData As New JObject()
+        Dim newDataArray As New JArray()
+
+        For Each row As DataGridViewRow In DatTable1.Rows
+
+            If Not row.IsNewRow Then
+
+                Dim chk As Boolean = False
+
+                If row.Cells("CheckBoxColumn").Value IsNot Nothing Then
+                    chk = Convert.ToBoolean(row.Cells("CheckBoxColumn").Value)
+                End If
+
+                If chk Then
+
+                    Dim tagValue = row.Cells("CheckBoxColumn").Tag
+
+                    If tagValue IsNot Nothing Then
+
+                        ' 🔥 parse string JSON ke JObject
+                        Dim obj As JObject = JObject.Parse(tagValue.ToString())
+
+                        newDataArray.Add(obj)
+
+                    End If
+
+                End If
+
+            End If
+
+        Next
+
+        newData.Add("body", newDataArray)
+
+
+        If (tipe = "rqQrkode") Then
+            Dim page As New pgMultiBarcode()
+            page.LoadBarcodeMulti(newData.ToString)
+            page.SendDataUser = DatR
+
+            page.ShowDialog()
+        ElseIf (tipe = "rqRegcode") Then
+            Dim page As New pgMultiBarcode()
+            page.LoadMultiRegKode(newData.ToString)
+            page.SendDataUser = DatR
+
+            page.ShowDialog()
+
+        ElseIf (tipe = "rqstart") Then
+
+        ElseIf (tipe = "rqrestart") Then
+
+        ElseIf (tipe = "rqstop") Then
+
+
+        End If
+
+    End Sub
+
+    Private Sub BtnStart_Click(sender As Object, e As EventArgs) Handles BtnStart.Click
+        proses_chk("rqstart")
+    End Sub
+
+    Private Sub BtnStop_Click(sender As Object, e As EventArgs) Handles BtnStop.Click
+        proses_chk("rqstop")
+    End Sub
+
+    Private Sub BtnRestart_Click(sender As Object, e As EventArgs) Handles BtnRestart.Click
+        proses_chk("rqrestart")
+    End Sub
+
+    Private Sub BtnLogout_Click(sender As Object, e As EventArgs) Handles BtnLogout.Click
+        proses_chk("rqlogout")
     End Sub
 End Class

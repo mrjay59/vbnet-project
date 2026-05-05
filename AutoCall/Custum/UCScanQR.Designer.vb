@@ -23,15 +23,15 @@ Partial Class UCScanQR
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.PnlogActivty = New System.Windows.Forms.Panel()
+        Me.BtnReqKode = New System.Windows.Forms.Button()
+        Me.Label1 = New System.Windows.Forms.Label()
+        Me.TxtNoWA = New System.Windows.Forms.TextBox()
         Me.LblR = New System.Windows.Forms.Label()
         Me.picQRCode = New System.Windows.Forms.PictureBox()
         Me.lstLog = New System.Windows.Forms.ListBox()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.Panel5 = New System.Windows.Forms.Panel()
         Me.LbWAnm = New System.Windows.Forms.Label()
-        Me.TxtNoWA = New System.Windows.Forms.TextBox()
-        Me.Label1 = New System.Windows.Forms.Label()
-        Me.BtnReqKode = New System.Windows.Forms.Button()
         Me.PnlogActivty.SuspendLayout()
         CType(Me.picQRCode, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel5.SuspendLayout()
@@ -52,6 +52,51 @@ Partial Class UCScanQR
         Me.PnlogActivty.Size = New System.Drawing.Size(425, 211)
         Me.PnlogActivty.TabIndex = 145
         '
+        'BtnReqKode
+        '
+        Me.BtnReqKode.BackColor = System.Drawing.Color.LightGray
+        Me.BtnReqKode.FlatAppearance.BorderSize = 0
+        Me.BtnReqKode.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(CType(CType(241, Byte), Integer), CType(CType(112, Byte), Integer), CType(CType(112, Byte), Integer))
+        Me.BtnReqKode.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(CType(CType(232, Byte), Integer), CType(CType(17, Byte), Integer), CType(CType(35, Byte), Integer))
+        Me.BtnReqKode.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.BtnReqKode.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnReqKode.ForeColor = System.Drawing.Color.Black
+        Me.BtnReqKode.Location = New System.Drawing.Point(108, 60)
+        Me.BtnReqKode.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
+        Me.BtnReqKode.Name = "BtnReqKode"
+        Me.BtnReqKode.Size = New System.Drawing.Size(85, 25)
+        Me.BtnReqKode.TabIndex = 177
+        Me.BtnReqKode.Text = "Reg Kode"
+        Me.BtnReqKode.UseVisualStyleBackColor = False
+        Me.BtnReqKode.Visible = False
+        '
+        'Label1
+        '
+        Me.Label1.AutoSize = True
+        Me.Label1.BackColor = System.Drawing.Color.Transparent
+        Me.Label1.Cursor = System.Windows.Forms.Cursors.Default
+        Me.Label1.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label1.ForeColor = System.Drawing.Color.White
+        Me.Label1.Location = New System.Drawing.Point(17, 15)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(118, 13)
+        Me.Label1.TabIndex = 180
+        Me.Label1.Text = "Masukan No WhatsApp"
+        Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.Label1.Visible = False
+        '
+        'TxtNoWA
+        '
+        Me.TxtNoWA.BackColor = System.Drawing.Color.FromArgb(CType(CType(80, Byte), Integer), CType(CType(80, Byte), Integer), CType(CType(90, Byte), Integer))
+        Me.TxtNoWA.BorderStyle = System.Windows.Forms.BorderStyle.None
+        Me.TxtNoWA.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxtNoWA.ForeColor = System.Drawing.Color.White
+        Me.TxtNoWA.Location = New System.Drawing.Point(15, 31)
+        Me.TxtNoWA.Name = "TxtNoWA"
+        Me.TxtNoWA.Size = New System.Drawing.Size(179, 24)
+        Me.TxtNoWA.TabIndex = 179
+        Me.TxtNoWA.Visible = False
+        '
         'LblR
         '
         Me.LblR.BackColor = System.Drawing.Color.Transparent
@@ -71,6 +116,7 @@ Partial Class UCScanQR
         Me.picQRCode.Location = New System.Drawing.Point(7, 4)
         Me.picQRCode.Name = "picQRCode"
         Me.picQRCode.Size = New System.Drawing.Size(195, 195)
+        Me.picQRCode.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
         Me.picQRCode.TabIndex = 177
         Me.picQRCode.TabStop = False
         '
@@ -124,50 +170,6 @@ Partial Class UCScanQR
         Me.LbWAnm.TabIndex = 3
         Me.LbWAnm.Text = "WA NAME"
         Me.LbWAnm.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'TxtNoWA
-        '
-        Me.TxtNoWA.BackColor = System.Drawing.Color.FromArgb(CType(CType(80, Byte), Integer), CType(CType(80, Byte), Integer), CType(CType(90, Byte), Integer))
-        Me.TxtNoWA.BorderStyle = System.Windows.Forms.BorderStyle.None
-        Me.TxtNoWA.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TxtNoWA.Location = New System.Drawing.Point(15, 31)
-        Me.TxtNoWA.Name = "TxtNoWA"
-        Me.TxtNoWA.Size = New System.Drawing.Size(179, 24)
-        Me.TxtNoWA.TabIndex = 179
-        Me.TxtNoWA.Visible = False
-        '
-        'Label1
-        '
-        Me.Label1.AutoSize = True
-        Me.Label1.BackColor = System.Drawing.Color.Transparent
-        Me.Label1.Cursor = System.Windows.Forms.Cursors.Default
-        Me.Label1.Font = New System.Drawing.Font("Tahoma", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label1.ForeColor = System.Drawing.Color.White
-        Me.Label1.Location = New System.Drawing.Point(17, 15)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(118, 13)
-        Me.Label1.TabIndex = 180
-        Me.Label1.Text = "Masukan No WhatsApp"
-        Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        Me.Label1.Visible = False
-        '
-        'BtnReqKode
-        '
-        Me.BtnReqKode.BackColor = System.Drawing.Color.LightGray
-        Me.BtnReqKode.FlatAppearance.BorderSize = 0
-        Me.BtnReqKode.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(CType(CType(241, Byte), Integer), CType(CType(112, Byte), Integer), CType(CType(112, Byte), Integer))
-        Me.BtnReqKode.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(CType(CType(232, Byte), Integer), CType(CType(17, Byte), Integer), CType(CType(35, Byte), Integer))
-        Me.BtnReqKode.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.BtnReqKode.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BtnReqKode.ForeColor = System.Drawing.Color.Black
-        Me.BtnReqKode.Location = New System.Drawing.Point(108, 60)
-        Me.BtnReqKode.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
-        Me.BtnReqKode.Name = "BtnReqKode"
-        Me.BtnReqKode.Size = New System.Drawing.Size(85, 25)
-        Me.BtnReqKode.TabIndex = 177
-        Me.BtnReqKode.Text = "Reg Kode"
-        Me.BtnReqKode.UseVisualStyleBackColor = False
-        Me.BtnReqKode.Visible = False
         '
         'UCScanQR
         '
