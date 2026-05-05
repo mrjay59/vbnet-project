@@ -28,7 +28,7 @@ Public Class pgMultiBarcode
 
     Public Sub LoadMultiRegKode(ByVal DatObj As String)
         AddHandler WSManager.Client.MessageReceived, AddressOf wsClient_MessageReceived
-        Console.WriteLine(DatObj)
+
         Dim PObj = jsonpa.Json2aray(DatObj)
 
         Dim ai = 0

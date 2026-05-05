@@ -38,12 +38,9 @@ Partial Class pgSetSession
         Me.MaxSPNum = New System.Windows.Forms.NumericUpDown()
         Me.Label7 = New System.Windows.Forms.Label()
         Me.Label8 = New System.Windows.Forms.Label()
-        Me.Rd0 = New System.Windows.Forms.RadioButton()
-        Me.Rd1 = New System.Windows.Forms.RadioButton()
         Me.Label10 = New System.Windows.Forms.Label()
         Me.Label11 = New System.Windows.Forms.Label()
         Me.Label12 = New System.Windows.Forms.Label()
-        Me.Rd2 = New System.Windows.Forms.RadioButton()
         Me.UCformtext7 = New AutoCall.UCformtext()
         Me.UCformtext6 = New AutoCall.UCformtext()
         Me.UCformtext5 = New AutoCall.UCformtext()
@@ -51,6 +48,7 @@ Partial Class pgSetSession
         Me.UCformtext3 = New AutoCall.UCformtext()
         Me.UCformtext2 = New AutoCall.UCformtext()
         Me.UCformtext1 = New AutoCall.UCformtext()
+        Me.UCformtext8 = New AutoCall.UCformtext()
         Me.Panel1.SuspendLayout()
         CType(Me.MaxSPDay, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MaxSPNum, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -132,7 +130,7 @@ Partial Class pgSetSession
         Me.Label9.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.Label9.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Italic), System.Drawing.FontStyle), System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label9.ForeColor = System.Drawing.Color.White
-        Me.Label9.Location = New System.Drawing.Point(19, 55)
+        Me.Label9.Location = New System.Drawing.Point(19, 151)
         Me.Label9.Name = "Label9"
         Me.Label9.Size = New System.Drawing.Size(288, 28)
         Me.Label9.TabIndex = 143
@@ -145,9 +143,9 @@ Partial Class pgSetSession
         Me.Label1.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.Label1.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Italic), System.Drawing.FontStyle), System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label1.ForeColor = System.Drawing.Color.White
-        Me.Label1.Location = New System.Drawing.Point(365, 55)
+        Me.Label1.Location = New System.Drawing.Point(366, 151)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(288, 28)
+        Me.Label1.Size = New System.Drawing.Size(265, 28)
         Me.Label1.TabIndex = 147
         Me.Label1.Text = "Masa Langganan"
         Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -158,9 +156,9 @@ Partial Class pgSetSession
         Me.Label2.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.Label2.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Italic), System.Drawing.FontStyle), System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label2.ForeColor = System.Drawing.Color.White
-        Me.Label2.Location = New System.Drawing.Point(365, 322)
+        Me.Label2.Location = New System.Drawing.Point(365, 437)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(288, 28)
+        Me.Label2.Size = New System.Drawing.Size(266, 28)
         Me.Label2.TabIndex = 152
         Me.Label2.Text = "Link Web Chat"
         Me.Label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -170,7 +168,7 @@ Partial Class pgSetSession
         Me.Label3.AutoSize = True
         Me.Label3.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label3.ForeColor = System.Drawing.Color.White
-        Me.Label3.Location = New System.Drawing.Point(19, 100)
+        Me.Label3.Location = New System.Drawing.Point(19, 196)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(139, 15)
         Me.Label3.TabIndex = 272
@@ -183,7 +181,7 @@ Partial Class pgSetSession
         Me.MaxSPDay.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MaxSPDay.ForeColor = System.Drawing.Color.White
         Me.MaxSPDay.Increment = New Decimal(New Integer() {10, 0, 0, 0})
-        Me.MaxSPDay.Location = New System.Drawing.Point(22, 121)
+        Me.MaxSPDay.Location = New System.Drawing.Point(22, 228)
         Me.MaxSPDay.Maximum = New Decimal(New Integer() {200, 0, 0, 0})
         Me.MaxSPDay.Name = "MaxSPDay"
         Me.MaxSPDay.ReadOnly = True
@@ -197,7 +195,7 @@ Partial Class pgSetSession
         Me.Label6.AutoSize = True
         Me.Label6.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label6.ForeColor = System.Drawing.Color.White
-        Me.Label6.Location = New System.Drawing.Point(109, 125)
+        Me.Label6.Location = New System.Drawing.Point(109, 232)
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(44, 13)
         Me.Label6.TabIndex = 273
@@ -208,7 +206,7 @@ Partial Class pgSetSession
         Me.Label4.AutoSize = True
         Me.Label4.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label4.ForeColor = System.Drawing.Color.White
-        Me.Label4.Location = New System.Drawing.Point(109, 192)
+        Me.Label4.Location = New System.Drawing.Point(109, 299)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(24, 13)
         Me.Label4.TabIndex = 276
@@ -219,7 +217,7 @@ Partial Class pgSetSession
         Me.Label5.AutoSize = True
         Me.Label5.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label5.ForeColor = System.Drawing.Color.White
-        Me.Label5.Location = New System.Drawing.Point(19, 166)
+        Me.Label5.Location = New System.Drawing.Point(19, 273)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(163, 15)
         Me.Label5.TabIndex = 275
@@ -231,7 +229,7 @@ Partial Class pgSetSession
         Me.MaxSPNum.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.MaxSPNum.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MaxSPNum.ForeColor = System.Drawing.Color.White
-        Me.MaxSPNum.Location = New System.Drawing.Point(22, 187)
+        Me.MaxSPNum.Location = New System.Drawing.Point(22, 294)
         Me.MaxSPNum.Maximum = New Decimal(New Integer() {5, 0, 0, 0})
         Me.MaxSPNum.Name = "MaxSPNum"
         Me.MaxSPNum.ReadOnly = True
@@ -246,11 +244,11 @@ Partial Class pgSetSession
         Me.Label7.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.Label7.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Italic), System.Drawing.FontStyle), System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label7.ForeColor = System.Drawing.Color.White
-        Me.Label7.Location = New System.Drawing.Point(19, 234)
+        Me.Label7.Location = New System.Drawing.Point(19, 335)
         Me.Label7.Name = "Label7"
         Me.Label7.Size = New System.Drawing.Size(288, 28)
         Me.Label7.TabIndex = 278
-        Me.Label7.Text = "Fungsi Session Ini Sebagai"
+        Me.Label7.Text = "Akun Telegram"
         Me.Label7.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'Label8
@@ -259,42 +257,18 @@ Partial Class pgSetSession
         Me.Label8.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.Label8.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Italic), System.Drawing.FontStyle), System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label8.ForeColor = System.Drawing.Color.White
-        Me.Label8.Location = New System.Drawing.Point(12, 322)
+        Me.Label8.Location = New System.Drawing.Point(20, 437)
         Me.Label8.Name = "Label8"
-        Me.Label8.Size = New System.Drawing.Size(295, 28)
+        Me.Label8.Size = New System.Drawing.Size(287, 28)
         Me.Label8.TabIndex = 279
         Me.Label8.Text = "Server WhatsApp"
         Me.Label8.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'Rd0
-        '
-        Me.Rd0.AutoSize = True
-        Me.Rd0.ForeColor = System.Drawing.Color.White
-        Me.Rd0.Location = New System.Drawing.Point(50, 279)
-        Me.Rd0.Name = "Rd0"
-        Me.Rd0.Size = New System.Drawing.Size(68, 17)
-        Me.Rd0.TabIndex = 280
-        Me.Rd0.TabStop = True
-        Me.Rd0.Text = "Receiver"
-        Me.Rd0.UseVisualStyleBackColor = True
-        '
-        'Rd1
-        '
-        Me.Rd1.AutoSize = True
-        Me.Rd1.ForeColor = System.Drawing.Color.White
-        Me.Rd1.Location = New System.Drawing.Point(138, 279)
-        Me.Rd1.Name = "Rd1"
-        Me.Rd1.Size = New System.Drawing.Size(59, 17)
-        Me.Rd1.TabIndex = 281
-        Me.Rd1.TabStop = True
-        Me.Rd1.Text = "Sender"
-        Me.Rd1.UseVisualStyleBackColor = True
         '
         'Label10
         '
         Me.Label10.AutoSize = True
         Me.Label10.ForeColor = System.Drawing.Color.White
-        Me.Label10.Location = New System.Drawing.Point(177, 192)
+        Me.Label10.Location = New System.Drawing.Point(177, 299)
         Me.Label10.Name = "Label10"
         Me.Label10.Size = New System.Drawing.Size(72, 13)
         Me.Label10.TabIndex = 283
@@ -304,7 +278,7 @@ Partial Class pgSetSession
         '
         Me.Label11.AutoSize = True
         Me.Label11.ForeColor = System.Drawing.Color.White
-        Me.Label11.Location = New System.Drawing.Point(177, 125)
+        Me.Label11.Location = New System.Drawing.Point(177, 232)
         Me.Label11.Name = "Label11"
         Me.Label11.Size = New System.Drawing.Size(72, 13)
         Me.Label11.TabIndex = 284
@@ -316,29 +290,17 @@ Partial Class pgSetSession
         Me.Label12.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.Label12.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Italic), System.Drawing.FontStyle), System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label12.ForeColor = System.Drawing.Color.White
-        Me.Label12.Location = New System.Drawing.Point(11, 437)
+        Me.Label12.Location = New System.Drawing.Point(19, 52)
         Me.Label12.Name = "Label12"
-        Me.Label12.Size = New System.Drawing.Size(642, 28)
+        Me.Label12.Size = New System.Drawing.Size(288, 26)
         Me.Label12.TabIndex = 285
         Me.Label12.Text = "Data Session"
         Me.Label12.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
-        'Rd2
-        '
-        Me.Rd2.AutoSize = True
-        Me.Rd2.ForeColor = System.Drawing.Color.White
-        Me.Rd2.Location = New System.Drawing.Point(218, 279)
-        Me.Rd2.Name = "Rd2"
-        Me.Rd2.Size = New System.Drawing.Size(63, 17)
-        Me.Rd2.TabIndex = 288
-        Me.Rd2.TabStop = True
-        Me.Rd2.Text = "Forward"
-        Me.Rd2.UseVisualStyleBackColor = True
-        '
         'UCformtext7
         '
         Me.UCformtext7.BackColor = System.Drawing.Color.Transparent
-        Me.UCformtext7.Location = New System.Drawing.Point(353, 468)
+        Me.UCformtext7.Location = New System.Drawing.Point(353, 81)
         Me.UCformtext7.Name = "UCformtext7"
         Me.UCformtext7.Size = New System.Drawing.Size(300, 62)
         Me.UCformtext7.TabIndex = 287
@@ -346,7 +308,7 @@ Partial Class pgSetSession
         'UCformtext6
         '
         Me.UCformtext6.BackColor = System.Drawing.Color.Transparent
-        Me.UCformtext6.Location = New System.Drawing.Point(12, 468)
+        Me.UCformtext6.Location = New System.Drawing.Point(15, 81)
         Me.UCformtext6.Name = "UCformtext6"
         Me.UCformtext6.Size = New System.Drawing.Size(300, 62)
         Me.UCformtext6.TabIndex = 286
@@ -354,15 +316,15 @@ Partial Class pgSetSession
         'UCformtext5
         '
         Me.UCformtext5.BackColor = System.Drawing.Color.Transparent
-        Me.UCformtext5.Location = New System.Drawing.Point(12, 353)
+        Me.UCformtext5.Location = New System.Drawing.Point(15, 468)
         Me.UCformtext5.Name = "UCformtext5"
-        Me.UCformtext5.Size = New System.Drawing.Size(300, 62)
+        Me.UCformtext5.Size = New System.Drawing.Size(292, 62)
         Me.UCformtext5.TabIndex = 282
         '
         'UCformtext4
         '
         Me.UCformtext4.BackColor = System.Drawing.Color.Transparent
-        Me.UCformtext4.Location = New System.Drawing.Point(353, 353)
+        Me.UCformtext4.Location = New System.Drawing.Point(353, 468)
         Me.UCformtext4.Name = "UCformtext4"
         Me.UCformtext4.Size = New System.Drawing.Size(300, 62)
         Me.UCformtext4.TabIndex = 277
@@ -370,7 +332,7 @@ Partial Class pgSetSession
         'UCformtext3
         '
         Me.UCformtext3.BackColor = System.Drawing.Color.Transparent
-        Me.UCformtext3.Location = New System.Drawing.Point(353, 226)
+        Me.UCformtext3.Location = New System.Drawing.Point(353, 341)
         Me.UCformtext3.Name = "UCformtext3"
         Me.UCformtext3.Size = New System.Drawing.Size(300, 62)
         Me.UCformtext3.TabIndex = 150
@@ -378,7 +340,7 @@ Partial Class pgSetSession
         'UCformtext2
         '
         Me.UCformtext2.BackColor = System.Drawing.Color.Transparent
-        Me.UCformtext2.Location = New System.Drawing.Point(353, 158)
+        Me.UCformtext2.Location = New System.Drawing.Point(353, 265)
         Me.UCformtext2.Name = "UCformtext2"
         Me.UCformtext2.Size = New System.Drawing.Size(300, 62)
         Me.UCformtext2.TabIndex = 149
@@ -386,10 +348,18 @@ Partial Class pgSetSession
         'UCformtext1
         '
         Me.UCformtext1.BackColor = System.Drawing.Color.Transparent
-        Me.UCformtext1.Location = New System.Drawing.Point(353, 90)
+        Me.UCformtext1.Location = New System.Drawing.Point(353, 197)
         Me.UCformtext1.Name = "UCformtext1"
         Me.UCformtext1.Size = New System.Drawing.Size(300, 62)
         Me.UCformtext1.TabIndex = 148
+        '
+        'UCformtext8
+        '
+        Me.UCformtext8.BackColor = System.Drawing.Color.Transparent
+        Me.UCformtext8.Location = New System.Drawing.Point(15, 366)
+        Me.UCformtext8.Name = "UCformtext8"
+        Me.UCformtext8.Size = New System.Drawing.Size(292, 62)
+        Me.UCformtext8.TabIndex = 288
         '
         'pgSetSession
         '
@@ -397,15 +367,13 @@ Partial Class pgSetSession
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.FromArgb(CType(CType(60, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(61, Byte), Integer))
         Me.ClientSize = New System.Drawing.Size(665, 542)
-        Me.Controls.Add(Me.Rd2)
+        Me.Controls.Add(Me.UCformtext8)
         Me.Controls.Add(Me.UCformtext7)
         Me.Controls.Add(Me.UCformtext6)
         Me.Controls.Add(Me.Label12)
         Me.Controls.Add(Me.Label11)
         Me.Controls.Add(Me.Label10)
         Me.Controls.Add(Me.UCformtext5)
-        Me.Controls.Add(Me.Rd1)
-        Me.Controls.Add(Me.Rd0)
         Me.Controls.Add(Me.Label8)
         Me.Controls.Add(Me.Label7)
         Me.Controls.Add(Me.UCformtext4)
@@ -455,13 +423,11 @@ Partial Class pgSetSession
     Friend WithEvents UCformtext4 As UCformtext
     Friend WithEvents Label7 As Label
     Friend WithEvents Label8 As Label
-    Friend WithEvents Rd0 As RadioButton
-    Friend WithEvents Rd1 As RadioButton
     Friend WithEvents UCformtext5 As UCformtext
     Friend WithEvents Label10 As Label
     Friend WithEvents Label11 As Label
     Friend WithEvents UCformtext6 As UCformtext
     Friend WithEvents Label12 As Label
     Friend WithEvents UCformtext7 As UCformtext
-    Friend WithEvents Rd2 As RadioButton
+    Friend WithEvents UCformtext8 As UCformtext
 End Class

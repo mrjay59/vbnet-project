@@ -1031,6 +1031,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="icon.ico" />
+    <None Include="Resources\icons8-code-18.png" />
+    <None Include="Resources\icons8-qr-code-19.png" />
+    <None Include="Resources\icons8-logout-18.png" />
+    <None Include="Resources\icons8-restart-20.png" />
     <None Include="Resources\icons8-log-20.png" />
     <None Include="Resources\icons8-stop-20.png" />
     <None Include="Resources\icons8-play-20.png" />

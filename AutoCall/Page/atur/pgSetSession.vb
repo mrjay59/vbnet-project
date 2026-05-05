@@ -30,7 +30,7 @@ Public Class pgSetSession
         ' Add any initialization after the InitializeComponent() call.
         Dim PObj = jsonpa.Json2aray(DatObj)
         Dim title As String = PObj("title")
-        Dim func As String = PObj("func")
+        ' Dim func As String = PObj("func")
 
         LoadData(DatObj)
         lbltext.Text = title
@@ -45,36 +45,19 @@ Public Class pgSetSession
         Dim param As New Dictionary(Of String, String)
         Dim PObj = jsonpa.Json2aray(DatObj)
         Dim title As String = PObj("title")
-        Dim func As String = PObj("func")
         Dim username As String = PObj("username")
         Dim platform As String = PObj("platform")
         Dim name As String = PObj("name")
-        Dim IsReadOnline As Boolean = False
-        Dim linkweb As String = String.Empty
 
 
         param.Add("username", username)
         param.Add("platform", platform.ToLower)
-        param.Add("paging", 1)
-        param.Add("carik", name)
-        param.Add("all", "no")
+        param.Add("data", "c_seassion")
+        param.Add("name", name)
 
         Dim ListWA As String = WApp.OnListServer(param)
-        ' Console.WriteLine(ListWA)
+        'Console.WriteLine(ListWA)
         Dim DatParse = jsonpa.Json2aray(ListWA)
-        Dim totpage As Integer = DatParse("body")("totalpage")
-        Dim datSer As JArray = DatParse("body")("data")
-
-        If (platform = "waserver") Then
-            IsReadOnline = False
-            linkweb = ""
-        ElseIf (platform = "wascanqr") Then
-            IsReadOnline = False
-            linkweb = ""
-        ElseIf (platform = "waforward") Then
-            IsReadOnline = True
-            linkweb = "https://chat.mrjay59.com?token=" & datSer(0)("aichat_webToken").ToString
-        End If
 
 
         UCformtext1.Lblname.Text = "Tanggal Buat"
@@ -85,47 +68,32 @@ Public Class pgSetSession
         UCformtext6.Lblname.Text = "Nama Session"
         UCformtext7.Lblname.Text = "Nomer Session"
 
-        If (datSer.Count = 0) Then
-            MsgBox("Tidak ada data ditemukan harap di refresh")
-            Exit Sub
-        End If
 
-        Dim funS = datSer(0)("aichat_func").ToString
-        If (funS = "R") Then
-            Rd0.Checked = True
-        ElseIf (funS = "S") Then
-            Rd1.Checked = True
-        ElseIf (funS = "F") Then
-            Rd2.Checked = True
-        End If
+        UCformtext1.txtinput.Text = DatParse("body")("created")
+        UCformtext2.txtinput.Text = DatParse("body")("subscribe")
+        UCformtext3.txtinput.Text = DatParse("body")("datexp")
+        UCformtext4.txtinput.Text = ""
+        UCformtext5.txtinput.Text = DatParse("body")("vendr")
+        UCformtext6.txtinput.Text = DatParse("body")("appkode")
+        'UCformtext7.txtinput.Text = DatParse("body")("number")
 
-
-        UCformtext1.txtinput.Text = datSer(0)("aichat_create")
-        UCformtext2.txtinput.Text = datSer(0)("aichat_subs")
-        UCformtext3.txtinput.Text = datSer(0)("aichat_expire")
-        UCformtext4.txtinput.Text = linkweb
-        UCformtext5.txtinput.Text = datSer(0)("aichat_ipserv")
-        UCformtext5.txtinput.Tag = datSer(0)("aichat_platform")
-        UCformtext6.txtinput.Text = datSer(0)("aichat_name")
-        UCformtext7.txtinput.Text = datSer(0)("aichat_number")
-
-        UCformtext1.txtinput.Enabled = IsReadOnline
-        UCformtext2.txtinput.Enabled = IsReadOnline
-        UCformtext3.txtinput.Enabled = IsReadOnline
-        UCformtext4.txtinput.Enabled = IsReadOnline
-        UCformtext6.txtinput.Enabled = IsReadOnline
-        UCformtext7.txtinput.Enabled = IsReadOnline
+        'UCformtext1.txtinput.Enabled = IsReadOnline
+        'UCformtext2.txtinput.Enabled = IsReadOnline
+        'UCformtext3.txtinput.Enabled = IsReadOnline
+        UCformtext4.txtinput.Enabled = True
+        UCformtext6.txtinput.Enabled = True
+        'UCformtext7.txtinput.Enabled = IsReadOnline
 
 
-        UCformtext2.txtinput.ReadOnly = Not IsReadOnline
-        UCformtext3.txtinput.ReadOnly = Not IsReadOnline
-        UCformtext6.txtinput.ReadOnly = Not IsReadOnline
-        UCformtext7.txtinput.ReadOnly = Not IsReadOnline
+        'UCformtext2.txtinput.ReadOnly = Not IsReadOnline
+        'UCformtext3.txtinput.ReadOnly = Not IsReadOnline
+        'UCformtext6.txtinput.ReadOnly = Not IsReadOnline
+        'UCformtext7.txtinput.ReadOnly = Not IsReadOnline
 
-        MaxSPDay.Value = datSer(0)("aichat_masend")
-        MaxSPNum.Value = datSer(0)("aichat_csend")
+        MaxSPDay.Value = DatParse("body")("limit_perday")
+        MaxSPNum.Value = DatParse("body")("limit_pernumber")
 
-        MaxSPNum.Tag = datSer(0)("aichat_id")
+
 
     End Sub
 
@@ -143,15 +111,6 @@ Public Class pgSetSession
         Dim MSPNum As Integer = MaxSPNum.Value
         Dim IDServ As Integer = MaxSPNum.Tag
 
-        Dim FunctS As String = String.Empty
-        If (Rd0.Checked) Then
-            FunctS = "R"
-        ElseIf (Rd1.Checked) Then
-            FunctS = "S"
-        ElseIf (Rd2.Checked) Then
-            FunctS = "F"
-        End If
-
         Dim param As New Dictionary(Of String, String)
         param.Add("idserver", IDServ)
         param.Add("username", username)
@@ -163,7 +122,7 @@ Public Class pgSetSession
         param.Add("MaxSPDay", MSPDay)
         param.Add("MaxSPNum", MSPNum)
         param.Add("platform", platform)
-        param.Add("fung", FunctS)
+
         param.Add("func", "SerUpdate")
 
         Dim msg = "yakin akan diubah ?"
@@ -177,7 +136,6 @@ Public Class pgSetSession
         End If
     End Sub
 
-    Private Sub BtnDel_Click(sender As Object, e As EventArgs) Handles BtnDel.Click
 
-    End Sub
+
 End Class

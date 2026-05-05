@@ -4,6 +4,7 @@ Imports Newtonsoft.Json
 Imports Newtonsoft.Json.Linq
 
 Public Class WAScanQrForm
+    Private mj As New mrjay59
     Private DatR As String = String.Empty
     Private WApp As New WhatsAppClass
     Private jsonpa As New ClassJson
@@ -23,7 +24,9 @@ Public Class WAScanQrForm
         Dim WAname = String.Empty
 
         Dim nprovide As String = naprovider.Text.Trim
+        Dim akunid As String = Cbx_AkunID.Text.Trim
         WAname = seassionid.Text.Trim
+
 
         If (rqQrcode.Checked) Then
             TipeSeassion = "rqQrkode"
@@ -57,6 +60,7 @@ Public Class WAScanQrForm
         Dim username = DPar("body")("apk_user")
         Dim counwa = CountWa.Value
         Dim param As New Dictionary(Of String, String)
+        param.Add("akunid", akunid)
         param.Add("name", WAname)
         param.Add("username", username)
         param.Add("counwa", counwa)
@@ -139,13 +143,79 @@ Public Class WAScanQrForm
     End Sub
 
     Private Sub listAkuns()
+        Dim DPar = jsonpa.Json2aray(DatR)
+        Dim username = DPar("body")("apk_user")
 
+        Dim param As New Dictionary(Of String, String)
+        param.Add("username", username)
+        param.Add("tipe", "wascanqr")
+        param.Add("data", "akun")
+
+        Dim response = mj.getAkunAkses(param)
+        Dim resp2arr = jsonpa.Json2aray(response)
+
+        Dim comboSource As New Dictionary(Of String, String)
+        comboSource.Add("", "Pilih Akun")
+
+        If (resp2arr("status")("code") = 0) Then
+
+            For Each item In resp2arr("body")
+                Dim akunid = item("akunid").ToString
+                Dim concurrent = item("concurrent").ToString
+                Dim appcount = item("appcount").ToString
+
+
+                Dim serialN = $"{akunid}-{concurrent}-{appcount}"
+                Dim nameD = akunid
+                comboSource.Add(serialN, nameD)
+                Cbx_AkunID.DataSource = New BindingSource(comboSource, Nothing)
+                Cbx_AkunID.DisplayMember = "Value"
+                Cbx_AkunID.ValueMember = "Key"
+                Cbx_AkunID.AutoCompleteMode = AutoCompleteMode.SuggestAppend
+                Cbx_AkunID.AutoCompleteSource = AutoCompleteSource.CustomSource
+            Next
+
+        End If
     End Sub
 
     Private Sub Listvendors()
+        Dim DPar = jsonpa.Json2aray(DatR)
+        Dim username = DPar("body")("apk_user")
 
+        Dim param As New Dictionary(Of String, String)
+        param.Add("username", username)
+        param.Add("tipe", "wascanqr")
+        param.Add("data", "akun")
+
+        Dim response = mj.getAkunAkses(param)
+        Dim resp2arr = jsonpa.Json2aray(response)
+
+        Dim comboSource As New Dictionary(Of String, String)
+        comboSource.Add("", "Pilih Akun")
+
+        If (resp2arr("status")("code") = 0) Then
+
+            For Each item In resp2arr("body")
+                Dim akunid = item("akunid").ToString
+                Dim concurrent = item("concurrent").ToString
+                Dim appcount = item("appcount").ToString
+
+
+                Dim serialN = $"{akunid}-{concurrent}-{appcount}"
+                Dim nameD = akunid
+                comboSource.Add(serialN, nameD)
+                Cbx_AkunID.DataSource = New BindingSource(comboSource, Nothing)
+                Cbx_AkunID.DisplayMember = "Value"
+                Cbx_AkunID.ValueMember = "Key"
+                Cbx_AkunID.AutoCompleteMode = AutoCompleteMode.SuggestAppend
+                Cbx_AkunID.AutoCompleteSource = AutoCompleteSource.CustomSource
+            Next
+
+        End If
     End Sub
 
-
-
+    Private Sub WAScanQrForm_Load(sender As Object, e As EventArgs) Handles Me.Load
+        listAkuns()
+        Listvendors()
+    End Sub
 End Class
