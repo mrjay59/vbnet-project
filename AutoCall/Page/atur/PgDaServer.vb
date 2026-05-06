@@ -397,6 +397,7 @@ Public Class PgDaServer
             NObj.Add("name", nameS)
             NObj.Add("username", username)
             Dim page As New pgSetSession(NObj.ToString)
+
             page.ShowDialog()
         End If
 

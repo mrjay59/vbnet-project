@@ -162,7 +162,7 @@ Partial Class pgSetSession
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(266, 28)
         Me.Label2.TabIndex = 152
-        Me.Label2.Text = "Link Web Chat"
+        Me.Label2.Text = "Platform"
         Me.Label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'Label3

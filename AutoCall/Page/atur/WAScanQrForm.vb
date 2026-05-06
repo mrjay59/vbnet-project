@@ -79,6 +79,7 @@ Public Class WAScanQrForm
 
         Dim jsonObject = JsonConvert.DeserializeObject(respon)
 
+        Console.WriteLine(respon)
 
         If (jsonObject("status")("code") = 1) Then
             MsgBox(jsonObject("msg"))
@@ -153,6 +154,11 @@ Public Class WAScanQrForm
         comboSource.Add("", "Pilih Akun")
 
         If (resp2arr("status")("code") = 0) Then
+
+            If (resp2arr("body").Count = 0) Then
+                'MsgBox("Akun tidak ditemukan, silahkan tambah akun di menu akun akses")
+                Exit Sub
+            End If
 
             For Each item In resp2arr("body")
                 Dim akunid = item("akunid").ToString

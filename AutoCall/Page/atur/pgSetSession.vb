@@ -12,6 +12,7 @@ Public Class pgSetSession
     Private allowCoolMove As Boolean = False
     Private myCoolPoint As New System.Drawing.Point
     Private DatRec As String
+    Private user As String
 
     Public Property SendDataUser() As String
         Get
@@ -49,7 +50,7 @@ Public Class pgSetSession
         Dim platform As String = PObj("platform")
         Dim name As String = PObj("name")
 
-
+        user = username
         param.Add("username", username)
         param.Add("platform", platform)
         param.Add("data", "c_seassion")
@@ -63,7 +64,7 @@ Public Class pgSetSession
         UCformtext1.Lblname.Text = "Tanggal Buat"
         UCformtext2.Lblname.Text = "Subscribe"
         UCformtext3.Lblname.Text = "Tanggal Expired"
-        UCformtext4.Lblname.Text = "Alamat Link"
+        UCformtext4.Lblname.Text = "Tipe Akun"
         UCformtext5.Lblname.Text = "Server WhatsApp"
         UCformtext6.Lblname.Text = "Nama Session"
         UCformtext7.Lblname.Text = "Nomer Session"
@@ -72,7 +73,7 @@ Public Class pgSetSession
         UCformtext1.txtinput.Text = DatParse("body")("created")
         UCformtext2.txtinput.Text = DatParse("body")("subscribe")
         UCformtext3.txtinput.Text = DatParse("body")("datexp")
-        UCformtext4.txtinput.Text = ""
+        UCformtext4.txtinput.Text = DatParse("body")("platform").ToString
         UCformtext5.txtinput.Text = DatParse("body")("vendr")
         UCformtext6.txtinput.Text = DatParse("body")("appkode")
         UCformtext7.txtinput.Text = DatParse("body")("number").ToString
@@ -83,13 +84,14 @@ Public Class pgSetSession
         'UCformtext3.txtinput.Enabled = IsReadOnline
         UCformtext4.txtinput.Enabled = True
         UCformtext6.txtinput.Enabled = True
+        UCformtext8.txtinput.Enabled = True
         'UCformtext7.txtinput.Enabled = IsReadOnline
 
 
         'UCformtext2.txtinput.ReadOnly = Not IsReadOnline
         'UCformtext3.txtinput.ReadOnly = Not IsReadOnline
         'UCformtext6.txtinput.ReadOnly = Not IsReadOnline
-        'UCformtext7.txtinput.ReadOnly = Not IsReadOnline
+        UCformtext8.txtinput.ReadOnly = False
 
         MaxSPDay.Value = DatParse("body")("limit_perday")
         MaxSPNum.Value = DatParse("body")("limit_pernumber")
@@ -100,31 +102,24 @@ Public Class pgSetSession
 
     Private Sub Btn1_Click(sender As Object, e As EventArgs) Handles Btn1.Click
 
-        Dim ParData = jsonpa.Json2aray(DatR)
-        Dim username = ParData("body")("apk_user")
+
         Dim sessionId = UCformtext6.txtinput.Text.Trim
-        Dim numberMe = UCformtext7.txtinput.Text.Trim
+        Dim platform = UCformtext4.txtinput.Text.Trim
         Dim SrverWA = UCformtext5.txtinput.Text.Trim
-        Dim platform = UCformtext5.txtinput.Tag
         Dim SubS = UCformtext2.txtinput.Text.Trim
-        Dim ExpireD = UCformtext3.txtinput.Text.Trim
+        Dim TGID = UCformtext8.txtinput.Text.Trim
         Dim MSPDay As Integer = MaxSPDay.Value
         Dim MSPNum As Integer = MaxSPNum.Value
-        Dim IDServ As Integer = MaxSPNum.Tag
+
 
         Dim param As New Dictionary(Of String, String)
-        param.Add("idserver", IDServ)
-        param.Add("username", username)
-        param.Add("sessionid", sessionid)
-        param.Add("number", numberMe)
-        param.Add("serverWA", SrverWA)
-        param.Add("SubS", SubS)
-        param.Add("ExpireD", ExpireD)
+
+        param.Add("username", user)
+        param.Add("sessionid", sessionId)
         param.Add("MaxSPDay", MSPDay)
         param.Add("MaxSPNum", MSPNum)
         param.Add("platform", platform)
-
-        param.Add("func", "SerUpdate")
+        param.Add("telgramid", TGID)
 
         Dim msg = "yakin akan diubah ?"
 
@@ -133,7 +128,7 @@ Public Class pgSetSession
             Dim response = WApp.OnUpdateServer(param)
             Dim jsonObject = JsonConvert.DeserializeObject(response)
 
-            MsgBox(jsonObject("body"))
+            MsgBox(jsonObject("msg"))
         End If
     End Sub
 

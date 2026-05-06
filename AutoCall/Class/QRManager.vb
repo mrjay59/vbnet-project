@@ -134,7 +134,7 @@ Public Class QRManager
                     Await HandleRestart()
 
                     ' tunggu sebentar biar ready
-                    Await Task.Delay(2000)
+                    Await Task.Delay(500)
 
                     ' 🔥 retry ambil QR
                     Return Await GetQRCode()

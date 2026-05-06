@@ -155,10 +155,8 @@ Public Class PgCall
 
         Dim resp2arr = jsonpa.Json2aray(response)
         If (resp2arr("status")("code") = 1) Then
+            MsgBox(resp2arr("msg"))
 
-            For Each item In resp2arr("msg")
-                MsgBox(item)
-            Next
             Exit Sub
         End If
 
@@ -442,11 +440,9 @@ Public Class PgCall
 
         Dim resp2arr = jsonpa.Json2aray(response)
         If (resp2arr("status")("code") = 1) Then
-            For Each item In resp2arr("msg")
-                MsgBox(item)
-            Next
-            Exit Sub
+            MsgBox(resp2arr("msg"))
 
+            Exit Sub
         End If
 
         Dim reqid As String = resp2arr("data")("req_id").ToString
@@ -761,9 +757,8 @@ Public Class PgCall
 
         Dim resp2arr = jsonpa.Json2aray(response)
         If (resp2arr("status")("code") = 1) Then
-            For Each item In resp2arr("msg")
-                MsgBox(item)
-            Next
+            MsgBox(resp2arr("msg"))
+
             Exit Sub
         End If
 
@@ -1077,9 +1072,8 @@ Public Class PgCall
 
         Dim resp2arr = jsonpa.Json2aray(response)
         If (resp2arr("status")("code") = 1) Then
-            For Each item In resp2arr("msg")
-                MsgBox(item)
-            Next
+            MsgBox(resp2arr("msg"))
+
             Exit Sub
         End If
 
