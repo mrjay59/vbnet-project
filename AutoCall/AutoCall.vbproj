@@ -143,21 +143,6 @@
     <Reference Include="DnsClient, Version=1.8.0.0, Culture=neutral, PublicKeyToken=4574bb5573c51424, processorArchitecture=MSIL">
       <HintPath>..\packages\DnsClient.1.8.0\lib\net472\DnsClient.dll</HintPath>
     </Reference>
-    <Reference Include="Google.Apis, Version=1.65.0.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
-      <HintPath>..\packages\Google.Apis.1.65.0\lib\net45\Google.Apis.dll</HintPath>
-    </Reference>
-    <Reference Include="Google.Apis.Core, Version=1.65.0.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
-      <HintPath>..\packages\Google.Apis.Core.1.65.0\lib\net45\Google.Apis.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Google.Apis.PlatformServices, Version=1.65.0.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
-      <HintPath>..\packages\Google.Apis.1.65.0\lib\net45\Google.Apis.PlatformServices.dll</HintPath>
-    </Reference>
-    <Reference Include="Google.Apis.Sheets.v4, Version=1.65.0.3148, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
-      <HintPath>..\packages\Google.Apis.Sheets.v4.1.65.0.3148\lib\net45\Google.Apis.Sheets.v4.dll</HintPath>
-    </Reference>
-    <Reference Include="Google.Protobuf, Version=3.32.0.0, Culture=neutral, PublicKeyToken=a7d26565bac4d604, processorArchitecture=MSIL">
-      <HintPath>..\packages\Google.Protobuf.3.32.0\lib\net45\Google.Protobuf.dll</HintPath>
-    </Reference>
     <Reference Include="K4os.Compression.LZ4, Version=1.3.8.0, Culture=neutral, PublicKeyToken=2186fa9121ef231d, processorArchitecture=MSIL">
       <HintPath>..\packages\K4os.Compression.LZ4.1.3.8\lib\net462\K4os.Compression.LZ4.dll</HintPath>
     </Reference>
@@ -321,7 +306,6 @@
     <Compile Include="Class\ClassJson.vb" />
     <Compile Include="Class\ClassUI.vb" />
     <Compile Include="Class\DeEnCrypt.vb" />
-    <Compile Include="Class\GoogleSheetsReader.vb" />
     <Compile Include="Class\IniFileReader.vb" />
     <Compile Include="Class\Message.vb" />
     <Compile Include="Class\MessageModel.vb" />
@@ -531,10 +515,10 @@
     <Compile Include="Page\atur\pgSetSession.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Page\atur\WAForwardForm.Designer.vb">
-      <DependentUpon>WAForwardForm.vb</DependentUpon>
+    <Compile Include="Page\atur\WACreateAForm.Designer.vb">
+      <DependentUpon>WACreateAForm.vb</DependentUpon>
     </Compile>
-    <Compile Include="Page\atur\WAForwardForm.vb">
+    <Compile Include="Page\atur\WACreateAForm.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Page\atur\WAScanQrForm.Designer.vb">
@@ -738,12 +722,6 @@
     <Compile Include="Page\pgset1.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Page\pgSheet.Designer.vb">
-      <DependentUpon>pgSheet.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Page\pgSheet.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Page\PgValidation.Designer.vb">
       <DependentUpon>PgValidation.vb</DependentUpon>
     </Compile>
@@ -869,8 +847,8 @@
     <EmbeddedResource Include="Page\atur\pgSetSession.resx">
       <DependentUpon>pgSetSession.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Page\atur\WAForwardForm.resx">
-      <DependentUpon>WAForwardForm.vb</DependentUpon>
+    <EmbeddedResource Include="Page\atur\WACreateAForm.resx">
+      <DependentUpon>WACreateAForm.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Page\atur\WAScanQrForm.resx">
       <DependentUpon>WAScanQrForm.vb</DependentUpon>
@@ -970,9 +948,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Page\pgset1.resx">
       <DependentUpon>pgset1.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Page\pgSheet.resx">
-      <DependentUpon>pgSheet.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Page\PgValidation.resx">
       <DependentUpon>PgValidation.vb</DependentUpon>

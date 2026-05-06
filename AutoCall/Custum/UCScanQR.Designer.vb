@@ -61,12 +61,12 @@ Partial Class UCScanQR
         Me.BtnReqKode.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.BtnReqKode.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.BtnReqKode.ForeColor = System.Drawing.Color.Black
-        Me.BtnReqKode.Location = New System.Drawing.Point(108, 60)
+        Me.BtnReqKode.Location = New System.Drawing.Point(99, 60)
         Me.BtnReqKode.Margin = New System.Windows.Forms.Padding(3, 4, 3, 4)
         Me.BtnReqKode.Name = "BtnReqKode"
-        Me.BtnReqKode.Size = New System.Drawing.Size(85, 25)
+        Me.BtnReqKode.Size = New System.Drawing.Size(94, 25)
         Me.BtnReqKode.TabIndex = 177
-        Me.BtnReqKode.Text = "Reg Kode"
+        Me.BtnReqKode.Text = "Show Kode"
         Me.BtnReqKode.UseVisualStyleBackColor = False
         Me.BtnReqKode.Visible = False
         '

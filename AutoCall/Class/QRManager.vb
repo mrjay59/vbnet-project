@@ -14,7 +14,7 @@ Public Class QRManager
     Private maxQR As Integer = 6
 
     Private restartCount As Integer = 0
-    Private maxRestart As Integer = 3
+    Private maxRestart As Integer = 2
 
     Private qrTimer As Timer
     Private isRunning As Boolean = True
@@ -54,7 +54,7 @@ Public Class QRManager
         Log($"Generate QR #{qrCount}")
 
         Dim qr = Await GetQRCode()
-
+        Await Task.Delay(2000)
         If qr IsNot Nothing Then
             ShowQR(qr)
             StartTimer()
@@ -265,7 +265,7 @@ Public Class QRManager
 
 
             Dim res = Await client.PostAsync(url, content)
-            Console.WriteLine($"POST {url} - Status: {res.StatusCode} {res}")
+            ' Console.WriteLine($"POST {url} - Status: {res.StatusCode} {res}")
             If res.IsSuccessStatusCode Then
                 Return Await res.Content.ReadAsStringAsync()
             Else

@@ -43,6 +43,11 @@ Public Class WAScanQrForm
             Exit Sub
         End If
 
+        If (nprovide = "") Then
+            MsgBox("nprovider blank/kosong")
+            Exit Sub
+        End If
+
         If (WAname.Length > 8) Then
             MsgBox("Tidak bisa lebih 8 karakter")
             Exit Sub
@@ -71,30 +76,20 @@ Public Class WAScanQrForm
 
         Dim respon = WApp.OnCreateWAScan(param)
 
-        Console.WriteLine(respon)
+
         Dim jsonObject = JsonConvert.DeserializeObject(respon)
 
 
         If (jsonObject("status")("code") = 1) Then
             MsgBox(jsonObject("msg"))
             Exit Sub
-        Else
-
-            If (TipeSeassion = "rqQrkode") Then
-                Dim page As New pgMultiBarcode()
-                page.LoadBarcodeMulti(respon.ToString)
-                page.SendDataUser = DatR
-
-                page.ShowDialog()
-            ElseIf (TipeSeassion = "rqRegcode") Then
-                Dim page As New pgMultiBarcode()
-                page.LoadMultiRegKode(respon.ToString)
-                page.SendDataUser = DatR
-
-                page.ShowDialog()
-            End If
-
         End If
+
+        Dim page As New pgMultiBarcode()
+        page.LoadBarcodeMulti(respon.ToString)
+        page.SendDataUser = DatR
+
+        page.ShowDialog()
     End Sub
 
     Private Sub BtnADD_Paint(sender As Object, e As PaintEventArgs) Handles BtnADD.Paint
@@ -184,31 +179,31 @@ Public Class WAScanQrForm
 
         Dim param As New Dictionary(Of String, String)
         param.Add("username", username)
-        param.Add("tipe", "wascanqr")
-        param.Add("data", "akun")
+        param.Add("platform", "wascanqr")
+        param.Add("data", "c_server")
 
-        Dim response = mj.getAkunAkses(param)
+        Dim response = WApp.OnListServer(param)
         Dim resp2arr = jsonpa.Json2aray(response)
 
         Dim comboSource As New Dictionary(Of String, String)
-        comboSource.Add("", "Pilih Akun")
+        comboSource.Add("", "Pilih Vendor")
 
         If (resp2arr("status")("code") = 0) Then
 
             For Each item In resp2arr("body")
-                Dim akunid = item("akunid").ToString
-                Dim concurrent = item("concurrent").ToString
-                Dim appcount = item("appcount").ToString
+                Dim vendor = item("aichat_vendor").ToString
+                Dim _id = item("aichat_id").ToString
 
 
-                Dim serialN = $"{akunid}-{concurrent}-{appcount}"
-                Dim nameD = akunid
+
+                Dim serialN = $"{vendor}-{_id}"
+                Dim nameD = vendor
                 comboSource.Add(serialN, nameD)
-                Cbx_AkunID.DataSource = New BindingSource(comboSource, Nothing)
-                Cbx_AkunID.DisplayMember = "Value"
-                Cbx_AkunID.ValueMember = "Key"
-                Cbx_AkunID.AutoCompleteMode = AutoCompleteMode.SuggestAppend
-                Cbx_AkunID.AutoCompleteSource = AutoCompleteSource.CustomSource
+                naprovider.DataSource = New BindingSource(comboSource, Nothing)
+                naprovider.DisplayMember = "Value"
+                naprovider.ValueMember = "Key"
+                naprovider.AutoCompleteMode = AutoCompleteMode.SuggestAppend
+                naprovider.AutoCompleteSource = AutoCompleteSource.CustomSource
             Next
 
         End If

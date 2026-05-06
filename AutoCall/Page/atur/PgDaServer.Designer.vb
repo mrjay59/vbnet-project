@@ -23,9 +23,9 @@ Partial Class PgDaServer
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim DataGridViewCellStyle13 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle14 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle15 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle4 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle5 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle6 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.PnListH = New System.Windows.Forms.Panel()
         Me.BtnAddAkuns = New System.Windows.Forms.Button()
         Me.Panelgb = New System.Windows.Forms.Panel()
@@ -33,13 +33,6 @@ Partial Class PgDaServer
         Me.BtnLocal = New System.Windows.Forms.Button()
         Me.PnPaging = New System.Windows.Forms.Panel()
         Me.PnListServer = New System.Windows.Forms.Panel()
-        Me.Label2 = New System.Windows.Forms.Label()
-        Me.BtnReqkode = New System.Windows.Forms.Button()
-        Me.BtnQr = New System.Windows.Forms.Button()
-        Me.BtnStart = New System.Windows.Forms.Button()
-        Me.BtnLogout = New System.Windows.Forms.Button()
-        Me.BtnRestart = New System.Windows.Forms.Button()
-        Me.BtnStop = New System.Windows.Forms.Button()
         Me.DatTable1 = New System.Windows.Forms.DataGridView()
         Me.Panel2 = New System.Windows.Forms.Panel()
         Me.Label11 = New System.Windows.Forms.Label()
@@ -55,6 +48,14 @@ Partial Class PgDaServer
         Me.RequestKodeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.QRCODEToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.AturSeassionToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.PanAksi = New AutoCall.RoundedPanel()
+        Me.BtnLogout = New System.Windows.Forms.Button()
+        Me.Label2 = New System.Windows.Forms.Label()
+        Me.BtnStop = New System.Windows.Forms.Button()
+        Me.BtnReqkode = New System.Windows.Forms.Button()
+        Me.BtnRestart = New System.Windows.Forms.Button()
+        Me.BtnQr = New System.Windows.Forms.Button()
+        Me.BtnStart = New System.Windows.Forms.Button()
         Me.PnListH.SuspendLayout()
         Me.PnListServer.SuspendLayout()
         CType(Me.DatTable1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -64,6 +65,7 @@ Partial Class PgDaServer
         Me.Panel1.SuspendLayout()
         Me.Panel7.SuspendLayout()
         Me.ContextMenuStrip1.SuspendLayout()
+        Me.PanAksi.SuspendLayout()
         Me.SuspendLayout()
         '
         'PnListH
@@ -148,135 +150,12 @@ Partial Class PgDaServer
         'PnListServer
         '
         Me.PnListServer.AutoScroll = True
-        Me.PnListServer.Controls.Add(Me.Label2)
-        Me.PnListServer.Controls.Add(Me.BtnReqkode)
-        Me.PnListServer.Controls.Add(Me.BtnQr)
-        Me.PnListServer.Controls.Add(Me.BtnStart)
-        Me.PnListServer.Controls.Add(Me.BtnLogout)
-        Me.PnListServer.Controls.Add(Me.BtnRestart)
-        Me.PnListServer.Controls.Add(Me.BtnStop)
+        Me.PnListServer.Controls.Add(Me.PanAksi)
         Me.PnListServer.Controls.Add(Me.DatTable1)
         Me.PnListServer.Location = New System.Drawing.Point(0, 74)
         Me.PnListServer.Name = "PnListServer"
         Me.PnListServer.Size = New System.Drawing.Size(461, 445)
         Me.PnListServer.TabIndex = 4
-        '
-        'Label2
-        '
-        Me.Label2.AutoSize = True
-        Me.Label2.BackColor = System.Drawing.Color.Transparent
-        Me.Label2.Cursor = System.Windows.Forms.Cursors.Default
-        Me.Label2.Font = New System.Drawing.Font("Tahoma", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label2.ForeColor = System.Drawing.Color.White
-        Me.Label2.Location = New System.Drawing.Point(19, 11)
-        Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(101, 19)
-        Me.Label2.TabIndex = 217
-        Me.Label2.Text = "Button Aksi :"
-        Me.Label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'BtnReqkode
-        '
-        Me.BtnReqkode.BackColor = System.Drawing.Color.DimGray
-        Me.BtnReqkode.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.BtnReqkode.FlatAppearance.BorderSize = 0
-        Me.BtnReqkode.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.BtnReqkode.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BtnReqkode.ForeColor = System.Drawing.Color.White
-        Me.BtnReqkode.Image = Global.AutoCall.My.Resources.Resources.icons8_code_18
-        Me.BtnReqkode.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.BtnReqkode.Location = New System.Drawing.Point(128, 5)
-        Me.BtnReqkode.Name = "BtnReqkode"
-        Me.BtnReqkode.Size = New System.Drawing.Size(82, 30)
-        Me.BtnReqkode.TabIndex = 216
-        Me.BtnReqkode.Text = "Req Kode"
-        Me.BtnReqkode.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.BtnReqkode.UseVisualStyleBackColor = False
-        '
-        'BtnQr
-        '
-        Me.BtnQr.BackColor = System.Drawing.Color.DimGray
-        Me.BtnQr.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.BtnQr.FlatAppearance.BorderSize = 0
-        Me.BtnQr.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.BtnQr.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BtnQr.ForeColor = System.Drawing.Color.Black
-        Me.BtnQr.Image = Global.AutoCall.My.Resources.Resources.icons8_qr_code_19
-        Me.BtnQr.Location = New System.Drawing.Point(212, 5)
-        Me.BtnQr.Name = "BtnQr"
-        Me.BtnQr.Size = New System.Drawing.Size(34, 30)
-        Me.BtnQr.TabIndex = 215
-        Me.BtnQr.UseVisualStyleBackColor = False
-        '
-        'BtnStart
-        '
-        Me.BtnStart.BackColor = System.Drawing.Color.DimGray
-        Me.BtnStart.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.BtnStart.FlatAppearance.BorderSize = 0
-        Me.BtnStart.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.BtnStart.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BtnStart.ForeColor = System.Drawing.Color.White
-        Me.BtnStart.Image = Global.AutoCall.My.Resources.Resources.icons8_play_20
-        Me.BtnStart.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.BtnStart.Location = New System.Drawing.Point(253, 5)
-        Me.BtnStart.Name = "BtnStart"
-        Me.BtnStart.Size = New System.Drawing.Size(70, 30)
-        Me.BtnStart.TabIndex = 214
-        Me.BtnStart.Text = "START"
-        Me.BtnStart.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.BtnStart.UseVisualStyleBackColor = False
-        '
-        'BtnLogout
-        '
-        Me.BtnLogout.BackColor = System.Drawing.Color.DimGray
-        Me.BtnLogout.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.BtnLogout.FlatAppearance.BorderSize = 0
-        Me.BtnLogout.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.BtnLogout.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BtnLogout.ForeColor = System.Drawing.Color.White
-        Me.BtnLogout.Image = Global.AutoCall.My.Resources.Resources.icons8_logout_18
-        Me.BtnLogout.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.BtnLogout.Location = New System.Drawing.Point(429, 5)
-        Me.BtnLogout.Name = "BtnLogout"
-        Me.BtnLogout.Size = New System.Drawing.Size(29, 30)
-        Me.BtnLogout.TabIndex = 213
-        Me.BtnLogout.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.BtnLogout.UseVisualStyleBackColor = False
-        '
-        'BtnRestart
-        '
-        Me.BtnRestart.BackColor = System.Drawing.Color.DimGray
-        Me.BtnRestart.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.BtnRestart.FlatAppearance.BorderSize = 0
-        Me.BtnRestart.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.BtnRestart.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BtnRestart.ForeColor = System.Drawing.Color.White
-        Me.BtnRestart.Image = Global.AutoCall.My.Resources.Resources.icons8_restart_20
-        Me.BtnRestart.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.BtnRestart.Location = New System.Drawing.Point(396, 5)
-        Me.BtnRestart.Name = "BtnRestart"
-        Me.BtnRestart.Size = New System.Drawing.Size(31, 30)
-        Me.BtnRestart.TabIndex = 212
-        Me.BtnRestart.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.BtnRestart.UseVisualStyleBackColor = False
-        '
-        'BtnStop
-        '
-        Me.BtnStop.BackColor = System.Drawing.Color.DimGray
-        Me.BtnStop.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.BtnStop.FlatAppearance.BorderSize = 0
-        Me.BtnStop.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.BtnStop.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BtnStop.ForeColor = System.Drawing.Color.White
-        Me.BtnStop.Image = Global.AutoCall.My.Resources.Resources.icons8_stop_20
-        Me.BtnStop.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.BtnStop.Location = New System.Drawing.Point(325, 5)
-        Me.BtnStop.Name = "BtnStop"
-        Me.BtnStop.Size = New System.Drawing.Size(62, 30)
-        Me.BtnStop.TabIndex = 211
-        Me.BtnStop.Text = "STOP"
-        Me.BtnStop.TextAlign = System.Drawing.ContentAlignment.MiddleRight
-        Me.BtnStop.UseVisualStyleBackColor = False
         '
         'DatTable1
         '
@@ -287,37 +166,37 @@ Partial Class PgDaServer
         Me.DatTable1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells
         Me.DatTable1.BackgroundColor = System.Drawing.Color.FromArgb(CType(CType(60, Byte), Integer), CType(CType(60, Byte), Integer), CType(CType(60, Byte), Integer))
         Me.DatTable1.BorderStyle = System.Windows.Forms.BorderStyle.None
-        DataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        DataGridViewCellStyle13.BackColor = System.Drawing.Color.FromArgb(CType(CType(100, Byte), Integer), CType(CType(100, Byte), Integer), CType(CType(100, Byte), Integer))
-        DataGridViewCellStyle13.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        DataGridViewCellStyle13.ForeColor = System.Drawing.Color.White
-        DataGridViewCellStyle13.SelectionBackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle13.SelectionForeColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle13.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.DatTable1.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle13
+        DataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        DataGridViewCellStyle4.BackColor = System.Drawing.Color.FromArgb(CType(CType(100, Byte), Integer), CType(CType(100, Byte), Integer), CType(CType(100, Byte), Integer))
+        DataGridViewCellStyle4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle4.ForeColor = System.Drawing.Color.White
+        DataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.DatTable1.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle4
         Me.DatTable1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        DataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
-        DataGridViewCellStyle14.BackColor = System.Drawing.Color.FromArgb(CType(CType(30, Byte), Integer), CType(CType(30, Byte), Integer), CType(CType(30, Byte), Integer))
-        DataGridViewCellStyle14.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        DataGridViewCellStyle14.ForeColor = System.Drawing.Color.White
-        DataGridViewCellStyle14.SelectionBackColor = System.Drawing.SystemColors.ControlDarkDark
-        DataGridViewCellStyle14.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle14.WrapMode = System.Windows.Forms.DataGridViewTriState.[False]
-        Me.DatTable1.DefaultCellStyle = DataGridViewCellStyle14
+        DataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter
+        DataGridViewCellStyle5.BackColor = System.Drawing.Color.FromArgb(CType(CType(30, Byte), Integer), CType(CType(30, Byte), Integer), CType(CType(30, Byte), Integer))
+        DataGridViewCellStyle5.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle5.ForeColor = System.Drawing.Color.White
+        DataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.ControlDarkDark
+        DataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.[False]
+        Me.DatTable1.DefaultCellStyle = DataGridViewCellStyle5
         Me.DatTable1.EnableHeadersVisualStyles = False
         Me.DatTable1.GridColor = System.Drawing.Color.DarkOliveGreen
-        Me.DatTable1.Location = New System.Drawing.Point(6, 41)
+        Me.DatTable1.Location = New System.Drawing.Point(6, 59)
         Me.DatTable1.Name = "DatTable1"
         Me.DatTable1.ReadOnly = True
         Me.DatTable1.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.[Single]
-        DataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle15.BackColor = System.Drawing.SystemColors.Window
-        DataGridViewCellStyle15.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        DataGridViewCellStyle15.ForeColor = System.Drawing.SystemColors.WindowText
-        DataGridViewCellStyle15.SelectionBackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle15.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle15.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.DatTable1.RowHeadersDefaultCellStyle = DataGridViewCellStyle15
+        DataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Window
+        DataGridViewCellStyle6.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText
+        DataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.DatTable1.RowHeadersDefaultCellStyle = DataGridViewCellStyle6
         Me.DatTable1.RowHeadersVisible = False
         Me.DatTable1.RowHeadersWidth = 40
         Me.DatTable1.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing
@@ -328,7 +207,7 @@ Partial Class PgDaServer
         Me.DatTable1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
         Me.DatTable1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect
         Me.DatTable1.ShowCellToolTips = False
-        Me.DatTable1.Size = New System.Drawing.Size(450, 314)
+        Me.DatTable1.Size = New System.Drawing.Size(450, 296)
         Me.DatTable1.TabIndex = 189
         '
         'Panel2
@@ -461,6 +340,142 @@ Partial Class PgDaServer
         Me.AturSeassionToolStripMenuItem.Size = New System.Drawing.Size(146, 22)
         Me.AturSeassionToolStripMenuItem.Text = "Atur Seassion"
         '
+        'PanAksi
+        '
+        Me.PanAksi.AutoSizeHeight = False
+        Me.PanAksi.BorderColor = System.Drawing.Color.Gray
+        Me.PanAksi.BorderWidth = 1
+        Me.PanAksi.Controls.Add(Me.BtnLogout)
+        Me.PanAksi.Controls.Add(Me.Label2)
+        Me.PanAksi.Controls.Add(Me.BtnStop)
+        Me.PanAksi.Controls.Add(Me.BtnReqkode)
+        Me.PanAksi.Controls.Add(Me.BtnRestart)
+        Me.PanAksi.Controls.Add(Me.BtnQr)
+        Me.PanAksi.Controls.Add(Me.BtnStart)
+        Me.PanAksi.CornerRadius = 10
+        Me.PanAksi.Location = New System.Drawing.Point(5, 8)
+        Me.PanAksi.Name = "PanAksi"
+        Me.PanAksi.RoundingStyle = AutoCall.RoundedPanel.RoundStyle.All
+        Me.PanAksi.Size = New System.Drawing.Size(453, 47)
+        Me.PanAksi.TabIndex = 218
+        '
+        'BtnLogout
+        '
+        Me.BtnLogout.BackColor = System.Drawing.Color.DimGray
+        Me.BtnLogout.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.BtnLogout.FlatAppearance.BorderSize = 0
+        Me.BtnLogout.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.BtnLogout.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnLogout.ForeColor = System.Drawing.Color.White
+        Me.BtnLogout.Image = Global.AutoCall.My.Resources.Resources.icons8_logout_18
+        Me.BtnLogout.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.BtnLogout.Location = New System.Drawing.Point(415, 8)
+        Me.BtnLogout.Name = "BtnLogout"
+        Me.BtnLogout.Size = New System.Drawing.Size(29, 30)
+        Me.BtnLogout.TabIndex = 213
+        Me.BtnLogout.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.BtnLogout.UseVisualStyleBackColor = False
+        '
+        'Label2
+        '
+        Me.Label2.AutoSize = True
+        Me.Label2.BackColor = System.Drawing.Color.Transparent
+        Me.Label2.Cursor = System.Windows.Forms.Cursors.Default
+        Me.Label2.Font = New System.Drawing.Font("Tahoma", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label2.ForeColor = System.Drawing.Color.White
+        Me.Label2.Location = New System.Drawing.Point(5, 14)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(101, 19)
+        Me.Label2.TabIndex = 217
+        Me.Label2.Text = "Button Aksi :"
+        Me.Label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'BtnStop
+        '
+        Me.BtnStop.BackColor = System.Drawing.Color.DimGray
+        Me.BtnStop.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.BtnStop.FlatAppearance.BorderSize = 0
+        Me.BtnStop.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.BtnStop.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnStop.ForeColor = System.Drawing.Color.White
+        Me.BtnStop.Image = Global.AutoCall.My.Resources.Resources.icons8_stop_20
+        Me.BtnStop.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.BtnStop.Location = New System.Drawing.Point(311, 8)
+        Me.BtnStop.Name = "BtnStop"
+        Me.BtnStop.Size = New System.Drawing.Size(62, 30)
+        Me.BtnStop.TabIndex = 211
+        Me.BtnStop.Text = "STOP"
+        Me.BtnStop.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.BtnStop.UseVisualStyleBackColor = False
+        '
+        'BtnReqkode
+        '
+        Me.BtnReqkode.BackColor = System.Drawing.Color.DimGray
+        Me.BtnReqkode.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.BtnReqkode.FlatAppearance.BorderSize = 0
+        Me.BtnReqkode.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.BtnReqkode.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnReqkode.ForeColor = System.Drawing.Color.White
+        Me.BtnReqkode.Image = Global.AutoCall.My.Resources.Resources.icons8_code_18
+        Me.BtnReqkode.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.BtnReqkode.Location = New System.Drawing.Point(114, 8)
+        Me.BtnReqkode.Name = "BtnReqkode"
+        Me.BtnReqkode.Size = New System.Drawing.Size(82, 30)
+        Me.BtnReqkode.TabIndex = 216
+        Me.BtnReqkode.Text = "Req Kode"
+        Me.BtnReqkode.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.BtnReqkode.UseVisualStyleBackColor = False
+        '
+        'BtnRestart
+        '
+        Me.BtnRestart.BackColor = System.Drawing.Color.DimGray
+        Me.BtnRestart.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.BtnRestart.FlatAppearance.BorderSize = 0
+        Me.BtnRestart.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.BtnRestart.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnRestart.ForeColor = System.Drawing.Color.White
+        Me.BtnRestart.Image = Global.AutoCall.My.Resources.Resources.icons8_restart_20
+        Me.BtnRestart.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.BtnRestart.Location = New System.Drawing.Point(382, 8)
+        Me.BtnRestart.Name = "BtnRestart"
+        Me.BtnRestart.Size = New System.Drawing.Size(31, 30)
+        Me.BtnRestart.TabIndex = 212
+        Me.BtnRestart.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.BtnRestart.UseVisualStyleBackColor = False
+        '
+        'BtnQr
+        '
+        Me.BtnQr.BackColor = System.Drawing.Color.DimGray
+        Me.BtnQr.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.BtnQr.FlatAppearance.BorderSize = 0
+        Me.BtnQr.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.BtnQr.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnQr.ForeColor = System.Drawing.Color.Black
+        Me.BtnQr.Image = Global.AutoCall.My.Resources.Resources.icons8_qr_code_19
+        Me.BtnQr.Location = New System.Drawing.Point(198, 8)
+        Me.BtnQr.Name = "BtnQr"
+        Me.BtnQr.Size = New System.Drawing.Size(34, 30)
+        Me.BtnQr.TabIndex = 215
+        Me.BtnQr.UseVisualStyleBackColor = False
+        '
+        'BtnStart
+        '
+        Me.BtnStart.BackColor = System.Drawing.Color.DimGray
+        Me.BtnStart.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.BtnStart.FlatAppearance.BorderSize = 0
+        Me.BtnStart.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.BtnStart.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnStart.ForeColor = System.Drawing.Color.White
+        Me.BtnStart.Image = Global.AutoCall.My.Resources.Resources.icons8_play_20
+        Me.BtnStart.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.BtnStart.Location = New System.Drawing.Point(239, 8)
+        Me.BtnStart.Name = "BtnStart"
+        Me.BtnStart.Size = New System.Drawing.Size(70, 30)
+        Me.BtnStart.TabIndex = 214
+        Me.BtnStart.Text = "START"
+        Me.BtnStart.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.BtnStart.UseVisualStyleBackColor = False
+        '
         'PgDaServer
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -475,7 +490,6 @@ Partial Class PgDaServer
         Me.Text = "PgDaServer"
         Me.PnListH.ResumeLayout(False)
         Me.PnListServer.ResumeLayout(False)
-        Me.PnListServer.PerformLayout()
         CType(Me.DatTable1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel2.ResumeLayout(False)
         Me.Panel2.PerformLayout()
@@ -486,6 +500,8 @@ Partial Class PgDaServer
         Me.Panel7.ResumeLayout(False)
         Me.Panel7.PerformLayout()
         Me.ContextMenuStrip1.ResumeLayout(False)
+        Me.PanAksi.ResumeLayout(False)
+        Me.PanAksi.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
@@ -518,4 +534,5 @@ Partial Class PgDaServer
     Friend WithEvents RequestKodeToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents QRCODEToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents AturSeassionToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents PanAksi As RoundedPanel
 End Class

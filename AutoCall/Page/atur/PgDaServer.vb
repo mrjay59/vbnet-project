@@ -1,8 +1,13 @@
-﻿Imports System.IO
+﻿Imports System.Diagnostics.Eventing.Reader
+Imports System.IO
 Imports System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel
+Imports Google.Apis.Sheets.v4.Data
 Imports Microsoft.VisualBasic.ApplicationServices
+Imports Mysqlx.Datatypes
 Imports Newtonsoft.Json
 Imports Newtonsoft.Json.Linq
+Imports Newtonsoft.Json.Schema
+Imports Org.BouncyCastle.Asn1.Crmf
 Imports Org.BouncyCastle.Utilities
 Imports QRCoder
 Imports SIPSorcery.SIP
@@ -16,6 +21,9 @@ Public Class PgDaServer
     Private mjy As New mrjay59
     Public Event SendDataJson As EventHandler(Of ClassData)
     Private WithEvents paging As New PagingControl()
+    Private qrControls As New Dictionary(Of String, UCScanQR)
+    Private qrManagers As New Dictionary(Of String, QRManager)
+
     Public Sub New()
 
         ' This call is required by the designer.
@@ -40,6 +48,7 @@ Public Class PgDaServer
 
     Private Sub BtnLocal_Click(sender As Object, e As EventArgs) Handles BtnLocal.Click
         Label1.Text = "Form WA SCANQR"
+        PanAksi.Enabled = True
         TabWAScanQr()
 
         LoadDataWA("wascanqr", "applist")
@@ -111,10 +120,8 @@ Public Class PgDaServer
                     STATE = item("state").ToString
                     create = item("create").ToString
 
-
-
                     ' Tambah row dulu
-                    rowIndex = DatTable1.Rows.Add(False, ax, akunid, concurrent, appcount, idle, STATE)
+                    rowIndex = DatTable1.Rows.Add(ax, akunid, concurrent, appcount, idle, STATE)
                 Else
                     appkode = item("appkode").ToString
                     STATE = item("state").ToString
@@ -131,10 +138,6 @@ Public Class PgDaServer
                     obj.Add("navendor", navendor)
                     DatTable1.Rows(rowIndex).Cells("CheckBoxColumn").Tag = obj.ToString
                 End If
-
-
-
-
 
                 ' Jika BUSY
                 If STATE = "BUSY" Then
@@ -170,6 +173,7 @@ Public Class PgDaServer
 
     Private Sub BtnClould_Click(sender As Object, e As EventArgs) Handles BtnClould.Click
         Label1.Text = "Form WA CLOULD"
+        PanAksi.Enabled = False
         TabWAScanQr()
 
         LoadDataWA("waserver", "applist")
@@ -271,7 +275,7 @@ Public Class PgDaServer
         DatTable1.AutoGenerateColumns = False
 
 
-        CheckAll()
+        ' CheckAll()
 
         ' Buat kolom secara dinamis
         Dim kolom As New DataGridViewTextBoxColumn()
@@ -323,7 +327,7 @@ Public Class PgDaServer
 
     Private Sub BtnAddAkuns_Click(sender As Object, e As EventArgs) Handles BtnAddAkuns.Click
         Label1.Text = "Form Create AKUN WA"
-
+        PanAksi.Enabled = False
         TabWAAkunID()
 
 
@@ -340,7 +344,7 @@ Public Class PgDaServer
         Panelgb.Width = BtnAddAkuns.Width
 
         Try
-            Dim page As New WAServerForm
+            Dim page As New WACreateAForm
             PnAddForm.Controls.Clear()
             page.TopLevel = False
             page.SendDataUser = DatR
@@ -357,15 +361,14 @@ Public Class PgDaServer
     Private Sub DatTable1_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles DatTable1.CellContentClick
         Dim colindex = e.ColumnIndex
         Dim rowindex = e.RowIndex
-        Dim nameS As String = DatTable1.Rows(rowindex).Cells("appname").Value
         Dim DPar = jsonpa.Json2aray(DatR)
         Dim username = DPar("body")("apk_user")
-
         ' pastikan baris valid
         If rowindex < 0 Then Exit Sub
 
         ' kolom checkbox (0)
         If colindex = 0 Then
+
             ' ambil nilai lama
             Dim currentValue As Boolean = False
             If DatTable1.Rows(rowindex).Cells("CheckBoxColumn").Value IsNot Nothing Then
@@ -387,6 +390,7 @@ Public Class PgDaServer
             End If
 
         ElseIf colindex = 6 Then
+            Dim nameS As String = DatTable1.Rows(rowindex).Cells("appname").Value
             Dim NObj As New JObject
             NObj.Add("title", $"EDIT Seassion {nameS}")
             NObj.Add("platform", "wascanqr")
@@ -425,7 +429,7 @@ Public Class PgDaServer
 
         Dim newData As New JObject()
         Dim newDataArray As New JArray()
-
+        Dim chkint As Integer = 0
         For Each row As DataGridViewRow In DatTable1.Rows
 
             If Not row.IsNewRow Then
@@ -437,14 +441,14 @@ Public Class PgDaServer
                 End If
 
                 If chk Then
-
+                    chkint = chkint + 1
                     Dim tagValue = row.Cells("CheckBoxColumn").Tag
 
                     If tagValue IsNot Nothing Then
 
                         ' 🔥 parse string JSON ke JObject
                         Dim obj As JObject = JObject.Parse(tagValue.ToString())
-
+                        obj.Add("tipe", tipe)
                         newDataArray.Add(obj)
 
                     End If
@@ -457,29 +461,243 @@ Public Class PgDaServer
 
         newData.Add("body", newDataArray)
 
+        If ((chkint = 1) And (tipe = "rqQrkode") Or (tipe = "rqRegcode")) Then
+            showQR_One(newData.ToString)
+        Else
 
-        If (tipe = "rqQrkode") Then
-            Dim page As New pgMultiBarcode()
-            page.LoadBarcodeMulti(newData.ToString)
-            page.SendDataUser = DatR
+            If ((tipe = "rqQrkode") Or (tipe = "rqRegcode")) Then
+                Dim page As New pgMultiBarcode()
+                page.LoadBarcodeMulti(newData.ToString)
+                page.SendDataUser = DatR
 
-            page.ShowDialog()
-        ElseIf (tipe = "rqRegcode") Then
-            Dim page As New pgMultiBarcode()
-            page.LoadMultiRegKode(newData.ToString)
-            page.SendDataUser = DatR
+                page.ShowDialog()
 
-            page.ShowDialog()
+            Else
+                rq_seassions(newData.ToString)
+            End If
+        End If
+    End Sub
 
-        ElseIf (tipe = "rqstart") Then
+    Private Sub rq_seassions(newData As String)
+        Dim PObj = jsonpa.Json2aray(newData)
+        For Each item In PObj("body")
+            Dim nama = item("name").ToString
+            Dim navendor = item("navendor").ToString
+            Dim tipe = item("tipe").ToString
 
-        ElseIf (tipe = "rqrestart") Then
 
-        ElseIf (tipe = "rqstop") Then
+            Dim param As New JObject
+            param.Add("action", tipe.Replace("rq", "").ToString)
+            param.Add("name", nama)
+            param.Add("navendor", navendor)
 
+            Dim res = WApp.OnSeassion(param)
+
+            HandleTab(res)
+        Next
+    End Sub
+
+    Private Sub showQR_One(toString As String)
+        AddHandler WSManager.Client.MessageReceived, AddressOf wsClient_MessageReceived
+
+        Dim PObj = jsonpa.Json2aray(toString)
+
+        qrManagers.Clear()
+        qrControls.Clear()
+        PnDScanQr.Controls.Clear()
+        Dim ai = 0
+        For Each item In PObj("body")
+
+            Dim nama = item("name").ToString
+            Dim navendor = item("navendor").ToString
+            Dim tipe = item("tipe").ToString
+            ai += 1
+
+            Dim pin As Point
+
+            pin = New Point(74, 1)
+
+            ' ======================
+            ' CREATE UI
+            ' ======================
+            Dim ScanQr As New UCScanQR
+
+            ScanQr.Location = pin
+            ScanQr.LbWAnm.Text = nama
+            ScanQr.Label1.Visible = False
+            ScanQr.TxtNoWA.Visible = False
+            ScanQr.BtnReqKode.Visible = False
+            ScanQr.LblR.Visible = True
+            ScanQr.LblR.Text = "Wait.."
+            ScanQr.lstLog.Items.Add($"[Sesi : {nama}] Wait...")
+
+            PnDScanQr.Controls.Add(ScanQr)
+
+            If (tipe = "rqQrkode") Then
+                ' ======================
+                ' CREATE MANAGER
+                ' ======================
+                Dim manager As New QRManager(nama, navendor, ScanQr.picQRCode)
+
+                qrManagers.Add(nama, manager)
+                qrControls.Add(nama, ScanQr)
+
+                ' ======================
+                ' BIND LOG EVENT (HARUS DI ATAS)
+                ' ======================
+                AddHandler manager.OnLog,
+                Sub(msg)
+                    HandleLog(nama, msg)
+                End Sub
+
+                ' ======================
+                ' BARU JALANKAN
+                ' ======================
+                manager.OnScanRequired()
+            Else
+                ScanQr.LblR.Visible = False
+                ScanQr.Label1.Visible = True
+                ScanQr.TxtNoWA.Visible = True
+                ScanQr.BtnReqKode.Visible = True
+                ' ======================
+                ' EVENT BUTTON REQUEST CODE
+                ' ======================
+                AddHandler ScanQr.BtnReqKode.Click,
+                 Sub(s, ev)
+
+                     Try
+
+                         Dim nomor = ScanQr.TxtNoWA.Text.Trim()
+                         ScanQr.BtnReqKode.Enabled = True
+                         If String.IsNullOrEmpty(nomor) Then
+                             ScanQr.lstLog.Items.Add("Nomor WA tidak boleh kosong")
+                             Exit Sub
+                         End If
+
+                         ScanQr.lstLog.Items.Add($"[Sesi : {nama}] Request code ke {nomor}...")
+
+
+                         Dim param As New JObject
+                         param.Add("action", "request_code")
+                         param.Add("name", nama)
+                         param.Add("navendor", navendor)
+                         param.Add("phoneNumber", nomor)
+
+                         Dim res = WApp.OnSeassion(param)
+
+                         If String.IsNullOrEmpty(res) Then
+                             ScanQr.lstLog.Items.Add("Response kosong dari server")
+                             Exit Sub
+                         End If
+
+                         Dim obj = JObject.Parse(res)
+
+                         ' 🔥 HANDLE RESPONSE
+                         If obj("message") IsNot Nothing Then
+
+                             Dim status = obj("message").ToString()
+
+                             If status.Contains("FAILED") Then
+                                 ScanQr.LblR.Text = ""
+                                 ScanQr.lstLog.Items.Add("Request code FAILED → logout session")
+                                 ScanQr.lstLog.Items.Add("Klik Lagi Req kode")
+                                 Dim objx As New JObject
+                                 objx.Add("action", "logout")
+                                 objx.Add("name", nama)
+                                 objx.Add("navendor", navendor)
+
+                                 ' optional restart
+                                 WApp.OnSeassion(objx)
+
+                                 Exit Sub
+                             End If
+
+                         End If
+
+                         If obj("code") IsNot Nothing Then
+                             ScanQr.LblR.Visible = True
+                             ScanQr.LblR.Font = New Font(Label1.Font.FontFamily, 16, FontStyle.Bold)
+                             ScanQr.LblR.Location = New Point(12, 90)
+                             ScanQr.LblR.Text = obj("code").ToString
+                             ScanQr.lstLog.Items.Add("KODE ANDA :" & obj("code").ToString)
+                         End If
+
+
+                     Catch ex As Exception
+                         ScanQr.lstLog.Items.Add("Error: " & ex.Message)
+                     End Try
+
+
+
+                 End Sub
+            End If
+
+        Next
+    End Sub
+
+    Private Sub HandleTab(res As String)
+        Dim jres = jsonpa.Json2aray(res)
+        Dim name = jres("name").ToString
+        Dim status = jres("status").ToString
+        Dim presence = jres("presence").ToString
+        For Each row As DataGridViewRow In DatTable1.Rows
+            If Not row.IsNewRow Then
+                Dim Tabseasion = row.Cells("appname").Value.ToString
+
+                If (Tabseasion = name) Then
+                    row.Cells("state").Value = presence
+                    row.Cells("state_wa").Value = status
+                End If
+
+            End If
+        Next
+    End Sub
+
+    Private Sub HandleLog(session As String, Message As String)
+
+        ' log ke masing-masing UI
+        If qrControls.ContainsKey(session) Then
+
+            Dim ctrl = qrControls(session)
+
+            If ctrl.lstLog.InvokeRequired Then
+                ctrl.lstLog.Invoke(Sub()
+
+
+
+                                       ctrl.lstLog.Items.Add(Message)
+
+                                       If (Message.Contains("QR displayed")) Then
+                                           ctrl.LblR.Visible = False
+                                           ctrl.picQRCode.Visible = True
+                                           ctrl.picQRCode.Size = New Point(195, 195)
+
+                                       End If
+
+                                       ' auto scroll
+                                       ctrl.lstLog.TopIndex = ctrl.lstLog.Items.Count - 1
+                                   End Sub)
+            Else
+                ctrl.lstLog.Items.Add(Message)
+
+                If (Message.Contains("QR displayed")) Then
+                    ctrl.LblR.Visible = False
+                    ctrl.picQRCode.Visible = True
+                    ctrl.picQRCode.Size = New Point(195, 195)
+
+                ElseIf (Message.Contains("QR Manager STOPPED")) Then
+                    ctrl.LblR.Visible = True
+                    ctrl.picQRCode.Visible = False
+                    ctrl.LblR.Text = "STOPPED"
+                End If
+                ctrl.lstLog.TopIndex = ctrl.lstLog.Items.Count - 1
+            End If
 
         End If
+    End Sub
 
+    Private Sub wsClient_MessageReceived(message As String)
+        Throw New NotImplementedException()
     End Sub
 
     Private Sub BtnStart_Click(sender As Object, e As EventArgs) Handles BtnStart.Click
@@ -497,4 +715,6 @@ Public Class PgDaServer
     Private Sub BtnLogout_Click(sender As Object, e As EventArgs) Handles BtnLogout.Click
         proses_chk("rqlogout")
     End Sub
+
+
 End Class

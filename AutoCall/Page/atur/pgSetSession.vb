@@ -51,7 +51,7 @@ Public Class pgSetSession
 
 
         param.Add("username", username)
-        param.Add("platform", platform.ToLower)
+        param.Add("platform", platform)
         param.Add("data", "c_seassion")
         param.Add("name", name)
 
@@ -77,7 +77,7 @@ Public Class pgSetSession
         UCformtext6.txtinput.Text = DatParse("body")("appkode")
         UCformtext7.txtinput.Text = DatParse("body")("number").ToString
         UCformtext8.txtinput.Text = DatParse("body")("pick_tg_by")
-
+        state_wa.Text = DatParse("body")("service")
         'UCformtext1.txtinput.Enabled = IsReadOnline
         'UCformtext2.txtinput.Enabled = IsReadOnline
         'UCformtext3.txtinput.Enabled = IsReadOnline

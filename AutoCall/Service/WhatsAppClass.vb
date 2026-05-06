@@ -1,6 +1,7 @@
 ﻿Imports System.IO
 
 Imports Newtonsoft.Json
+Imports Newtonsoft.Json.Linq
 
 
 Public Class WhatsAppClass
@@ -53,9 +54,9 @@ Public Class WhatsAppClass
 
     End Function
 
-    Public Function OnCreateServer(ByVal data As Dictionary(Of String, String))
-        Dim parameters As String = JsonConvert.SerializeObject(data, Formatting.None)
-        Dim response = Api.PostData("OnCreateServer", parameters, nameapk)
+    Public Function OnCreateServer(ByVal data As JObject)
+        '  Dim parameters As String = JsonConvert.SerializeObject(data, Formatting.None)
+        Dim response = Api.PostData("OnCreateServer", data, nameapk)
 
         Dim jsonparse As String = String.Empty
 
@@ -217,9 +218,9 @@ Public Class WhatsAppClass
         Return jsonparse
     End Function
 
-    Public Function OnSeassion(ByVal data As Dictionary(Of String, String))
-        Dim parameters As String = JsonConvert.SerializeObject(data, Formatting.None)
-        Dim response = Api.PostData("OnTemplate", parameters, nameapk)
+    Public Function OnSeassion(ByVal data As JObject)
+        ' Dim parameters As String = JsonConvert.SerializeObject(data, Formatting.None)
+        Dim response = Api.PostData("OnSeassion", data, nameapk)
 
         Dim jsonparse As String = String.Empty
 

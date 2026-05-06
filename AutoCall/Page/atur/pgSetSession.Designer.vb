@@ -49,6 +49,8 @@ Partial Class pgSetSession
         Me.UCformtext2 = New AutoCall.UCformtext()
         Me.UCformtext1 = New AutoCall.UCformtext()
         Me.UCformtext8 = New AutoCall.UCformtext()
+        Me.Label13 = New System.Windows.Forms.Label()
+        Me.state_wa = New System.Windows.Forms.Label()
         Me.Panel1.SuspendLayout()
         CType(Me.MaxSPDay, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MaxSPNum, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -361,12 +363,40 @@ Partial Class pgSetSession
         Me.UCformtext8.Size = New System.Drawing.Size(292, 62)
         Me.UCformtext8.TabIndex = 288
         '
+        'Label13
+        '
+        Me.Label13.BackColor = System.Drawing.Color.FromArgb(CType(CType(65, Byte), Integer), CType(CType(60, Byte), Integer), CType(CType(80, Byte), Integer))
+        Me.Label13.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.Label13.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Italic), System.Drawing.FontStyle), System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label13.ForeColor = System.Drawing.Color.White
+        Me.Label13.Location = New System.Drawing.Point(365, 52)
+        Me.Label13.Name = "Label13"
+        Me.Label13.Size = New System.Drawing.Size(152, 26)
+        Me.Label13.TabIndex = 289
+        Me.Label13.Text = "Status :"
+        Me.Label13.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        '
+        'state_wa
+        '
+        Me.state_wa.BackColor = System.Drawing.Color.FromArgb(CType(CType(165, Byte), Integer), CType(CType(60, Byte), Integer), CType(CType(80, Byte), Integer))
+        Me.state_wa.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.state_wa.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.state_wa.ForeColor = System.Drawing.Color.White
+        Me.state_wa.Location = New System.Drawing.Point(523, 52)
+        Me.state_wa.Name = "state_wa"
+        Me.state_wa.Size = New System.Drawing.Size(108, 26)
+        Me.state_wa.TabIndex = 290
+        Me.state_wa.Text = "WORKING"
+        Me.state_wa.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
         'pgSetSession
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.FromArgb(CType(CType(60, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(61, Byte), Integer))
         Me.ClientSize = New System.Drawing.Size(665, 542)
+        Me.Controls.Add(Me.state_wa)
+        Me.Controls.Add(Me.Label13)
         Me.Controls.Add(Me.UCformtext8)
         Me.Controls.Add(Me.UCformtext7)
         Me.Controls.Add(Me.UCformtext6)
@@ -430,4 +460,6 @@ Partial Class pgSetSession
     Friend WithEvents Label12 As Label
     Friend WithEvents UCformtext7 As UCformtext
     Friend WithEvents UCformtext8 As UCformtext
+    Friend WithEvents Label13 As Label
+    Friend WithEvents state_wa As Label
 End Class
