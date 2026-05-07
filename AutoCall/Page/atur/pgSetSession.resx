@@ -117,4 +117,29 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="BtnDelSesi.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAAB0AAAAdCAYAAABWk2cPAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAL
+        EQAACxEBf2RfkQAAAYBJREFUSEvt1k1LV0EUx3EVwlZRqxbt7AGiRfQgqKsWUfiArSqEogdwl1j6CqKQ
+        1mWE0AvoBfT+PnLg/GXueO1/x4SE/MJhfjP3nPODYe6dOzFxxmkCU7iNezlO1TknDrawjqc5fqhz/pps
+        /AN7Gb/xM3WMMR89i7z1uscgcgsf4x0+4tKYuIBzOJ/5UfcIk3XvI8FbbODhwHiAK7hVrEX9m7r3kWAB
+        v4ptO05E/Xzdeyz4Vq8NAd+btrYEu4VexErqa3iCqzlfied9dc1UpstYGulqvDnSdV0zDaZz/8L08oma
+        jg7EGNOlQk/ia7dTA/iMi6mHmsbH4lO3UwPxXY2Tmnqo6XW873ZqAC/jkKQeajqPF91ODeS7eWDQY3oj
+        x9I08g7e2WYwi1epD5kWeaXpa9wvnzeBGWynPmQaN1GOpel21HU7NZBX1k7q51hLfReruJPzNTxLvRN1
+        Vas24mKu1/5Ea34v2IzbBl8GRORt1D2OBaZ7/hb6YrquPeP/YB/+P+DvSG0LkQAAAABJRU5ErkJggg==
+</value>
+  </data>
+  <data name="BtnDelMess.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAAB0AAAAdCAYAAABWk2cPAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAL
+        EQAACxEBf2RfkQAAAYBJREFUSEvt1k1LV0EUx3EVwlZRqxbt7AGiRfQgqKsWUfiArSqEogdwl1j6CqKQ
+        1mWE0AvoBfT+PnLg/GXueO1/x4SE/MJhfjP3nPODYe6dOzFxxmkCU7iNezlO1TknDrawjqc5fqhz/pps
+        /AN7Gb/xM3WMMR89i7z1uscgcgsf4x0+4tKYuIBzOJ/5UfcIk3XvI8FbbODhwHiAK7hVrEX9m7r3kWAB
+        v4ptO05E/Xzdeyz4Vq8NAd+btrYEu4VexErqa3iCqzlfied9dc1UpstYGulqvDnSdV0zDaZz/8L08oma
+        jg7EGNOlQk/ia7dTA/iMi6mHmsbH4lO3UwPxXY2Tmnqo6XW873ZqAC/jkKQeajqPF91ODeS7eWDQY3oj
+        x9I08g7e2WYwi1epD5kWeaXpa9wvnzeBGWynPmQaN1GOpel21HU7NZBX1k7q51hLfReruJPzNTxLvRN1
+        Vas24mKu1/5Ea34v2IzbBl8GRORt1D2OBaZ7/hb6YrquPeP/YB/+P+DvSG0LkQAAAABJRU5ErkJggg==
+</value>
+  </data>
 </root>

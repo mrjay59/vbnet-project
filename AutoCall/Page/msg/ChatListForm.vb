@@ -77,7 +77,7 @@ Public Class ChatListForm
         Me.Controls.Add(lblLoading)
     End Sub
 
-    Private Sub LoadPage(page As Integer)
+    Private Sub LoadPage(page As Integer, platform As String)
         If isLoading Then Return
 
         isLoading = True
@@ -89,7 +89,7 @@ Public Class ChatListForm
                      Threading.Thread.Sleep(800)
 
                      ' Generate data untuk halaman ini
-                     Dim newItems = GeneratePageData(page, "", "")
+                     Dim newItems = GeneratePageData(page, platform, "")
 
                      Me.Invoke(Sub()
                                    ' Tambahkan ke daftar yang ditampilkan
@@ -106,7 +106,7 @@ Public Class ChatListForm
                  End Sub)
     End Sub
 
-    Public Sub SearchFromDisplayed(keyword As String)
+    Public Sub SearchFromDisplayed(keyword As String, platform As String)
         If Not String.IsNullOrWhiteSpace(keyword) Then
             If isLoading Then Return
 
@@ -127,7 +127,7 @@ Public Class ChatListForm
             ' Jika keyword kosong, reset dan reload
             SetupMessagePanel()
             InitializeUI()
-            LoadPage(1)
+            LoadPage(1, platform)
         End If
 
     End Sub
@@ -148,53 +148,57 @@ Public Class ChatListForm
         ' Console.WriteLine(ListWA)
         Dim DatChat As JArray = jsonpa.Json2aray(ListWA)
 
+        'If (DatChat.Count = 0) Then
+        '    Exit Function
+        'End If
 
-        ' Contoh data dummy (ganti dengan data sebenarnya)
-        For i As Integer = 0 To DatChat.Count - 1
-            Dim tujuan As String = String.Empty
-            Dim isgroup As String = DatChat(i)("aichat_isgroup")
-            Dim waktu As DateTime = DatChat(i)("aichat_daterec")
-            Dim isread As Integer = DatChat(i)("aichat_isread")
+        If (DatChat.Count > 0) Then
+            ' Contoh data dummy (ganti dengan data sebenarnya)
+            For i As Integer = 0 To DatChat.Count - 1
 
-            If (isgroup = "true") Then
-                tujuan = DatChat(i)("aichat_group")
-            Else
-                tujuan = DatChat(i)("aichat_to")
-            End If
-
-            Dim usernm As String = DatChat(i)("aichat_username")
-            Dim wadah As String = DatChat(i)("aichat_platform")
-            Dim tsender As String = DatChat(i)("aichat_from")
-            Dim stateS As String = DatChat(i)("aichat_state")
-            Dim sessionId As String = DatChat(i)("aichat_waname")
+                Dim isgroup As Boolean = DatChat(i)("isgroup")
+                Dim group As String = DatChat(i)("group")
+                Dim waktu As DateTime = DatChat(i)("timestamp")
+                Dim isread As Boolean = DatChat(i)("isread")
+                Dim toouj As String = DatChat(i)("to")
+                Dim tujuan As String = IIf((isgroup), group, toouj)
 
 
-            Dim stateStatus As Message.DeliveryStatus
+                Dim usernm As String = DatChat(i)("username")
+                Dim wadah As String = DatChat(i)("platform")
+                Dim tsender As String = DatChat(i)("from")
+                Dim stateS As Boolean = DatChat(i)("state")
+                Dim sessionId As String = DatChat(i)("session")
+                Dim last_text As String = DatChat(i)("last_text")
 
-            If (stateS = "true") Then
-                stateStatus = MessageStatus.Delivered
-            ElseIf (stateS = "false") Then
-                stateStatus = MessageStatus.Failed
-            End If
+                Dim stateStatus As Message.DeliveryStatus
+
+                If (stateS) Then
+                    stateStatus = MessageStatus.Delivered
+                ElseIf (stateS = "false") Then
+                    stateStatus = MessageStatus.Failed
+                End If
 
 
-            items.Add(New ChatItem With {
-                .Id = i,
-                .PhoneNumber = tujuan,
-                .LastMessage = DatChat(i)("aichat_text"),
-                .Time = waktu,
-                .UnreadCount = isread,
-                .Status = stateStatus,
-                .Username = usernm,
-                .Platform = wadah,
-                .SessionId = sessionId,
-                .PhoneSender = tsender
-            })
+                items.Add(New ChatItem With {
+                    .Id = i,
+                    .PhoneNumber = tujuan,
+                    .LastMessage = last_text,
+                    .Time = waktu,
+                    .UnreadCount = isread,
+                    .Status = stateStatus,
+                    .Username = usernm,
+                    .Platform = wadah,
+                    .SessionId = sessionId,
+                    .PhoneSender = tsender
+                })
 
-        Next
+            Next
 
+        End If
 
         Return items
+
     End Function
 
     Private Sub RenderChatItems(items As List(Of ChatItem))
@@ -393,7 +397,7 @@ Public Class ChatListForm
         ' Cek apakah user sudah scroll sampai ke bawah
         If pnlLayoutList.VerticalScroll.Value + pnlLayoutList.Height >= pnlLayoutList.VerticalScroll.Maximum - 50 Then
             If Not isLoading Then
-                LoadPage(currentPage + 1)
+                LoadPage(currentPage + 1, "")
             End If
         End If
     End Sub

@@ -107,6 +107,7 @@ Public Class pgMultiBarcode
                 ScanQr.Label1.Visible = True
                 ScanQr.TxtNoWA.Visible = True
                 ScanQr.BtnReqKode.Visible = True
+                ScanQr.lstLog.Items.Add($"[Sesi : Masukan No WA Exp:6281xx")
 
                 ' ======================
                 ' EVENT BUTTON REQUEST CODE
@@ -254,8 +255,6 @@ Public Class pgMultiBarcode
             Dim status = obj("payload")("status").ToString()
 
             Select Case status
-                Case "STARTING"
-                    manager.OnScanRequired()
 
                 Case "SCAN_QR_CODE"
                     manager.OnScanRequired()

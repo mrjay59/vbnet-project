@@ -76,10 +76,7 @@ Public Class WAScanQrForm
 
         Dim respon = WApp.OnCreateWAScan(param)
 
-
         Dim jsonObject = JsonConvert.DeserializeObject(respon)
-
-        Console.WriteLine(respon)
 
         If (jsonObject("status")("code") = 1) Then
             MsgBox(jsonObject("msg"))

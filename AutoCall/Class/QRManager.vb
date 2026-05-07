@@ -54,12 +54,14 @@ Public Class QRManager
         Log($"Generate QR #{qrCount}")
 
         Dim qr = Await GetQRCode()
-        Await Task.Delay(2000)
+        Await Task.Delay(500)
         If qr IsNot Nothing Then
             ShowQR(qr)
             StartTimer()
         Else
             Log("Failed get QR")
+            Log("retry required QR")
+            OnScanRequired()
         End If
 
     End Sub

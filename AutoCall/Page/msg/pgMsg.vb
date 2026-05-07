@@ -24,24 +24,6 @@ Public Class pgMsg
         End Set
     End Property
 
-    Private Sub LoadDataServer()
-
-        Dim DPar = jsonpa.Json2aray(DatR)
-        Dim username = DPar("body")("apk_user")
-
-        Dim param As New Dictionary(Of String, String)
-        param.Add("username", username)
-        param.Add("platform", "wascanqr")
-        param.Add("all", "open")
-        ' "wascanqr"
-        Dim ListWA As String = WApp.OnListServer(param)
-        ' Data JSON Anda
-        Dim jsonString As String = ListWA
-
-
-
-    End Sub
-
     Private Sub BtnAll_Click(sender As Object, e As EventArgs) Handles BtnAll.Click
 
         BtnNotRead.BackColor = Color.Transparent
@@ -60,7 +42,7 @@ Public Class pgMsg
         page.TopLevel = False
         page.Dock = DockStyle.Fill
         page.SendDataUser = DatR
-        page.SearchFromDisplayed("")
+        page.SearchFromDisplayed("", "wascanqr")
         AddHandler page.SendDataJson, AddressOf OnClickMessage
         PnChatList.Controls.Add(page)
         page.Show()
@@ -105,11 +87,11 @@ Public Class pgMsg
         Dim msg = "Batas Waktu Sudah Expired: " & localTime.ToString("yyyy-MM-dd HH:mm:ss") & Environment.NewLine +
                  "Halaman ini tidak dapat Akses" + Environment.NewLine + Environment.NewLine
 
-        If (apk_time > apk_tglexp) Then
-            MsgBox(msg)
+        'If (apk_time > apk_tglexp) Then
+        '    MsgBox(msg)
 
-            Exit Sub
-        End If
+        '    Exit Sub
+        'End If
 
         Try
             Dim page As New PgKirim
@@ -174,6 +156,11 @@ Public Class pgMsg
     Private Sub pgMsg_Load(sender As Object, e As EventArgs) Handles Me.Load
 
         BtnAll_Click(sender, e)
+
+        MenuChat.Items.Clear()
+
+        MenuChat.Items.Add("WAScanQR")
+        MenuChat.Items.Add("WAServer")
 
 
         TextSearch.Text = PlaceholderText
@@ -389,7 +376,7 @@ Public Class pgMsg
             page.TopLevel = False
             page.Dock = DockStyle.Fill
             page.SendDataUser = DatR
-            page.SearchFromDisplayed(keyword)
+            page.SearchFromDisplayed(keyword, "")
             AddHandler page.SendDataJson, AddressOf OnClickMessage
             PnChatList.Controls.Add(page)
             page.Show()
@@ -413,5 +400,24 @@ Public Class pgMsg
         End If
     End Sub
 
+    Private Sub BtnMenu_Click(sender As Object, e As EventArgs) Handles BtnMenu.Click
+        MenuChat.Show(BtnMenu, 0, BtnMenu.Height)
+    End Sub
 
+    Private Sub MenuChat_ItemClicked(sender As Object, e As ToolStripItemClickedEventArgs) Handles MenuChat.ItemClicked
+
+        Select Case e.ClickedItem.Text
+
+            Case "WAScanQR"
+                MessageBox.Show("Menu WAScanQR")
+
+            Case "WAServer"
+                MessageBox.Show("Menu WAServer")
+
+            Case "User"
+                MessageBox.Show("Menu User")
+
+        End Select
+
+    End Sub
 End Class

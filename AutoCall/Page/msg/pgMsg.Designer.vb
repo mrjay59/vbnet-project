@@ -22,8 +22,10 @@ Partial Class pgMsg
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(pgMsg))
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.BtnMenu = New System.Windows.Forms.Button()
         Me.Panelgb = New System.Windows.Forms.Panel()
         Me.BtnNotRead = New System.Windows.Forms.Button()
         Me.BtnAll = New System.Windows.Forms.Button()
@@ -51,6 +53,7 @@ Partial Class pgMsg
         Me.PictureBox1 = New System.Windows.Forms.PictureBox()
         Me.BtnWA = New System.Windows.Forms.Button()
         Me.BtnSIP = New System.Windows.Forms.Button()
+        Me.MenuChat = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.Panel1.SuspendLayout()
         CType(Me.PictureBox2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel3.SuspendLayout()
@@ -62,6 +65,7 @@ Partial Class pgMsg
         '
         'Panel1
         '
+        Me.Panel1.Controls.Add(Me.BtnMenu)
         Me.Panel1.Controls.Add(Me.Panelgb)
         Me.Panel1.Controls.Add(Me.BtnNotRead)
         Me.Panel1.Controls.Add(Me.BtnAll)
@@ -74,6 +78,21 @@ Partial Class pgMsg
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(320, 643)
         Me.Panel1.TabIndex = 0
+        '
+        'BtnMenu
+        '
+        Me.BtnMenu.BackColor = System.Drawing.Color.FromArgb(CType(CType(60, Byte), Integer), CType(CType(60, Byte), Integer), CType(CType(60, Byte), Integer))
+        Me.BtnMenu.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.BtnMenu.FlatAppearance.BorderSize = 0
+        Me.BtnMenu.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.BtnMenu.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnMenu.ForeColor = System.Drawing.SystemColors.ButtonFace
+        Me.BtnMenu.Image = CType(resources.GetObject("BtnMenu.Image"), System.Drawing.Image)
+        Me.BtnMenu.Location = New System.Drawing.Point(277, 110)
+        Me.BtnMenu.Name = "BtnMenu"
+        Me.BtnMenu.Size = New System.Drawing.Size(37, 21)
+        Me.BtnMenu.TabIndex = 218
+        Me.BtnMenu.UseVisualStyleBackColor = False
         '
         'Panelgb
         '
@@ -404,6 +423,11 @@ Partial Class pgMsg
         Me.BtnSIP.UseVisualStyleBackColor = True
         Me.BtnSIP.Visible = False
         '
+        'MenuChat
+        '
+        Me.MenuChat.Name = "MenuChat"
+        Me.MenuChat.Size = New System.Drawing.Size(61, 4)
+        '
         'pgMsg
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -458,4 +482,6 @@ Partial Class pgMsg
     Friend WithEvents btnSend As Button
     Friend WithEvents TextMessage As TextBox
     Friend WithEvents Label5 As Label
+    Friend WithEvents BtnMenu As Button
+    Friend WithEvents MenuChat As ContextMenuStrip
 End Class

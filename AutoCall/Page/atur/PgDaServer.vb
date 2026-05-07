@@ -462,7 +462,7 @@ Public Class PgDaServer
 
         newData.Add("body", newDataArray)
 
-        If ((chkint = 1) And (tipe = "rqQrkode") Or (tipe = "rqRegcode")) Then
+        If ((chkint = 1) And (tipe = "rqQrkode")) Or ((chkint = 1) And (tipe = "rqRegcode")) Then
             showQR_One(newData.ToString)
         Else
 
@@ -560,6 +560,7 @@ Public Class PgDaServer
                 ScanQr.Label1.Visible = True
                 ScanQr.TxtNoWA.Visible = True
                 ScanQr.BtnReqKode.Visible = True
+                ScanQr.lstLog.Items.Add($"[Masukan No WA Exp:6281xx")
                 ' ======================
                 ' EVENT BUTTON REQUEST CODE
                 ' ======================
@@ -672,6 +673,11 @@ Public Class PgDaServer
                                            ctrl.LblR.Visible = False
                                            ctrl.picQRCode.Visible = True
                                            ctrl.picQRCode.Size = New Point(195, 195)
+                                       ElseIf (Message.Contains("QR Manager STOPPED")) Then
+                                           ctrl.LblR.Visible = True
+                                           ctrl.picQRCode.Visible = False
+                                           ctrl.LblR.Text = "STOPPED"
+
 
                                        End If
 
@@ -706,15 +712,33 @@ Public Class PgDaServer
     End Sub
 
     Private Sub BtnStop_Click(sender As Object, e As EventArgs) Handles BtnStop.Click
-        proses_chk("rqstop")
+        Dim msg = "yakin akan mau stopped ?"
+
+        If (MessageBox.Show(msg, "Konfirmasi", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes) Then
+            proses_chk("rqstop")
+        End If
     End Sub
 
     Private Sub BtnRestart_Click(sender As Object, e As EventArgs) Handles BtnRestart.Click
-        proses_chk("rqrestart")
+
+
+        Dim msg = "yakin akan mau restart ?"
+
+        If (MessageBox.Show(msg, "Konfirmasi", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes) Then
+            proses_chk("rqrestart")
+        End If
+
     End Sub
 
     Private Sub BtnLogout_Click(sender As Object, e As EventArgs) Handles BtnLogout.Click
-        proses_chk("rqlogout")
+        Dim msg = "yakin akan logout ?"
+
+        If (MessageBox.Show(msg, "Konfirmasi", MessageBoxButtons.YesNo, MessageBoxIcon.Question) = DialogResult.Yes) Then
+            proses_chk("rqlogout")
+        End If
+
+
+
     End Sub
 
 

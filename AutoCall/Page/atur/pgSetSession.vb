@@ -132,7 +132,7 @@ Public Class pgSetSession
         End If
     End Sub
 
-    Private Sub BtnDel_Click(sender As Object, e As EventArgs) Handles BtnDel.Click
+    Private Sub BtnDel_Click(sender As Object, e As EventArgs) Handles BtnDelMess.Click
 
     End Sub
 End Class

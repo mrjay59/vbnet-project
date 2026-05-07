@@ -79,9 +79,9 @@ Partial Class UCScanQR
         Me.Label1.ForeColor = System.Drawing.Color.White
         Me.Label1.Location = New System.Drawing.Point(17, 15)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(118, 13)
+        Me.Label1.Size = New System.Drawing.Size(154, 13)
         Me.Label1.TabIndex = 180
-        Me.Label1.Text = "Masukan No WhatsApp"
+        Me.Label1.Text = "Masukan No WA (Exp:6281xx)"
         Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         Me.Label1.Visible = False
         '

@@ -99,9 +99,9 @@ Partial Class WAScanQrForm
         Me.Label9.ForeColor = System.Drawing.Color.White
         Me.Label9.Location = New System.Drawing.Point(10, 146)
         Me.Label9.Name = "Label9"
-        Me.Label9.Size = New System.Drawing.Size(153, 15)
+        Me.Label9.Size = New System.Drawing.Size(146, 15)
         Me.Label9.TabIndex = 206
-        Me.Label9.Text = "SeassionID (Exp : WAHAP)"
+        Me.Label9.Text = "SessionID (Exp : WAHAP)"
         '
         'rqQrcode
         '

@@ -22,8 +22,10 @@ Partial Class pgSetSession
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(pgSetSession))
         Me.Panel1 = New System.Windows.Forms.Panel()
-        Me.BtnDel = New System.Windows.Forms.Button()
+        Me.BtnDelSesi = New System.Windows.Forms.Button()
+        Me.BtnDelMess = New System.Windows.Forms.Button()
         Me.btnclose = New System.Windows.Forms.Button()
         Me.lbltext = New System.Windows.Forms.Label()
         Me.Btn1 = New System.Windows.Forms.Button()
@@ -59,7 +61,8 @@ Partial Class pgSetSession
         'Panel1
         '
         Me.Panel1.BackColor = System.Drawing.Color.FromArgb(CType(CType(60, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
-        Me.Panel1.Controls.Add(Me.BtnDel)
+        Me.Panel1.Controls.Add(Me.BtnDelSesi)
+        Me.Panel1.Controls.Add(Me.BtnDelMess)
         Me.Panel1.Controls.Add(Me.btnclose)
         Me.Panel1.Controls.Add(Me.lbltext)
         Me.Panel1.Controls.Add(Me.Btn1)
@@ -69,21 +72,41 @@ Partial Class pgSetSession
         Me.Panel1.Size = New System.Drawing.Size(665, 45)
         Me.Panel1.TabIndex = 142
         '
-        'BtnDel
+        'BtnDelSesi
         '
-        Me.BtnDel.BackColor = System.Drawing.Color.FromArgb(CType(CType(80, Byte), Integer), CType(CType(65, Byte), Integer), CType(CType(90, Byte), Integer))
-        Me.BtnDel.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.BtnDel.FlatAppearance.BorderSize = 0
-        Me.BtnDel.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.BtnDel.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Italic), System.Drawing.FontStyle), System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BtnDel.ForeColor = System.Drawing.SystemColors.ButtonFace
-        Me.BtnDel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.BtnDel.Location = New System.Drawing.Point(537, 5)
-        Me.BtnDel.Name = "BtnDel"
-        Me.BtnDel.Size = New System.Drawing.Size(72, 34)
-        Me.BtnDel.TabIndex = 141
-        Me.BtnDel.Text = "Delete Message"
-        Me.BtnDel.UseVisualStyleBackColor = False
+        Me.BtnDelSesi.BackColor = System.Drawing.Color.FromArgb(CType(CType(80, Byte), Integer), CType(CType(65, Byte), Integer), CType(CType(190, Byte), Integer))
+        Me.BtnDelSesi.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.BtnDelSesi.FlatAppearance.BorderSize = 0
+        Me.BtnDelSesi.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.BtnDelSesi.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Italic), System.Drawing.FontStyle), System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnDelSesi.ForeColor = System.Drawing.SystemColors.ButtonFace
+        Me.BtnDelSesi.Image = CType(resources.GetObject("BtnDelSesi.Image"), System.Drawing.Image)
+        Me.BtnDelSesi.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.BtnDelSesi.Location = New System.Drawing.Point(520, 6)
+        Me.BtnDelSesi.Name = "BtnDelSesi"
+        Me.BtnDelSesi.Size = New System.Drawing.Size(86, 34)
+        Me.BtnDelSesi.TabIndex = 147
+        Me.BtnDelSesi.Text = "Delete Session"
+        Me.BtnDelSesi.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.BtnDelSesi.UseVisualStyleBackColor = False
+        '
+        'BtnDelMess
+        '
+        Me.BtnDelMess.BackColor = System.Drawing.Color.FromArgb(CType(CType(80, Byte), Integer), CType(CType(165, Byte), Integer), CType(CType(90, Byte), Integer))
+        Me.BtnDelMess.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.BtnDelMess.FlatAppearance.BorderSize = 0
+        Me.BtnDelMess.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.BtnDelMess.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Italic), System.Drawing.FontStyle), System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnDelMess.ForeColor = System.Drawing.SystemColors.ButtonFace
+        Me.BtnDelMess.Image = CType(resources.GetObject("BtnDelMess.Image"), System.Drawing.Image)
+        Me.BtnDelMess.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.BtnDelMess.Location = New System.Drawing.Point(426, 6)
+        Me.BtnDelMess.Name = "BtnDelMess"
+        Me.BtnDelMess.Size = New System.Drawing.Size(91, 34)
+        Me.BtnDelMess.TabIndex = 141
+        Me.BtnDelMess.Text = "Delete Message"
+        Me.BtnDelMess.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.BtnDelMess.UseVisualStyleBackColor = False
         '
         'btnclose
         '
@@ -108,7 +131,7 @@ Partial Class pgSetSession
         Me.lbltext.ForeColor = System.Drawing.Color.White
         Me.lbltext.Location = New System.Drawing.Point(3, 7)
         Me.lbltext.Name = "lbltext"
-        Me.lbltext.Size = New System.Drawing.Size(411, 30)
+        Me.lbltext.Size = New System.Drawing.Size(289, 30)
         Me.lbltext.TabIndex = 139
         '
         'Btn1
@@ -119,7 +142,7 @@ Partial Class pgSetSession
         Me.Btn1.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.Btn1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Italic), System.Drawing.FontStyle), System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Btn1.ForeColor = System.Drawing.SystemColors.ButtonFace
-        Me.Btn1.Location = New System.Drawing.Point(461, 3)
+        Me.Btn1.Location = New System.Drawing.Point(353, 5)
         Me.Btn1.Name = "Btn1"
         Me.Btn1.Size = New System.Drawing.Size(70, 36)
         Me.Btn1.TabIndex = 146
@@ -442,7 +465,7 @@ Partial Class pgSetSession
     Friend WithEvents UCformtext1 As UCformtext
     Friend WithEvents UCformtext2 As UCformtext
     Friend WithEvents UCformtext3 As UCformtext
-    Friend WithEvents BtnDel As Button
+    Friend WithEvents BtnDelMess As Button
     Friend WithEvents Label2 As Label
     Friend WithEvents Label3 As Label
     Friend WithEvents MaxSPDay As NumericUpDown
@@ -462,4 +485,5 @@ Partial Class pgSetSession
     Friend WithEvents UCformtext8 As UCformtext
     Friend WithEvents Label13 As Label
     Friend WithEvents state_wa As Label
+    Friend WithEvents BtnDelSesi As Button
 End Class
