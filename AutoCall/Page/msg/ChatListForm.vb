@@ -20,6 +20,8 @@ Public Class ChatListForm
     Private ReadOnly ColorItemSelected As Color = Color.FromArgb(70, 70, 90)
     Private WithEvents pnlLayoutList As New FlowLayoutPanel()
 
+    Public Property ParentMsgForm As pgMsg
+
     Public Property SendDataUser() As String
         Get
             Return DatR
@@ -170,6 +172,8 @@ Public Class ChatListForm
                 Dim stateS As Boolean = DatChat(i)("state")
                 Dim sessionId As String = DatChat(i)("session")
                 Dim last_text As String = DatChat(i)("last_text")
+                Dim detailmsg As List(Of Message) =
+    DatChat(i)("conversation").ToObject(Of List(Of Message))()
 
                 Dim stateStatus As Message.DeliveryStatus
 
@@ -190,7 +194,8 @@ Public Class ChatListForm
                     .Username = usernm,
                     .Platform = wadah,
                     .SessionId = sessionId,
-                    .PhoneSender = tsender
+                    .PhoneSender = tsender,
+                    .Conversation = detailmsg
                 })
 
             Next
@@ -307,28 +312,18 @@ Public Class ChatListForm
     End Function
 
     Private Sub SelectChatItem(chat As ChatItem)
-        ' Hapus seleksi sebelumnya
+
         If selectedChatItem IsNot Nothing Then
             selectedChatItem.IsSelected = False
             UpdateChatItemAppearance(selectedChatItem)
         End If
 
-        ' Set seleksi baru
         chat.IsSelected = True
         selectedChatItem = chat
         UpdateChatItemAppearance(chat)
 
-        Dim DataJson As New JObject
-        DataJson.Add("PhoneSender", chat.PhoneSender)
-        DataJson.Add("SessionId", chat.SessionId)
-        DataJson.Add("platform", chat.Platform)
-        DataJson.Add("username", chat.Username)
-        DataJson.Add("PhoneNumber", chat.PhoneNumber)
-        DataJson.Add("Service", chat.Service)
-
-
-        RaiseEvent SendDataJson(Me, New ClassData(DataJson.ToString))
-        ' Buka message list
+        ' langsung panggil parent
+        ParentMsgForm.OpenConversation(chat)
 
     End Sub
 
@@ -403,26 +398,7 @@ Public Class ChatListForm
     End Sub
 
     ' Class untuk menyimpan data chat
-    Public Class ChatItem
-        Public Property Id As Integer
-        Public Property PhoneNumber As String
-        Public Property PhoneSender As String
-        Public Property SessionId As String
-        Public Property Service As String
-        Public Property Username As String
-        Public Property Platform As String
-        Public Property Numto As String
-        Public Property LastMessage As String
-        Public Property Time As DateTime
-        Public Property UnreadCount As Integer
-        Public Property Status As MessageStatus
-        Public Property IsSelected As Boolean = False
-    End Class
 
-    Public Enum MessageStatus
-        Sent
-        Delivered
-        Read
-        Failed
-    End Enum
+
+
 End Class

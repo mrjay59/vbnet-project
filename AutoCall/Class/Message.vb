@@ -1,31 +1,57 @@
 ﻿Public Class Message
+
     Public Enum MessageType
         Inbox
         Outbox
     End Enum
 
-    Public Enum DeliveryStatus
-        Sending
-        Sent
-        Delivered
-        Read
-        Failed
-        None
-    End Enum
-
-    Public Property Content As String
-    Public Property ContentText As String
-    Public Property Sender As String
-    Public Property Time As DateTime
-    Public Property Type As MessageType
-    Public Property Status As DeliveryStatus
-    Public Property IsRead As Boolean
-
-    Public Enum ContentType
+    Public Enum MediaTypes
         Text
         Image
         Audio
+        Video
+        Document
+        Sticker
+        Unknown
     End Enum
 
-    Public Property MediaType As ContentType
+    Public Enum AckStatus
+        Pending = 0
+        Server = 1
+        Delivered = 2
+        Read = 3
+        Played = 4
+    End Enum
+
+    Public Property MsgId As String
+
+    Public Property FromMe As Boolean
+
+    Public Property Sender As String
+
+    Public Property Group As String
+
+
+    Public Property Timestamp As DateTime
+
+    Public Property ContentText As String
+
+    Public Property HasMedia As Boolean
+
+    Public Property Media As String
+
+    Public Property AckName As String
+
+    Public Property Ack As Integer
+
+    Public Property Source As String
+
+    Public Property Location As String
+
+    Public Property Id As String
+
+    Public Property Type As MessageType
+
+    Public Property MediaType As MediaTypes
+
 End Class

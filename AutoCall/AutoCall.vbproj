@@ -299,6 +299,7 @@
   <ItemGroup>
     <Compile Include="Class\adb.vb" />
     <Compile Include="Class\AudioStreamClient.vb" />
+    <Compile Include="Class\ChatItem.vb" />
     <Compile Include="Class\ClassApi.vb" />
     <Compile Include="Class\ClassApk.vb" />
     <Compile Include="Class\ClassConnect.vb" />

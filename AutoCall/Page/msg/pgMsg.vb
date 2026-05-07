@@ -1,5 +1,4 @@
 ﻿Imports System.Drawing.Drawing2D
-Imports AutoCall
 Imports Newtonsoft.Json
 Imports Newtonsoft.Json.Linq
 
@@ -42,8 +41,7 @@ Public Class pgMsg
         page.TopLevel = False
         page.Dock = DockStyle.Fill
         page.SendDataUser = DatR
-        page.SearchFromDisplayed("", "wascanqr")
-        AddHandler page.SendDataJson, AddressOf OnClickMessage
+        page.SearchFromDisplayed("", "")
         PnChatList.Controls.Add(page)
         page.Show()
     End Sub
@@ -167,14 +165,15 @@ Public Class pgMsg
         TextSearch.ForeColor = Color.Gray
     End Sub
 
-    Private Sub OnClickMessage(sender As Object, e As ClassData)
-        Dim Datjson = e.Data
+    Public Sub OpenConversation(chat As ChatItem)
+
+
         pnlMessageList.Controls.Clear()
         ' Setup panel untuk menampung pesan
         SetupMessagePanel()
 
         ' Contoh data pesan
-        listMessages(Datjson) ' Generate 100 pesan contoh
+        prosesOpenC(chat) ' Generate 100 pesan contoh
 
         PictureBox1.Visible = True
         Label1.Visible = True
@@ -199,71 +198,74 @@ Public Class pgMsg
         PnMessage.Controls.Add(pnlMessageList)
     End Sub
 
-    Private Sub listMessages(Datjson As String)
+    Private Sub prosesOpenC(chat As ChatItem)
+
         pnlMessageList.SuspendLayout()
 
+        pnlMessageList.Controls.Clear()
 
-        Dim DPar = jsonpa.Json2aray(Datjson)
-        Dim username = DPar("username")
-        Dim param As New Dictionary(Of String, String)
-        param.Add("username", username)
-        param.Add("platform", DPar("Platform"))
-        param.Add("tipe", "chatlist")
-        param.Add("nosender", DPar("PhoneSender"))
-        param.Add("tonu", DPar("PhoneNumber"))
+        Label1.Text = chat.PhoneNumber
+        Label2.Text = $"{chat.Platform}-{chat.PhoneSender}"
 
-        Label1.Text = DPar("PhoneNumber")
-        Label2.Text = $"{DPar("Platform")}-{DPar("PhoneSender")}"
-        Label1.Tag = Datjson
+        Dim conv As List(Of Message) = chat.Conversation
 
-        ComboBox1.Text = DPar("SessionId").ToString
-        Label5.Text = DPar("PhoneSender").ToString
+        For Each item As Message In conv
 
-        Dim ListWA As String = WApp.OnDetailMsg(param)
-        Dim Datlist As JArray = jsonpa.Json2aray(ListWA)
+            Dim isOutbox As Boolean =
+            (item.Type = Message.MessageType.Outbox)
 
-
-        ' Contoh data dummy (ganti dengan data sebenarnya)
-        For i As Integer = 0 To Datlist.Count - 1
-            Dim tujuan As String = String.Empty
-            Dim NumText As String = Datlist(i)("aichat_from")
-            Dim isgroup As String = Datlist(i)("aichat_isgroup")
-            Dim isOutbox As Boolean = IIf(Datlist(i)("aichat_type") = "Inbox", False, True)
-            Dim waktu As Date = Datlist(i)("aichat_datetime")
-            Dim sessionId As String = Datlist(i)("aichat_waname")
-            Dim sstate As String = Datlist(i)("aichat_state")
+            Dim waktu As Date = item.Timestamp
 
             AddDateHeaderIfNeeded(waktu)
-            Dim rawText As String = Datlist(i)("aichat_text").ToString()
-            Dim cleanText As String = rawText.Replace(vbLf, vbCrLf)
 
+            Dim cleanText As String =
+            item.ContentText.Replace(vbLf, vbCrLf)
 
             Dim bubble As New MessageBubble()
-            bubble.TimeText = waktu.ToString("T")
+
+            bubble.TimeText = waktu.ToString("HH:mm")
             bubble.IsOutbox = isOutbox
             bubble.MessageText = cleanText
-            '  bubble.ContentType.Text = MessageBubble.ContentType.Text
 
             If bubble.IsOutbox Then
-                bubble.StatusText = If(sstate = "false", "!! Gagal Terkirim", "✓ Terkirim")
-                bubble.SenderText = $"#{NumText} {sessionId}"
-            Else
-                bubble.SenderText = $"#{NumText}"
-            End If
-            bubble.Width = pnlMessageList.Width - 25 ' Beri ruang untuk scrollbar
 
+                bubble.StatusText =
+                item.AckName.ToString()
+
+                bubble.SenderText =
+                $"#{item.Sender}"
+
+            Else
+
+                bubble.SenderText =
+                $"#{item.Sender}"
+
+            End If
+
+            ' content type
+            Select Case item.MediaType
+
+                Case Message.MediaTypes.Text
+                    bubble.Content = MessageBubble.ContentType.Text
+
+                Case Message.MediaTypes.Image
+                    bubble.Content = MessageBubble.ContentType.Image
+
+                Case Message.MediaTypes.Audio
+                    bubble.Content = MessageBubble.ContentType.Voice
+
+            End Select
+
+            bubble.Width = pnlMessageList.Width - 25
 
             pnlMessageList.Controls.Add(bubble)
+
         Next
 
+        pnlMessageList.ResumeLayout()
 
-
-
-
-        pnlMessageList.ResumeLayout(True)
-
-        ' Scroll ke bawah
         ScrollToBottom()
+
     End Sub
 
     Private Sub AddDateHeaderIfNeeded(msgDate As Date)
