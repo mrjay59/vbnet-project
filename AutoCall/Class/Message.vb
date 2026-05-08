@@ -21,6 +21,7 @@
         Delivered = 2
         Read = 3
         Played = 4
+        Failed = -1
     End Enum
 
     Public Property MsgId As String
@@ -53,5 +54,9 @@
     Public Property Type As MessageType
 
     Public Property MediaType As MediaTypes
+
+    Public Property MediaUrl As String
+
+    Public Property Status As AckStatus
 
 End Class

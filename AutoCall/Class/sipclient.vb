@@ -14,7 +14,7 @@ Imports SIPSorcery.SIP
 Imports SIPSorcery.SIP.App
 Imports SIPSorceryMedia.Abstractions
 Imports SIPSorceryMedia.Encoders
-Imports SIPSorceryMedia.Windows
+'Imports SIPSorceryMedia.Windows
 
 Public Class SIPClient
     Implements IDisposable

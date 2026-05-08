@@ -1,5 +1,8 @@
 ﻿Imports System.IO
 Imports System.Media
+Imports System.Net.Http
+Imports LibVLCSharp.Shared
+Imports NAudio.Wave
 
 Public Class MessageBubble
     Inherits UserControl
@@ -9,6 +12,7 @@ Public Class MessageBubble
         Image
         Voice
         Video
+        File
     End Enum
 
     Private _contentType As ContentType = ContentType.Text
@@ -17,7 +21,7 @@ Public Class MessageBubble
     Private _timeText As String = ""
     Private _statusText As String = ""
     Private _senderText As String = ""
-    Private _mediaPath As String = ""
+    Private _mediaUrl As String = ""
     Private _duration As Integer = 0 ' Untuk voice/video (dalam detik)
 
     ' UI Components
@@ -26,12 +30,14 @@ Public Class MessageBubble
     Private picMedia As PictureBox
     Private WithEvents btnPlay As Button
     Private progressTimer As Timer
+    Private WithEvents ProgresTimer As Timer
     Private progressBar As ProgressBar
     Private lblDuration As Label
     Private lblTime As Label
     Private lblStatus As Label
     Private lblSender As Label
     Private WithEvents btnPlayVideo As Button
+    Private WithEvents btnDownload As Button
 
     ' Constants
     Private Const PADDING_HORIZONTAL As Integer = 15
@@ -42,6 +48,18 @@ Public Class MessageBubble
     Private Const MEDIA_WIDTH As Integer = 300
     Private Const MEDIA_HEIGHT As Integer = 200
 
+    Public Property BubbleContentType As ContentType
+        Get
+            Return _contentType
+        End Get
+        Set(value As ContentType)
+
+            _contentType = value
+
+            LoadMedia()
+
+        End Set
+    End Property
     ' Properties
     Public Property IsOutbox() As Boolean
         Get
@@ -105,11 +123,24 @@ Public Class MessageBubble
 
     Public Property MediaPath() As String
         Get
-            Return _mediaPath
+            Return _mediaUrl
         End Get
         Set(value As String)
-            _mediaPath = value
+            _mediaUrl = value
             LoadMedia()
+        End Set
+    End Property
+
+    Public Property MediaUrl As String
+        Get
+            Return _mediaUrl
+        End Get
+        Set(value As String)
+
+            _mediaUrl = value
+
+            LoadMedia()
+
         End Set
     End Property
 
@@ -235,37 +266,99 @@ Public Class MessageBubble
         bottomPanel.Controls.Add(lblSender)
     End Sub
 
-    Private Sub LoadMedia()
-        If String.IsNullOrEmpty(_mediaPath) Then Return
+    Private Async Sub LoadMedia()
+
+        If String.IsNullOrEmpty(_mediaUrl) Then Return
 
         Try
+
             Select Case _contentType
+
+            ' ==========================
+            ' IMAGE
+            ' ==========================
                 Case ContentType.Image
-                    ' Load image
-                    If File.Exists(_mediaPath) Then
-                        picMedia.Image = Image.FromFile(_mediaPath)
-                    Else
-                        ' Placeholder if image not found
-                        picMedia.Image = My.Resources.ImagePlaceholder
-                    End If
 
+                    Using client As New HttpClient()
+
+                        Dim bytes =
+                        Await client.GetByteArrayAsync(_mediaUrl)
+
+                        Using ms As New MemoryStream(bytes)
+
+                            Dim imgTemp =
+                            Image.FromStream(ms)
+
+                            picMedia.Image =
+                            New Bitmap(imgTemp)
+
+                        End Using
+
+                    End Using
+
+                    picMedia.Visible = True
+
+                    btnPlay.Visible = False
+
+                    btnDownload.Visible = False
+
+            ' ==========================
+            ' VIDEO
+            ' ==========================
                 Case ContentType.Video
-                    ' Load video thumbnail (in a real app, you'd generate this)
-                    If File.Exists(_mediaPath) Then
-                        picMedia.Image = My.Resources.VideoThumbnail
-                    Else
-                        picMedia.Image = My.Resources.VideoPlaceholder
-                    End If
 
+                    picMedia.Image =
+                    My.Resources.VideoThumbnail
+
+                    picMedia.Visible = True
+
+                    btnPlay.Visible = True
+
+                    btnPlay.Text = "▶"
+
+                    btnDownload.Visible = False
+
+            ' ==========================
+            ' AUDIO / VOICE
+            ' ==========================
                 Case ContentType.Voice
-                    ' No visual for voice
+
+                    picMedia.Image =
+                    My.Resources.VideoThumbnail
+
+                    picMedia.Visible = True
+
+                    btnPlay.Visible = True
+
+                    btnPlay.Text = "▶"
+
+                    btnDownload.Visible = False
+
+            ' ==========================
+            ' DOCUMENT
+            ' ==========================
+                Case ContentType.File
+
+                    picMedia.Image =
+                    My.Resources.VideoThumbnail
+
+                    picMedia.Visible = True
+
+                    btnPlay.Visible = False
+
+                    btnDownload.Visible = True
+
             End Select
+
         Catch ex As Exception
-            ' Handle error
-            picMedia.Image = My.Resources.ErrorPlaceholder
+
+            picMedia.Image =
+            My.Resources.ErrorPlaceholder
+
         End Try
 
         UpdateLayout()
+
     End Sub
 
     Private Sub UpdateLayout()
@@ -393,40 +486,323 @@ Public Class MessageBubble
         End If
     End Sub
 
-    Private Sub PlayMedia(sender As Object, e As EventArgs)
-        Select Case _contentType
-            Case ContentType.Voice
-                ' Simulate voice playback
-                progressTimer.Start()
-                btnPlay.Text = "❚❚"
-                RemoveHandler btnPlay.Click, AddressOf PlayMedia
-                AddHandler btnPlay.Click, AddressOf PauseMedia
+    ' ================================
+    ' AUDIO PLAYER
+    ' ================================
+    Private waveOut As WaveOutEvent
+    Private audioReader As MediaFoundationReader
 
-            Case ContentType.Video
-                ' Simulate video playback
-                MessageBox.Show($"Playing video: {Path.GetFileName(_mediaPath)}", "Video Playback")
-        End Select
+    ' ================================
+    ' VLC VIDEO
+    ' ================================
+    Private vlcLib As LibVLC
+    Private mediaPlayer As MediaPlayer
+
+    ' ================================
+    ' PLAY MEDIA
+    ' ================================
+    Private Async Sub PlayMedia(
+    sender As Object,
+    e As EventArgs
+)
+
+        Try
+
+            Select Case _contentType
+
+            ' =====================================
+            ' IMAGE
+            ' =====================================
+                Case ContentType.Image
+
+                    If String.IsNullOrEmpty(_mediaUrl) Then Exit Sub
+
+                    Using client As New HttpClient()
+
+                        Dim bytes =
+                        Await client.GetByteArrayAsync(_mediaUrl)
+
+                        Using ms As New MemoryStream(bytes)
+
+                            Dim tmpImg = Image.FromStream(ms)
+
+                            picMedia.Image = New Bitmap(tmpImg)
+
+                        End Using
+
+                    End Using
+
+            ' =====================================
+            ' AUDIO
+            ' =====================================
+                Case ContentType.Voice
+
+                    StopAudio()
+
+                    audioReader =
+                    New MediaFoundationReader(_mediaUrl)
+
+                    waveOut = New WaveOutEvent()
+
+                    waveOut.Init(audioReader)
+
+                    waveOut.Play()
+
+                    btnPlay.Text = "❚❚"
+
+                    progressTimer.Start()
+
+                    RemoveHandler btnPlay.Click,
+                    AddressOf PlayMedia
+
+                    AddHandler btnPlay.Click,
+                    AddressOf PauseMedia
+
+            ' =====================================
+            ' VIDEO
+            ' =====================================
+                Case ContentType.Video
+
+                    Dim frm As New Form
+
+                    frm.Text = "Video Player"
+
+                    frm.Width = 800
+                    frm.Height = 600
+
+                    Dim videoView As New LibVLCSharp.WinForms.VideoView()
+
+                    videoView.Dock = DockStyle.Fill
+
+                    frm.Controls.Add(videoView)
+
+                    Core.Initialize()
+
+                    vlcLib = New LibVLC()
+
+                    mediaPlayer = New MediaPlayer(vlcLib)
+
+                    videoView.MediaPlayer = mediaPlayer
+
+                    Dim media As New Media(vlcLib,
+                    New Uri(_mediaUrl))
+
+                    mediaPlayer.Play(media)
+
+                    frm.Show()
+
+            ' =====================================
+            ' DOCUMENT
+            ' =====================================
+                Case ContentType.File
+
+                    Dim sfd As New SaveFileDialog()
+
+                    sfd.FileName = Path.GetFileName(_mediaUrl)
+
+                    If sfd.ShowDialog() = DialogResult.OK Then
+
+                        Using client As New HttpClient()
+
+                            Dim bytes =
+                            Await client.GetByteArrayAsync(_mediaUrl)
+
+                            File.WriteAllBytes(
+                            sfd.FileName,
+                            bytes
+                        )
+
+                        End Using
+
+                        MessageBox.Show(
+                        "File berhasil di download"
+                    )
+
+                    End If
+
+            End Select
+
+        Catch ex As Exception
+
+            MessageBox.Show(ex.Message)
+
+        End Try
+
     End Sub
 
-    Private Sub PauseMedia(sender As Object, e As EventArgs)
-        progressTimer.Stop()
-        btnPlay.Text = "▶"
-        RemoveHandler btnPlay.Click, AddressOf PauseMedia
-        AddHandler btnPlay.Click, AddressOf PlayMedia
+    ' ================================
+    ' PAUSE MEDIA
+    ' ================================
+    Private Sub PauseMedia(
+    sender As Object,
+    e As EventArgs
+)
+
+        Try
+
+            Select Case _contentType
+
+                Case ContentType.Voice
+
+                    If waveOut IsNot Nothing Then
+
+                        waveOut.Pause()
+
+                        progressTimer.Stop()
+
+                        btnPlay.Text = "▶"
+
+                        RemoveHandler btnPlay.Click,
+                        AddressOf PauseMedia
+
+                        AddHandler btnPlay.Click,
+                        AddressOf ResumeMedia
+
+                    End If
+
+                Case ContentType.Video
+
+                    If mediaPlayer IsNot Nothing Then
+
+                        mediaPlayer.Pause()
+
+                    End If
+
+            End Select
+
+        Catch ex As Exception
+
+            MessageBox.Show(ex.Message)
+
+        End Try
+
     End Sub
 
-    Private Sub ProgressTimer_Tick(sender As Object, e As EventArgs)
-        If progressBar.Value < progressBar.Maximum Then
-            progressBar.Value += 1
-        Else
+    ' ================================
+    ' RESUME MEDIA
+    ' ================================
+    Private Sub ResumeMedia(
+    sender As Object,
+    e As EventArgs
+)
+
+        Try
+
+            Select Case _contentType
+
+                Case ContentType.Voice
+
+                    If waveOut IsNot Nothing Then
+
+                        waveOut.Play()
+
+                        progressTimer.Start()
+
+                        btnPlay.Text = "❚❚"
+
+                        RemoveHandler btnPlay.Click,
+                        AddressOf ResumeMedia
+
+                        AddHandler btnPlay.Click,
+                        AddressOf PauseMedia
+
+                    End If
+
+                Case ContentType.Video
+
+                    If mediaPlayer IsNot Nothing Then
+
+                        mediaPlayer.Play()
+
+                    End If
+
+            End Select
+
+        Catch ex As Exception
+
+            MessageBox.Show(ex.Message)
+
+        End Try
+
+    End Sub
+
+    ' ================================
+    ' STOP AUDIO
+    ' ================================
+    Private Sub StopAudio()
+
+        Try
+
+            If waveOut IsNot Nothing Then
+
+                waveOut.Stop()
+                waveOut.Dispose()
+
+                waveOut = Nothing
+
+            End If
+
+            If audioReader IsNot Nothing Then
+
+                audioReader.Dispose()
+
+                audioReader = Nothing
+
+            End If
+
+        Catch
+        End Try
+
+    End Sub
+
+    ' ================================
+    ' TIMER PROGRESS
+    ' ================================
+    Private Sub ProgressTimer_Tick(sender As Object, e As EventArgs) Handles ProgresTimer.Tick
+
+        Try
+
+            If _contentType = ContentType.Voice Then
+
+                If audioReader Is Nothing Then Exit Sub
+
+                If audioReader.TotalTime.TotalSeconds <= 0 Then Exit Sub
+
+                progressBar.Maximum =
+                CInt(audioReader.TotalTime.TotalSeconds)
+
+                progressBar.Value =
+                Math.Min(
+                    progressBar.Maximum,
+                    CInt(audioReader.CurrentTime.TotalSeconds)
+                )
+
+                ' selesai
+                If audioReader.CurrentTime >= audioReader.TotalTime Then
+
+                    progressTimer.Stop()
+
+                    btnPlay.Text = "▶"
+
+                    progressBar.Value = 0
+
+                    RemoveHandler btnPlay.Click,
+                    AddressOf PauseMedia
+
+                    AddHandler btnPlay.Click,
+                    AddressOf PlayMedia
+
+                End If
+
+            End If
+
+        Catch ex As Exception
+
             progressTimer.Stop()
-            btnPlay.Text = "▶"
-            progressBar.Value = 0
-            RemoveHandler btnPlay.Click, AddressOf PauseMedia
-            AddHandler btnPlay.Click, AddressOf PlayMedia
-        End If
-    End Sub
 
+        End Try
+
+    End Sub
     Private Sub RoundCorners()
         Dim radius As Integer = 15
         Dim path As New Drawing2D.GraphicsPath()
@@ -456,6 +832,44 @@ Public Class MessageBubble
     '        txtMessage.SelectAll()
     '    End If
     'End Sub
+
+    Private Async Sub btnDownload_Click(
+    sender As Object,
+    e As EventArgs
+) Handles btnDownload.Click
+
+        Try
+
+            Dim sfd As New SaveFileDialog()
+
+            sfd.FileName =
+            Path.GetFileName(_mediaUrl)
+
+            If sfd.ShowDialog() = DialogResult.OK Then
+
+                Using client As New HttpClient()
+
+                    Dim bytes =
+                    Await client.GetByteArrayAsync(_mediaUrl)
+
+                    File.WriteAllBytes(
+                    sfd.FileName,
+                    bytes
+                )
+
+                End Using
+
+                MessageBox.Show("Download selesai")
+
+            End If
+
+        Catch ex As Exception
+
+            MessageBox.Show(ex.Message)
+
+        End Try
+
+    End Sub
 
     Protected Overrides Sub OnResize(e As EventArgs)
         MyBase.OnResize(e)

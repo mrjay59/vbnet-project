@@ -1,7 +1,8 @@
 ﻿Imports System.Drawing.Drawing2D
 Imports Newtonsoft.Json
 Imports Newtonsoft.Json.Linq
-
+Imports System.Net.Http
+Imports System.IO
 
 Public Class pgMsg
     Private jsonpa As New ClassJson
@@ -10,9 +11,11 @@ Public Class pgMsg
     Private DatR As String = String.Empty
     Private DataJson = Nothing
     Private WApp As New WhatsAppClass
-    Public Event SendDataJson As EventHandler(Of ClassData)
+
     Private lastDateDisplayed As Date = Date.MinValue
     Private WithEvents pnlMessageList As New FlowLayoutPanel()
+    Public ChatCache As New Dictionary(Of String, ChatItem)
+    Private CurrentChat As ChatItem = Nothing
 
     Public Property SendDataUser() As String
         Get
@@ -25,6 +28,7 @@ Public Class pgMsg
 
     Private Sub BtnAll_Click(sender As Object, e As EventArgs) Handles BtnAll.Click
 
+        AddHandler WSManager.Client.MessageReceived, AddressOf wsClient_MessageReceived
         BtnNotRead.BackColor = Color.Transparent
         BtnAll.BackColor = Color.Gray
         BtnNewMsg.BackColor = Color.Transparent
@@ -44,6 +48,242 @@ Public Class pgMsg
         page.SearchFromDisplayed("", "")
         PnChatList.Controls.Add(page)
         page.Show()
+    End Sub
+
+    Private Sub wsClient_MessageReceived(message As String)
+        Dim arrj = jsonpa.Json2aray(message)
+        Dim usern = arrj("metadata")("username").ToString
+        Dim session = arrj("session").ToString
+        Dim DPar = jsonpa.Json2aray(DatR)
+        Dim username = DPar("body")("apk_user").ToString
+
+        If username = usern And arrj("event").ToString = "message" Then
+            OnMessageReceived(message)
+        ElseIf (arrj("event").ToString = "messageack") Then
+
+        End If
+
+
+
+
+
+    End Sub
+
+    Private Sub OnMessageReceived(json As String)
+
+        Try
+            Dim newobj As New Object
+            Dim obj = JObject.Parse(json)
+
+            Dim phone As String = obj("payload")("to").ToString
+            Dim text As String = obj("payload")("body").ToString
+            Dim msgid As String = obj("payload")("id").ToString
+            Dim hasMedia As Boolean = obj("payload")("hasMedia").ToString
+            Dim Timestamp As DateTime = obj("payload")("timestamp")
+            Dim fromMe As Boolean = obj("payload")("fromMe")
+            Dim MediaUrl As String = obj("media")("url").ToString
+            newobj.add(obj("media"))
+            Dim MediaType As String = jsonpa.DetectMediaType(newobj.ToString)
+
+
+            Dim msg As New Message With {
+            .MsgId = msgid,
+            .ContentText = text,
+            .Timestamp = Timestamp,
+            .FromMe = fromMe,
+            .MediaUrl = MediaUrl,
+            .MediaType = MediaType
+        }
+
+            UpdateChatRealtime(phone, msg)
+
+        Catch ex As Exception
+
+            Console.WriteLine(ex.Message)
+
+        End Try
+
+    End Sub
+
+    Private Sub UpdateChatRealtime(
+    phone As String,
+    msg As Message
+)
+
+        If InvokeRequired Then
+
+            Invoke(Sub()
+                       UpdateChatRealtime(phone, msg)
+                   End Sub)
+
+            Return
+
+        End If
+
+        If ChatCache.ContainsKey(phone) Then
+
+            Dim chat = ChatCache(phone)
+
+            ' update data
+            chat.LastMessage = msg.ContentText
+
+            chat.Time = msg.Timestamp
+
+            chat.Conversation.Add(msg)
+
+            ' unread
+            If Not chat.IsSelected Then
+                chat.UnreadCount += 1
+            End If
+
+            ' update list ui
+            ChatListForm.UpdateChatUI(chat)
+
+            ' update bubble jika aktif
+            If CurrentChat Is chat Then
+
+                AddBubbleMessage(msg)
+
+            End If
+
+        Else
+
+            ' chat baru
+            Dim newChat As New ChatItem With {
+            .PhoneNumber = phone,
+            .LastMessage = msg.ContentText,
+            .Time = msg.Timestamp
+        }
+
+            newChat.Conversation.Add(msg)
+
+            ChatCache.Add(phone, newChat)
+
+            ChatListForm.AddChatItem(newChat)
+
+        End If
+
+    End Sub
+
+    Private Sub AddBubbleMessage(msg As Message)
+
+        If InvokeRequired Then
+
+            Invoke(Sub()
+                       AddBubbleMessage(msg)
+                   End Sub)
+
+            Return
+
+        End If
+
+        Try
+
+            Dim bubble As New MessageBubble()
+
+            ' ==================================
+            ' BASIC
+            ' ==================================
+
+            bubble.TimeText =
+            msg.Timestamp.ToString("HH:mm")
+
+            bubble.IsOutbox =
+            msg.FromMe
+
+            bubble.MessageText =
+            msg.ContentText
+
+            bubble.SenderText =
+            msg.Sender
+
+            ' ==================================
+            ' MEDIA
+            ' ==================================
+
+            bubble.MediaUrl = msg.MediaUrl
+
+            Select Case msg.MediaType
+
+                Case "Image"
+                    bubble.BubbleContentType =
+                    MessageBubble.ContentType.Image
+
+                Case "Audio"
+                    bubble.BubbleContentType =
+                    MessageBubble.ContentType.Voice
+
+                Case "Video"
+                    bubble.BubbleContentType =
+                    MessageBubble.ContentType.Video
+
+                Case "Document"
+                    bubble.BubbleContentType =
+                    MessageBubble.ContentType.File
+
+                Case Else
+                    bubble.BubbleContentType =
+                    MessageBubble.ContentType.Text
+
+            End Select
+
+            ' ==================================
+            ' STATUS
+            ' ==================================
+
+            If msg.FromMe Then
+
+                Select Case msg.Status
+
+                    Case Message.AckStatus.Pending
+                        bubble.StatusText = "⌛"
+
+                    Case Message.AckStatus.Server
+                        bubble.StatusText = "✓"
+
+                    Case Message.AckStatus.Delivered
+                        bubble.StatusText = "✓✓"
+
+                    Case Message.AckStatus.Read
+                        bubble.StatusText = "✓✓ Dibaca"
+
+                    Case Message.AckStatus.Played
+                        bubble.StatusText = "▶ Diputar"
+
+                    Case Else
+                        bubble.StatusText = "!!"
+
+                End Select
+
+            End If
+
+            ' ==================================
+            ' WIDTH
+            ' ==================================
+
+            bubble.Width =
+            pnlMessageList.Width - 25
+
+            ' ==================================
+            ' ADD TO PANEL
+            ' ==================================
+
+            pnlMessageList.Controls.Add(bubble)
+
+            bubble.BringToFront()
+
+            ' ==================================
+            ' AUTO SCROLL
+            ' ==================================
+
+            ScrollToBottom()
+
+        Catch ex As Exception
+
+            Console.WriteLine(ex.Message)
+
+        End Try
+
     End Sub
 
     Private Sub BtnNotRead_Click(sender As Object, e As EventArgs) Handles BtnNotRead.Click
@@ -172,6 +412,7 @@ Public Class pgMsg
         ' Setup panel untuk menampung pesan
         SetupMessagePanel()
 
+
         ' Contoh data pesan
         prosesOpenC(chat) ' Generate 100 pesan contoh
 
@@ -199,6 +440,8 @@ Public Class pgMsg
     End Sub
 
     Private Sub prosesOpenC(chat As ChatItem)
+
+        CurrentChat = chat
 
         pnlMessageList.SuspendLayout()
 
@@ -246,13 +489,25 @@ Public Class pgMsg
             Select Case item.MediaType
 
                 Case Message.MediaTypes.Text
+
                     bubble.Content = MessageBubble.ContentType.Text
+                    bubble.MessageText = item.ContentText
 
                 Case Message.MediaTypes.Image
+
                     bubble.Content = MessageBubble.ContentType.Image
 
                 Case Message.MediaTypes.Audio
+
                     bubble.Content = MessageBubble.ContentType.Voice
+
+                Case Message.MediaTypes.Video
+
+                    bubble.Content = MessageBubble.ContentType.Video
+
+                Case Message.MediaTypes.Document
+
+                    bubble.Content = MessageBubble.ContentType.File
 
             End Select
 
@@ -345,7 +600,7 @@ Public Class pgMsg
         jsdata1.Add("body", jsArr)
         jsArr.Add(jsdata)
 
-        RaiseEvent SendDataJson(Me, New ClassData(jsdata1.ToString))
+        'RaiseEvent SendDataJson(Me, New ClassData(jsdata1.ToString))
         TextMessage.Text = ""
     End Sub
 
@@ -379,7 +634,6 @@ Public Class pgMsg
             page.Dock = DockStyle.Fill
             page.SendDataUser = DatR
             page.SearchFromDisplayed(keyword, "")
-            AddHandler page.SendDataJson, AddressOf OnClickMessage
             PnChatList.Controls.Add(page)
             page.Show()
         End If
@@ -407,17 +661,26 @@ Public Class pgMsg
     End Sub
 
     Private Sub MenuChat_ItemClicked(sender As Object, e As ToolStripItemClickedEventArgs) Handles MenuChat.ItemClicked
+        Dim page As New ChatListForm
+        PnChatList.Controls.Clear()
+        page.TopLevel = False
+        page.Dock = DockStyle.Fill
+        page.SendDataUser = DatR
 
         Select Case e.ClickedItem.Text
 
             Case "WAScanQR"
-                MessageBox.Show("Menu WAScanQR")
+
+                page.SearchFromDisplayed("", "wascanqr")
+                PnChatList.Controls.Add(page)
+                page.Show()
 
             Case "WAServer"
-                MessageBox.Show("Menu WAServer")
+                page.SearchFromDisplayed("", "waserver")
+                PnChatList.Controls.Add(page)
+                page.Show()
 
-            Case "User"
-                MessageBox.Show("Menu User")
+
 
         End Select
 

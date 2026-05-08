@@ -721,9 +721,6 @@ Public Class frmkirim
 
     End Sub
 
-
-
-
     Private Sub UpdateDeviceStatus(deviceKey As String,
                                status As DeviceStatus,
                                Optional info As String = "")

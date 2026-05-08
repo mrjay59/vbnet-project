@@ -21,6 +21,7 @@ Public Class ChatListForm
     Private WithEvents pnlLayoutList As New FlowLayoutPanel()
 
     Public Property ParentMsgForm As pgMsg
+    Public ChatPanels As New Dictionary(Of String, Panel)
 
     Public Property SendDataUser() As String
         Get
@@ -175,12 +176,14 @@ Public Class ChatListForm
                 Dim detailmsg As List(Of Message) =
     DatChat(i)("conversation").ToObject(Of List(Of Message))()
 
-                Dim stateStatus As Message.DeliveryStatus
+                Dim ack As Integer = DatChat(i)("ack")
 
-                If (stateS) Then
-                    stateStatus = MessageStatus.Delivered
-                ElseIf (stateS = "false") Then
-                    stateStatus = MessageStatus.Failed
+                Dim stateStatus As Message.AckStatus
+
+                If [Enum].IsDefined(GetType(Message.AckStatus), ack) Then
+                    stateStatus = CType(ack, Message.AckStatus)
+                Else
+                    stateStatus = Message.AckStatus.Failed
                 End If
 
 
@@ -217,13 +220,77 @@ Public Class ChatListForm
         End If
 
         For Each chat In items
-            ' Buat panel untuk item chat
+
             Dim chatPanel = CreateChatItemPanel(chat, yPos)
+
             pnlLayoutList.Controls.Add(chatPanel)
             yPos += chatPanel.Height + 5
+
+            If Not ChatPanels.ContainsKey(chat.PhoneNumber) Then
+                ChatPanels.Add(chat.PhoneNumber, chatPanel)
+            End If
+
+
         Next
 
         pnlLayoutList.ResumeLayout()
+    End Sub
+
+    Public Sub UpdateChatUI(chat As ChatItem)
+
+        If Not ChatPanels.ContainsKey(chat.PhoneNumber) Then
+            Exit Sub
+        End If
+
+        Dim pnl = ChatPanels(chat.PhoneNumber)
+
+        Dim lblName =
+        CType(pnl.Controls("lblName"), Label)
+
+        Dim lblLast =
+        CType(pnl.Controls("lblLastMessage"), Label)
+
+        Dim lblTime =
+        CType(pnl.Controls("lblTime"), Label)
+
+        Dim lblUnread =
+        CType(pnl.Controls("lblUnread"), Label)
+
+        lblName.Text = chat.PhoneNumber
+
+        lblLast.Text = chat.LastMessage
+
+        lblTime.Text = chat.Time.ToString("HH:mm")
+
+        lblUnread.Text = chat.UnreadCount.ToString
+
+        lblUnread.Visible =
+        (chat.UnreadCount > 0)
+
+    End Sub
+
+    Public Sub AddChatItem(chat As ChatItem)
+
+        Dim yPos As Integer = 0
+
+        If pnlLayoutList.Controls.Count > 0 Then
+
+            Dim lastControl =
+            pnlLayoutList.Controls(
+                pnlLayoutList.Controls.Count - 1
+            )
+
+            yPos = lastControl.Bottom + 5
+
+        End If
+
+        Dim pnl =
+        CreateChatItemPanel(chat, yPos)
+
+        pnlLayoutList.Controls.Add(pnl)
+
+        ChatPanels(chat.PhoneNumber) = pnl
+
     End Sub
 
     Private Function CreateChatItemPanel(chat As ChatItem, yPos As Integer) As Panel

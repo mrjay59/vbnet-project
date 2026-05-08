@@ -150,4 +150,90 @@ Public Class ClassJson
             Return False
         End Try
     End Function
+
+    Public Function DetectMediaType(mediaJson As String) As String
+
+        Try
+
+            If String.IsNullOrWhiteSpace(mediaJson) Then
+                Return "Text"
+            End If
+
+            Dim media As JObject =
+                JObject.Parse(mediaJson)
+
+            Dim mime As String =
+                media("mimetype")?.ToString().
+                ToLower()
+
+            Dim filename As String =
+                media("filename")?.ToString().
+                ToLower()
+
+            ' =========================
+            ' PRIORITAS MIME TYPE
+            ' =========================
+
+            If mime.StartsWith("image/") Then
+                Return "Image"
+            End If
+
+            If mime.StartsWith("audio/") Then
+                Return "Audio"
+            End If
+
+            If mime.StartsWith("video/") Then
+                Return "Video"
+            End If
+
+            If mime.StartsWith("application/") Then
+                Return "Document"
+            End If
+
+            ' =========================
+            ' FALLBACK EXTENSION
+            ' =========================
+
+            Dim ext As String =
+                Path.GetExtension(filename).
+                Replace(".", "").
+                ToLower()
+
+            Dim images() As String =
+                {"jpg", "jpeg", "png", "gif", "webp"}
+
+            Dim audio() As String =
+                {"mp3", "ogg", "oga", "wav", "aac"}
+
+            Dim video() As String =
+                {"mp4", "mov", "avi", "mkv"}
+
+            Dim docs() As String =
+                {"pdf", "doc", "docx", "xls", "xlsx", "ppt", "pptx"}
+
+            If images.Contains(ext) Then
+                Return "Image"
+            End If
+
+            If audio.Contains(ext) Then
+                Return "Audio"
+            End If
+
+            If video.Contains(ext) Then
+                Return "Video"
+            End If
+
+            If docs.Contains(ext) Then
+                Return "Document"
+            End If
+
+            Return "Unknown"
+
+        Catch ex As Exception
+
+            Return "Unknown"
+
+        End Try
+
+    End Function
 End Class

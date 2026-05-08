@@ -588,14 +588,6 @@ Public Class Form1
         Panelgb.Height = BtnMsg.Height
         Panelgb.Visible = True
 
-        If PanelView.Controls.Count > 0 Then
-            Dim oldPage As pgMsg = TryCast(PanelView.Controls(0), pgMsg)
-            If oldPage IsNot Nothing Then
-                RemoveHandler oldPage.SendDataJson, AddressOf OnMessageSendServer
-                oldPage.Dispose()
-            End If
-            PanelView.Controls.Clear()
-        End If
 
         Try
             Dim page As New pgMsg
@@ -604,7 +596,6 @@ Public Class Form1
             page.Dock = DockStyle.Fill
             page.SendDataUser = DataRespon
             'page.BukaMenu("smartphone", sender, e)
-            AddHandler page.SendDataJson, AddressOf OnMessageSendServer
             PanelView.Controls.Add(page)
             page.Show()
 
