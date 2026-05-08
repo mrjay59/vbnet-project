@@ -14,7 +14,6 @@ Public Class PgCall
     Private DatR As String = String.Empty
     Private DataJson = Nothing
 
-    Public Event SendDataJson As EventHandler(Of ClassData)
 
     Public BatchSenderStarted As Boolean = False
     Public DeviceUIMap As New Dictionary(Of String, UCDeviceUse)
@@ -1314,7 +1313,8 @@ Public Class PgCall
         }
 
         ' 🚀 KIRIM KE WSS (1x)
-        RaiseEvent SendDataJson(Me, New ClassData(payload.ToString(Newtonsoft.Json.Formatting.None)))
+        WSManager.Client.SendMessage(payload.ToString(Newtonsoft.Json.Formatting.None))
+        'RaiseEvent SendDataJson(Me, New ClassData(payload.ToString(Newtonsoft.Json.Formatting.None)))
 
         ' 🔥 UPDATE UI PER DEVICE
         For Each itm As JObject In batch

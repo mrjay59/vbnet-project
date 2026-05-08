@@ -7,13 +7,12 @@ Imports System.Threading
 Public Class frmkirim
     Private DatR As String = String.Empty
     Private WApp As New WhatsAppClass
-    Private Ap_mrjay59 As New mrjay59
+    Private mj As New mrjay59
     Public threadShouldStop As Boolean = False
     Private jsonpa As New ClassJson
     Private dbConn As New ClassConnect
     Private DataJson = Nothing
     Private DatTemp As New JArray
-    Public Event SendDataJson As EventHandler(Of ClassData)
 
     Public BatchSenderStarted As Boolean = False
     Public DeviceUIMap As New Dictionary(Of String, UCDeviceUse)
@@ -191,7 +190,7 @@ Public Class frmkirim
             Coone = "WhatsApp"
         ElseIf (rd2.Checked) Then
             metCal = "wadesktop"
-            Coone = "Local"
+            Coone = "WAD"
         ElseIf (rd3.Checked) Then
             metCal = "LcAndroid"
             Coone = "TERMUX"
@@ -283,7 +282,7 @@ Public Class frmkirim
         param.Add("number", jArrNumber)
         param.Add("tipe_akun", metCal)
 
-        Dim response = Ap_mrjay59.callsip(param)
+        Dim response = WApp.OnSendMessage(param)
 
         ' 🔥 VALIDASI STRING RESPONSE
         If String.IsNullOrWhiteSpace(response) Then
@@ -363,8 +362,9 @@ Public Class frmkirim
                 newData.Add("connection", Coone)
                 newData.Add("device", appName)
                 newData.Add("to", callnum)
+                newData.Add("navendor", metCal)
                 newData.Add("platform", metCal)
-                newData.Add("from", appName)
+                newData.Add("session", appName)
                 newData.Add("text", TempTex)
                 newData.Add("state", "")
                 newData.Add("komu", "PU")
@@ -478,7 +478,7 @@ Public Class frmkirim
                varp.Add("tipeAk", metCal)
                varp.Add("type", "msg_done")
 
-               Ap_mrjay59.ws_receive(varp)
+               mj.ws_receive(varp)
            End If
 
        End Sub
@@ -607,7 +607,8 @@ Public Class frmkirim
         }
 
         ' 🚀 KIRIM KE WSS (1x)
-        RaiseEvent SendDataJson(Me, New ClassData(payload.ToString(Newtonsoft.Json.Formatting.None)))
+        WSManager.Client.SendMessage(payload.ToString(Newtonsoft.Json.Formatting.None))
+
 
         ' 🔥 UPDATE UI PER DEVICE
         For Each itm As JObject In batch

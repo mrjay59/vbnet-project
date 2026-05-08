@@ -218,6 +218,11 @@ Public Class QueueEngine
                         RaiseEvent OnSendWSS(item)
                         Await Task.Delay(DelayMs)
 
+                    Case "WhatsApp"
+
+                        RaiseEvent OnSendWSS(item)
+                        Await Task.Delay(DelayMs)
+
                     Case "SIPServer"
 
                         RaiseEvent OnSendWSS(item)

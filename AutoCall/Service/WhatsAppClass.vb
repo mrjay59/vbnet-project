@@ -147,9 +147,9 @@ Public Class WhatsAppClass
     End Function
 
 
-    Public Function OnSendMessage(ByVal data As Dictionary(Of String, String))
-        Dim parameters As String = JsonConvert.SerializeObject(data, Formatting.None)
-        Dim response = Api.PostData("OnSendMessage", parameters, nameapk)
+    Public Function OnSendMessage(ByVal data As JObject)
+        ' Dim parameters As String = JsonConvert.SerializeObject(data, Formatting.None)
+        Dim response = Api.PostData("OnSendMessage", data, nameapk)
 
         Dim jsonparse As String = String.Empty
 
