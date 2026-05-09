@@ -52,16 +52,21 @@ Public Class pgMsg
 
     Private Sub wsClient_MessageReceived(message As String)
         Dim arrj = jsonpa.Json2aray(message)
-        Dim usern = arrj("metadata")("username").ToString
-        Dim session = arrj("session").ToString
-        Dim DPar = jsonpa.Json2aray(DatR)
-        Dim username = DPar("body")("apk_user").ToString
 
-        If username = usern And arrj("event").ToString = "message" Then
-            OnMessageReceived(message)
-        ElseIf (arrj("event").ToString = "messageack") Then
+        If (arrj("event") IsNot Nothing) Then
+            Dim usern = arrj("metadata")("username").ToString
+            Dim session = arrj("session").ToString
+            Dim DPar = jsonpa.Json2aray(DatR)
+            Dim username = DPar("body")("apk_user").ToString
 
+            If username = usern And arrj("event").ToString = "message" Then
+                OnMessageReceived(message)
+            ElseIf (arrj("event").ToString = "messageack") Then
+
+            End If
         End If
+
+
 
 
 

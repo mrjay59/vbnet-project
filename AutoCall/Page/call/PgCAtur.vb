@@ -35,7 +35,7 @@
         page.TopLevel = False
         page.Dock = DockStyle.Fill
         page.SendDataUser = DatR
-        AddHandler page.SendDataJson, AddressOf Form1.OnMessageSendServer
+
         PanelPusat.Controls.Add(page)
         page.Show()
     End Sub

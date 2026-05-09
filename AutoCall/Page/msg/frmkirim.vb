@@ -1,14 +1,15 @@
-﻿Imports Newtonsoft.Json.Linq
-Imports System.Drawing.Drawing2D
+﻿Imports System.Drawing.Drawing2D
 Imports System.IO
 Imports System.Net.NetworkInformation
 Imports System.Text.RegularExpressions
 Imports System.Threading
+Imports System.Windows.Forms.VisualStyles.VisualStyleElement
+Imports Newtonsoft.Json.Linq
 Public Class frmkirim
     Private DatR As String = String.Empty
     Private WApp As New WhatsAppClass
     Private mj As New mrjay59
-    Public threadShouldStop As Boolean = False
+
     Private jsonpa As New ClassJson
     Private dbConn As New ClassConnect
     Private DataJson = Nothing
@@ -32,6 +33,9 @@ Public Class frmkirim
 
     Private _akunid As New JArray
     Private _appArray As New JArray
+    Private _metcall As String = String.Empty
+    Private _username As String = String.Empty
+
 
     Public Enum DeviceStatus
         Idle
@@ -62,17 +66,16 @@ Public Class frmkirim
         Dim DatParse = jsonpa.Json2aray(DatObj)
         Dim fun = DatParse("fun").ToString
 
-        If (fun = "WASCANQR") Then
-            Dim NaDev = DatParse("NaDev")
-            Dim Naplatform = DatParse("Naplatform")
-            Dim NaLog = DatParse("NaLog")
-            Dim NoWA = DatParse("NoWA")
-            Dim prefix = DatParse("prefix")
-            Dim Numkey = DatParse("numkey")
+        If (fun = "wascanqr") Then
+            Dim appkode = DatParse("app").ToString
+            Dim navendor = DatParse("navendor").ToString
+            Dim akunid = DatParse("akunid").ToString
             Dim chk As Boolean = DatParse("chk")
-            Dim DevNo = NaDev
-            Dim newDataArray As New JArray()
 
+
+
+            Dim DevNo = appkode & "-" & akunid.Substring(5, Len(akunid) - 5)
+            Dim newDataArray As New JArray()
 
             ' Parse the JSON string into a JArray
             Dim numData, PaData, jobject As New JObject
@@ -85,34 +88,48 @@ Public Class frmkirim
 
             If (chk = True) Then
 
-                TxtSender.Text &= NoWA & vbNewLine
+                TxtSender.Text &= DevNo & vbNewLine
+                numData = JObject.Parse(DatObj)
 
 
-                numData.Add("number", NoWA)
-                numData.Add("numkey", Numkey)
-                numData.Add("platform", Naplatform)
-                numData.Add("login", NaLog)
-                numData.Add("NaDev", NaDev)
-                numData.Add("prefix", prefix)
-                ' newDataArray.Add(numData)
+                ' ---- cek apakah key sudah ada ----
+                If Not jobject.ContainsKey(akunid) Then
+                    ' buat array baru
+                    Dim newArr As New JArray()
+                    newArr.Add(numData)
+                    jobject.Add(akunid, newArr)
 
-                If Not (jobject.ContainsKey(DevNo)) Then
-                    jobject.Add(DevNo, numData)
-                    DataJson = jobject.ToString
                 Else
-                    Dim japkx As JArray = jobject.SelectToken(DevNo)
-                    japkx.Add(numData)
-                    DataJson = jobject.ToString
+                    ' sudah ada → ambil array lalu append
+                    Dim arr As JArray = jobject.SelectToken(akunid)
+                    arr.Add(numData)
                 End If
 
+                DataJson = jobject.ToString()
             ElseIf (chk = False) Then
-                TxtSender.Text = Regex.Replace(TxtSender.Text.Replace(NoWA, String.Empty).Trim & vbNewLine, "^\s+", "", RegexOptions.Multiline)
-                jobject.Remove(DevNo)
+                TxtSender.Text = Regex.Replace(TxtSender.Text.Replace(DevNo, String.Empty).Trim & vbNewLine, "^\s+", "", RegexOptions.Multiline)
+                If jobject.ContainsKey(akunid) Then
+                    Dim arr As JArray = jobject.SelectToken(akunid)
+
+
+                    Dim target As JObject = arr.
+        FirstOrDefault(Function(x) x("app") IsNot Nothing AndAlso
+                                 x("app").ToString() = appkode)
+
+                    ' Jika ditemukan → hapus
+                    If target IsNot Nothing Then
+                        arr.Remove(target)
+                    End If
+                End If
 
                 DataJson = jobject.ToString
             End If
 
-            TotSender.Value = jobject.Count
+            Console.WriteLine(DataJson)
+
+
+            Dim appArray As New JArray(jobject.Properties().First().Value.Select(Function(x) x("app").ToString()))
+            TotSender.Value = appArray.Count
 
         ElseIf (fun = "OnTemp") Then
             Dim title = DatParse("title")
@@ -202,6 +219,7 @@ Public Class frmkirim
             Exit Sub
         End If
 
+        _metcall = metCal
         Dim tsender = TxtSender.Text.Trim
         Dim tmsg = TxtMessage.Text
         Dim tnumber = TxtNumber.Text
@@ -273,7 +291,7 @@ Public Class frmkirim
         engine.Komu = "PU" '  
         engine.DelayMs = Delay.Value * 1000
         engine.MaxPutaran = 1
-
+        _username = username
         Dim param As New JObject
 
         param.Add("akunid", akunid)
@@ -284,6 +302,7 @@ Public Class frmkirim
 
         Dim response = WApp.OnSendMessage(param)
 
+        Console.WriteLine(response)
         ' 🔥 VALIDASI STRING RESPONSE
         If String.IsNullOrWhiteSpace(response) Then
 
@@ -331,6 +350,7 @@ Public Class frmkirim
                 Continue For
             End If
 
+
             Dim redev = 0
             Dim filog = Foldsdr & $"{appName}.json"
             If (File.Exists(filog)) Then
@@ -362,12 +382,12 @@ Public Class frmkirim
                 newData.Add("connection", Coone)
                 newData.Add("device", appName)
                 newData.Add("to", callnum)
-                newData.Add("navendor", metCal)
                 newData.Add("platform", metCal)
-                newData.Add("session", appName)
+                newData.Add("from", appName)
                 newData.Add("text", TempTex)
                 newData.Add("state", "")
                 newData.Add("komu", "PU")
+                newData.Add("tocall", 1)
 
                 Dim logParse As New JObject
                 Dim Rlog As String = File.ReadAllText(filog)
@@ -468,11 +488,10 @@ Public Class frmkirim
                engine._isRunning = False
                engine.ClearAll()
 
-               username = DPar("body")("apk_user").ToString()
 
                Dim varp As New JObject
 
-               varp.Add("username", username)
+               varp.Add("username", _username)
                varp.Add("akunid", _akunid)
                varp.Add("app", _appArray)
                varp.Add("tipeAk", metCal)
@@ -522,7 +541,7 @@ Public Class frmkirim
         If (metCal = "waserver") Then
             Dim NObj As New JObject
             NObj.Add("title", "Pilih WA SERVER")
-            NObj.Add("func", "lolistDialler")
+            NObj.Add("func", "waserver")
             Dim page As New PgDialog(NObj.ToString)
             page.SendDataUser = DatR
             AddHandler page.DataSelected, AddressOf DataMasuk
@@ -531,7 +550,7 @@ Public Class frmkirim
         ElseIf (metCal = "wascanqr") Then
             Dim NObj As New JObject
             NObj.Add("title", "Pilih WA SCANQr")
-            NObj.Add("func", "loadWA")
+            NObj.Add("func", "wascanqr")
             NObj.Add("username", username)
             Dim page As New PgDialog(NObj.ToString)
 
@@ -583,7 +602,7 @@ Public Class frmkirim
         param.Add("dnumber", prefix)
 
         Try
-            Ap_mrjay59.inkontak(param)
+            mj.inkontak(param)
         Catch ex As Exception
 
         End Try
@@ -603,10 +622,12 @@ Public Class frmkirim
             {"request_id", reqid},
             {"to", username},
             {"data", batch},
+            {"type", "message.send"},
             {"message", "send whatsapp via autocall"}
         }
 
         ' 🚀 KIRIM KE WSS (1x)
+        Console.WriteLine(payload)
         WSManager.Client.SendMessage(payload.ToString(Newtonsoft.Json.Formatting.None))
 
 
@@ -682,41 +703,69 @@ Public Class frmkirim
 
         Dim rnd As New Random()
 
-        ' tracking waktu delay panjang terakhir
-        Dim lastLongDelayTime As DateTime = DateTime.Now
+        ' tracking jumlah message per device
+        Dim deviceSendCounter As New Dictionary(Of String, Integer)
 
         While batchTimerRunning
 
-            ' =========================
-            ' DELAY NORMAL
-            ' =========================
-            Await Task.Delay(BatchDelayMs)
+            ' =========================================
+            ' DELAY NORMAL RANDOM
+            ' BatchDelayMs + random 1 - 7 detik
+            ' =========================================
+            Dim randomExtra As Integer = rnd.Next(1000, 7000) ' 1 - 7 detik
+            Dim normalDelay As Integer = BatchDelayMs + randomExtra
+
+            Await Task.Delay(normalDelay)
 
             SyncLock WSSLock
+
                 If WSSBuffer.Count > 0 Then
+
+                    ' =========================================
+                    ' HITUNG MESSAGE PER DEVICE
+                    ' =========================================
+                    For Each itm As JObject In WSSBuffer
+
+                        Dim dev As String = itm("device").ToString()
+
+                        If deviceSendCounter.ContainsKey(dev) Then
+                            deviceSendCounter(dev) += 1
+                        Else
+                            deviceSendCounter(dev) = 1
+                        End If
+
+                    Next
+
+                    ' kirim batch
                     FlushWSS(reqid)
+
                 End If
+
             End SyncLock
 
-            ' =========================
-            ' DELAY TAMBAHAN (SETIAP 5 MENIT)
-            ' =========================
-            Dim elapsed = DateTime.Now - lastLongDelayTime
+            ' =========================================
+            ' CEK BREAK PER DEVICE
+            ' setiap 5 message -> delay panjang
+            ' =========================================
+            For Each kv In deviceSendCounter.ToList()
 
-            If elapsed.TotalMinutes >= breakmsg.Value Then
+                Dim dev = kv.Key
+                Dim totalSend = kv.Value
 
-                ' random delay 1 - 5 menit
-                Dim delayMinutes As Integer = rnd.Next(1, 6) ' 1 sampai 5
-                Dim delayMs As Integer = delayMinutes * 60 * 1000
+                If totalSend >= 5 Then
 
-                Console.WriteLine($"[BATCH] Long delay triggered: {delayMinutes} menit")
+                    Dim waitMinutes As Integer = CInt(breakmsg.Value)
+                    UpdateDeviceStatus(dev, DeviceStatus.Paused, $"[BREAK] Device {dev} waiting {waitMinutes} menit")
+                    'Console.WriteLine($"[BREAK] Device {dev} waiting {waitMinutes} menit")
 
-                Await Task.Delay(delayMs)
+                    Await Task.Delay(waitMinutes * 60 * 1000)
 
-                ' reset timer
-                lastLongDelayTime = DateTime.Now
+                    ' reset counter device
+                    deviceSendCounter(dev) = 0
 
-            End If
+                End If
+
+            Next
 
         End While
 

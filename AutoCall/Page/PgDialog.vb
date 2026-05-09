@@ -91,7 +91,9 @@ Public Class PgDialog
         ElseIf (func = "log_sip") Then
             Dim reqid As String = PObj("reqid")
             LoadSip_log(user, reqid)
-
+        ElseIf (func = "log_message") Then
+            Dim reqid As String = PObj("reqid")
+            LoadSip_log(user, reqid)
         End If
 
 
@@ -848,13 +850,18 @@ Public Class PgDialog
                 Dim limit_perday = item("limit_perday").ToString
                 Dim limit_pernumber = item("limit_pernumber").ToString
                 Dim akunid = item("akunid").ToString
+                Dim navendor = item("vendr").ToString
 
+                Dim jobje As New JObject
+                jobje.Add("app", appkode)
+                jobje.Add("navendor", navendor)
+                jobje.Add("akunid", akunid)
 
 
                 ' Tambah row dulu
                 Dim rowIndex As Integer = DatTable1.Rows.Add(False, ax, akunid, appkode, datexp, limit_perday, limit_pernumber, STATE, state_wa)
 
-                'DatTable1.Rows(rowIndex).Cells("CheckBoxColumn").Tag = 
+                DatTable1.Rows(rowIndex).Cells("CheckBoxColumn").Tag = jobje.ToString
                 ' Jika BUSY
                 If STATE = "BUSY" Then
 
@@ -1375,9 +1382,25 @@ Public Class PgDialog
                 End If
 
 
-            ElseIf (funTag = "Vi_Email") Then
+            ElseIf (funTag = "wascanqr") Then
 
-            ElseIf (funTag = "Vi_WASER") Then
+
+                Dim jsData = DatTable1.Rows(rowindex).Cells("CheckBoxColumn").Tag.ToString
+                Dim arrData As JObject = JObject.Parse(jsData)
+                arrData.Add("chk", newValue)
+                arrData.Add("fun", funTag)
+
+
+                ' Raise the event and pass the selected data
+                RaiseEvent DataSelected(Me, New ClassData(arrData.ToString))
+
+
+                If (newValue) Then
+                    DatTable1.Rows(rowindex).Cells("idle").Value = "booked"
+                Else
+                    DatTable1.Rows(rowindex).Cells("idle").Value = "idle"
+                End If
+            ElseIf (funTag = "Vi_waserver") Then
 
             End If
         End If

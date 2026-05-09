@@ -104,6 +104,7 @@ Partial Class PgKirim
         Me.Btn4.TabIndex = 236
         Me.Btn4.Text = "Email HTML"
         Me.Btn4.UseVisualStyleBackColor = False
+        Me.Btn4.Visible = False
         '
         'Button1
         '

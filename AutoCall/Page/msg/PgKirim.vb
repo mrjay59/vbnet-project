@@ -14,7 +14,7 @@ Public Class PgKirim
     Private jsonpa As New ClassJson
     Private dbConn As New ClassConnect
     Private DataJson = Nothing
-    Public Event SendDataJson As EventHandler(Of ClassData)
+
 
     Public Property SendDataUser() As String
         Get
@@ -43,7 +43,7 @@ Public Class PgKirim
         page.TopLevel = False
         page.Dock = DockStyle.Fill
         page.SendDataUser = DatR
-        AddHandler page.SendDataJson, AddressOf Form1.OnMessageSendServer
+
         PanelPusat.Controls.Add(page)
         page.Show()
     End Sub
@@ -67,7 +67,7 @@ Public Class PgKirim
         page.Dock = DockStyle.Fill
         page.SendDataUser = DatR
 
-        AddHandler page.SendDataJson, AddressOf Form1.OnMessageSendServer
+
         PanelPusat.Controls.Add(page)
         page.Show()
     End Sub
@@ -106,7 +106,7 @@ Public Class PgKirim
         page.Dock = DockStyle.Fill
         page.SendDataUser = DatR
 
-        AddHandler page.SendDataJson, AddressOf Form1.OnMessageSendServer
+
         PanelPusat.Controls.Add(page)
         page.Show()
     End Sub

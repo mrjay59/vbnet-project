@@ -1556,7 +1556,7 @@ Public Class PgCall
                 If jobject.ContainsKey(noserial) Then
                     Dim arr As JArray = jobject.SelectToken(noserial)
 
-                    ' Cari item dengan app = whatsappmessage
+
                     Dim target As JObject = arr.
         FirstOrDefault(Function(x) x("app") IsNot Nothing AndAlso
                                  x("app").ToString() = Naplatform)
@@ -1569,6 +1569,8 @@ Public Class PgCall
 
                 DataJson = jobject.ToString
             End If
+
+            Console.WriteLine(DataJson)
 
             Dim appArray As New JArray(jobject.Properties().First().Value.Select(Function(x) x("app").ToString()))
             TotDial.Value = appArray.Count
