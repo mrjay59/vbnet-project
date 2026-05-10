@@ -142,7 +142,7 @@ Partial Class frmkirim
         Me.Label9.AutoSize = True
         Me.Label9.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label9.ForeColor = System.Drawing.Color.White
-        Me.Label9.Location = New System.Drawing.Point(317, 424)
+        Me.Label9.Location = New System.Drawing.Point(315, 437)
         Me.Label9.Name = "Label9"
         Me.Label9.Size = New System.Drawing.Size(33, 13)
         Me.Label9.TabIndex = 263
@@ -154,7 +154,7 @@ Partial Class frmkirim
         Me.Breaktime.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Breaktime.ForeColor = System.Drawing.Color.White
         Me.Breaktime.Increment = New Decimal(New Integer() {5, 0, 0, 0})
-        Me.Breaktime.Location = New System.Drawing.Point(249, 422)
+        Me.Breaktime.Location = New System.Drawing.Point(247, 435)
         Me.Breaktime.Maximum = New Decimal(New Integer() {30, 0, 0, 0})
         Me.Breaktime.Minimum = New Decimal(New Integer() {5, 0, 0, 0})
         Me.Breaktime.Name = "Breaktime"
@@ -169,7 +169,7 @@ Partial Class frmkirim
         Me.Label6.AutoSize = True
         Me.Label6.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label6.ForeColor = System.Drawing.Color.White
-        Me.Label6.Location = New System.Drawing.Point(315, 395)
+        Me.Label6.Location = New System.Drawing.Point(313, 408)
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(95, 13)
         Me.Label6.TabIndex = 261
@@ -180,7 +180,7 @@ Partial Class frmkirim
         Me.Label5.AutoSize = True
         Me.Label5.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label5.ForeColor = System.Drawing.Color.White
-        Me.Label5.Location = New System.Drawing.Point(483, 426)
+        Me.Label5.Location = New System.Drawing.Point(481, 442)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(50, 13)
         Me.Label5.TabIndex = 260
@@ -192,7 +192,7 @@ Partial Class frmkirim
         Me.breakmsg.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.breakmsg.ForeColor = System.Drawing.Color.White
         Me.breakmsg.Increment = New Decimal(New Integer() {5, 0, 0, 0})
-        Me.breakmsg.Location = New System.Drawing.Point(413, 422)
+        Me.breakmsg.Location = New System.Drawing.Point(411, 435)
         Me.breakmsg.Maximum = New Decimal(New Integer() {50, 0, 0, 0})
         Me.breakmsg.Minimum = New Decimal(New Integer() {5, 0, 0, 0})
         Me.breakmsg.Name = "breakmsg"
@@ -207,7 +207,7 @@ Partial Class frmkirim
         Me.Label1.AutoSize = True
         Me.Label1.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label1.ForeColor = System.Drawing.Color.White
-        Me.Label1.Location = New System.Drawing.Point(374, 424)
+        Me.Label1.Location = New System.Drawing.Point(372, 437)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(34, 13)
         Me.Label1.TabIndex = 258
@@ -219,7 +219,7 @@ Partial Class frmkirim
         Me.Delay.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Delay.ForeColor = System.Drawing.Color.White
         Me.Delay.Increment = New Decimal(New Integer() {10, 0, 0, 0})
-        Me.Delay.Location = New System.Drawing.Point(248, 392)
+        Me.Delay.Location = New System.Drawing.Point(246, 405)
         Me.Delay.Maximum = New Decimal(New Integer() {240, 0, 0, 0})
         Me.Delay.Minimum = New Decimal(New Integer() {20, 0, 0, 0})
         Me.Delay.Name = "Delay"
@@ -234,7 +234,7 @@ Partial Class frmkirim
         Me.Label3.AutoSize = True
         Me.Label3.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label3.ForeColor = System.Drawing.Color.White
-        Me.Label3.Location = New System.Drawing.Point(160, 371)
+        Me.Label3.Location = New System.Drawing.Point(158, 384)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(87, 16)
         Me.Label3.TabIndex = 256
@@ -394,7 +394,7 @@ Partial Class frmkirim
         Me.btnSend.ForeColor = System.Drawing.SystemColors.ButtonFace
         Me.btnSend.Image = CType(resources.GetObject("btnSend.Image"), System.Drawing.Image)
         Me.btnSend.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.btnSend.Location = New System.Drawing.Point(440, 3)
+        Me.btnSend.Location = New System.Drawing.Point(434, 360)
         Me.btnSend.Name = "btnSend"
         Me.btnSend.Size = New System.Drawing.Size(93, 36)
         Me.btnSend.TabIndex = 243
@@ -405,7 +405,7 @@ Partial Class frmkirim
         '
         Me.rd1.AutoSize = True
         Me.rd1.ForeColor = System.Drawing.Color.White
-        Me.rd1.Location = New System.Drawing.Point(276, 45)
+        Me.rd1.Location = New System.Drawing.Point(163, 45)
         Me.rd1.Name = "rd1"
         Me.rd1.Size = New System.Drawing.Size(108, 17)
         Me.rd1.TabIndex = 250
@@ -428,7 +428,7 @@ Partial Class frmkirim
         '
         Me.rd0.AutoSize = True
         Me.rd0.ForeColor = System.Drawing.Color.White
-        Me.rd0.Location = New System.Drawing.Point(163, 44)
+        Me.rd0.Location = New System.Drawing.Point(275, 46)
         Me.rd0.Name = "rd0"
         Me.rd0.Size = New System.Drawing.Size(106, 17)
         Me.rd0.TabIndex = 249
@@ -489,7 +489,7 @@ Partial Class frmkirim
         Me.Label2.AutoSize = True
         Me.Label2.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label2.ForeColor = System.Drawing.Color.White
-        Me.Label2.Location = New System.Drawing.Point(165, 395)
+        Me.Label2.Location = New System.Drawing.Point(163, 408)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(65, 15)
         Me.Label2.TabIndex = 270
@@ -500,7 +500,7 @@ Partial Class frmkirim
         Me.Label11.AutoSize = True
         Me.Label11.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label11.ForeColor = System.Drawing.Color.White
-        Me.Label11.Location = New System.Drawing.Point(165, 423)
+        Me.Label11.Location = New System.Drawing.Point(163, 436)
         Me.Label11.Name = "Label11"
         Me.Label11.Size = New System.Drawing.Size(65, 15)
         Me.Label11.TabIndex = 271
@@ -510,7 +510,7 @@ Partial Class frmkirim
         '
         Me.rd2.AutoSize = True
         Me.rd2.ForeColor = System.Drawing.Color.White
-        Me.rd2.Location = New System.Drawing.Point(389, 44)
+        Me.rd2.Location = New System.Drawing.Point(389, 47)
         Me.rd2.Name = "rd2"
         Me.rd2.Size = New System.Drawing.Size(118, 17)
         Me.rd2.TabIndex = 272

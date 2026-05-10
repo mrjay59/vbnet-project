@@ -1,6 +1,7 @@
 ﻿Imports System.Drawing.Drawing2D
 Imports System.IO
 Imports System.Net.NetworkInformation
+Imports System.Security.Cryptography
 Imports System.Text.RegularExpressions
 Imports System.Threading
 Imports System.Windows.Forms.VisualStyles.VisualStyleElement
@@ -35,6 +36,7 @@ Public Class frmkirim
     Private _appArray As New JArray
     Private _metcall As String = String.Empty
     Private _username As String = String.Empty
+    Private _redis As String = String.Empty
 
 
     Public Enum DeviceStatus
@@ -125,7 +127,7 @@ Public Class frmkirim
                 DataJson = jobject.ToString
             End If
 
-            Console.WriteLine(DataJson)
+
 
 
             Dim appArray As New JArray(jobject.Properties().First().Value.Select(Function(x) x("app").ToString()))
@@ -199,18 +201,23 @@ Public Class frmkirim
         Dim templchk As String = String.Empty
         Dim TempTex As String = String.Empty
         Dim Coone As String = String.Empty
+
+        Dim redistip = String.Empty
         If (rd0.Checked) Then
             metCal = "waserver"
             Coone = "WhatsApp"
+            redistip = "wa:send:stream"
         ElseIf (rd1.Checked) Then
             metCal = "wascanqr"
             Coone = "WhatsApp"
+            redistip = "wa:send:stream"
         ElseIf (rd2.Checked) Then
             metCal = "wadesktop"
             Coone = "WAD"
         ElseIf (rd3.Checked) Then
             metCal = "LcAndroid"
             Coone = "TERMUX"
+
         ElseIf (rd4.Checked) Then
             metCal = "ClAndroid"
             Coone = "TERMUX"
@@ -220,6 +227,7 @@ Public Class frmkirim
         End If
 
         _metcall = metCal
+        _redis = redistip
         Dim tsender = TxtSender.Text.Trim
         Dim tmsg = TxtMessage.Text
         Dim tnumber = TxtNumber.Text
@@ -510,6 +518,43 @@ Public Class frmkirim
 
         kirim_msg()
 
+        AddHandler WSManager.Client.MessageReceived, AddressOf wsClient_MessageReceived
+    End Sub
+
+    Private Sub wsClient_MessageReceived(message As String)
+        If (message Is Nothing) Then Exit Sub
+
+        Dim arrj = jsonpa.Json2aray(message)
+
+        If (arrj("event") IsNot Nothing) Then
+            Dim usern = arrj("metadata")("username").ToString
+            Dim session = arrj("session").ToString
+            Dim DPar = jsonpa.Json2aray(DatR)
+            Dim username = DPar("body")("apk_user").ToString
+
+            If username = usern And arrj("event").ToString = "session.status" Then
+                OnMessageReceived(message)
+            End If
+        End If
+    End Sub
+
+    Private Sub OnMessageReceived(message As String)
+        Try
+            Dim obj = JObject.Parse(message)
+            Dim session As String = obj("name").ToString
+            Dim status As String = obj("status").ToString
+
+            If (status = "STOPPED") Then
+                Dim statusText As String = $"Session {session} status: {status}"
+
+                UpdateDeviceStatus(session, DeviceStatus.ErrorState, statusText)
+
+                engine.Stop()
+            End If
+
+        Catch ex As Exception
+
+        End Try
     End Sub
 
     Private Sub BtnSelect_Click(sender As Object, e As EventArgs) Handles BtnSelect.Click
@@ -622,7 +667,7 @@ Public Class frmkirim
             {"request_id", reqid},
             {"to", username},
             {"data", batch},
-            {"type", "message.send"},
+            {"type", _redis},
             {"message", "send whatsapp via autocall"}
         }
 
@@ -847,7 +892,7 @@ Public Class frmkirim
         Dim templchk As String = String.Empty
         If (Rsm.Checked) Then
             templchk = "manual"
-        ElseIf (Rrm.Checked)
+        ElseIf (Rrm.Checked) Then
             templchk = "multi"
         Else
             MsgBox("pilih Template Single / multi")
@@ -964,7 +1009,7 @@ Public Class frmkirim
 
         Dim NObj As New JObject
         NObj.Add("title", "Cek LogCall Reqid " & reqid)
-        NObj.Add("func", "log_sip")
+        NObj.Add("func", "log_msg")
         NObj.Add("reqid", reqid)
         NObj.Add("username", username)
         Dim page As New PgDialog(NObj.ToString)

@@ -33,6 +33,7 @@ Public Class PgCall
 
     Private _akunid As New JArray
     Private _appArray As New JArray
+    Private _redis As String = String.Empty
 
     Public Enum DeviceStatus
         Idle
@@ -1309,6 +1310,7 @@ Public Class PgCall
             {"request_id", reqid},
             {"to", username},
             {"data", batch},
+            {"type", _redis},
             {"message", "call sip via autocall"}
         }
 
@@ -1938,6 +1940,8 @@ Public Class PgCall
         Else
             MsgBox("pilih metode Call terlebih dahulu")
         End If
+
+
 
         ShowSipCall_log()
     End Sub

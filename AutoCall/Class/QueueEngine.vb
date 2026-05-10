@@ -184,7 +184,7 @@ Public Class QueueEngine
                 If Not _isRunning Then Exit For
 
                 RaiseEvent OnDeviceUpdate(dev, DeviceStatus.Sending,
-                   $"START CALL to {number} Method {komu}")
+                   $"START to {number} Method {komu}")
 
                 Select Case con
 

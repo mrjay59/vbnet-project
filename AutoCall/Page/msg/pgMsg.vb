@@ -51,6 +51,8 @@ Public Class pgMsg
     End Sub
 
     Private Sub wsClient_MessageReceived(message As String)
+        If (message Is Nothing) Then Exit Sub
+
         Dim arrj = jsonpa.Json2aray(message)
 
         If (arrj("event") IsNot Nothing) Then
@@ -65,12 +67,6 @@ Public Class pgMsg
 
             End If
         End If
-
-
-
-
-
-
 
     End Sub
 
