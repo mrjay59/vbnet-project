@@ -19,6 +19,7 @@ Public Class ChatItem
 End Class
 
 Public Enum MessageStatus
+    Pending
     Sent
     Delivered
     Read

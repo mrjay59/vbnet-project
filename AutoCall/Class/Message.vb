@@ -57,6 +57,6 @@
 
     Public Property MediaUrl As String
 
-    Public Property Status As AckStatus
+    Public Property Status As MessageStatus
 
 End Class

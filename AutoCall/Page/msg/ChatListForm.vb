@@ -184,15 +184,12 @@ Public Class ChatListForm
     DatChat(i)("conversation").ToObject(Of List(Of Message))()
 
                 Dim ack As Integer = DatChat(i)?("ack")
-
                 Dim stateStatus As Message.AckStatus
-
                 If [Enum].IsDefined(GetType(Message.AckStatus), ack) Then
                     stateStatus = CType(ack, Message.AckStatus)
                 Else
                     stateStatus = Message.AckStatus.Failed
                 End If
-
 
                 items.Add(New ChatItem With {
                     .Id = i,
@@ -213,6 +210,28 @@ Public Class ChatListForm
         End If
 
         Return items
+
+    End Function
+
+    Private Function GetAckIcon(ack As Integer) As String
+
+        Select Case ack
+            Case 1
+                Return "🕓"
+
+            Case 1
+                Return "✓"
+
+            Case 2
+                Return "✓✓"
+
+            Case 3
+                Return "✓✓"
+
+            Case Else
+                Return "❌"
+
+        End Select
 
     End Function
 
@@ -446,6 +465,7 @@ Public Class ChatListForm
     ' Fungsi untuk status pesan
     Private Function GetStatusIcon(status As MessageStatus) As String
         Select Case status
+            Case MessageStatus.Pending : Return "🕓"
             Case MessageStatus.Sent : Return "✓"
             Case MessageStatus.Delivered : Return "✓✓"
             Case MessageStatus.Read : Return "✓✓●"

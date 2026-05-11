@@ -55,23 +55,28 @@ Public Class pgMsg
     End Sub
 
     Private Sub wsClient_MessageReceived(message As String)
-        ' Console.WriteLine(message)
+        '  Console.WriteLine(message)
         If (message Is Nothing) Then Exit Sub
 
         Dim arrj = jsonpa.Json2aray(message)
 
         If (arrj("event") IsNot Nothing) Then
-            Dim usern = arrj("metadata")("username").ToString
-            Dim session = arrj("session").ToString
-            Dim DPar = jsonpa.Json2aray(DatR)
-            Dim username = DPar("body")("apk_user").ToString
 
-            If username = usern And arrj("event").ToString = "message" Then
+            If arrj("event").ToString = "message" Then
                 OnMessageReceived(message)
             ElseIf (arrj("event").ToString = "messageack") Then
-                ' OnMessageReceived(message)
+                OnMessageAck(message)
             End If
         End If
+
+    End Sub
+
+    Private Sub OnMessageAck(json As String)
+        Try
+
+        Catch ex As Exception
+
+        End Try
 
     End Sub
 
@@ -478,8 +483,15 @@ Public Class pgMsg
 
             If bubble.IsOutbox Then
 
-                bubble.StatusText =
-                item.AckName.ToString()
+                Dim ack As Integer = item.Ack
+                Dim stateStatus As Message.AckStatus
+                If [Enum].IsDefined(GetType(Message.AckStatus), ack) Then
+                    stateStatus = CType(ack, Message.AckStatus)
+                Else
+                    stateStatus = Message.AckStatus.Failed
+                End If
+
+                bubble.StatusText = GetStatusIcon(stateStatus)
 
                 bubble.SenderText =
                 $"#{item.Sender}"
@@ -721,5 +733,14 @@ Public Class pgMsg
 
     End Sub
 
-
+    Private Function GetStatusIcon(status As MessageStatus) As String
+        Select Case status
+            Case MessageStatus.Pending : Return "🕓"
+            Case MessageStatus.Sent : Return "✓"
+            Case MessageStatus.Delivered : Return "✓✓"
+            Case MessageStatus.Read : Return "✓✓●"
+            Case MessageStatus.Failed : Return "!"
+            Case Else : Return ""
+        End Select
+    End Function
 End Class
