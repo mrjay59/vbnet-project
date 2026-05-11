@@ -38,21 +38,17 @@ Partial Class pgMsg
         Me.Panel2 = New System.Windows.Forms.Panel()
         Me.PnMessage = New System.Windows.Forms.Panel()
         Me.Panel6 = New System.Windows.Forms.Panel()
-        Me.Label5 = New System.Windows.Forms.Label()
         Me.Button3 = New System.Windows.Forms.Button()
         Me.Button4 = New System.Windows.Forms.Button()
         Me.Button5 = New System.Windows.Forms.Button()
-        Me.ComboBox1 = New System.Windows.Forms.ComboBox()
-        Me.Label4 = New System.Windows.Forms.Label()
         Me.Button6 = New System.Windows.Forms.Button()
         Me.btnSend = New System.Windows.Forms.Button()
         Me.TextMessage = New System.Windows.Forms.TextBox()
         Me.Panel5 = New System.Windows.Forms.Panel()
+        Me.Button1 = New System.Windows.Forms.Button()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.PictureBox1 = New System.Windows.Forms.PictureBox()
-        Me.BtnWA = New System.Windows.Forms.Button()
-        Me.BtnSIP = New System.Windows.Forms.Button()
         Me.MenuChat = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.Panel1.SuspendLayout()
         CType(Me.PictureBox2, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -226,12 +222,9 @@ Partial Class pgMsg
         'Panel6
         '
         Me.Panel6.BackColor = System.Drawing.Color.FromArgb(CType(CType(60, Byte), Integer), CType(CType(80, Byte), Integer), CType(CType(65, Byte), Integer))
-        Me.Panel6.Controls.Add(Me.Label5)
         Me.Panel6.Controls.Add(Me.Button3)
         Me.Panel6.Controls.Add(Me.Button4)
         Me.Panel6.Controls.Add(Me.Button5)
-        Me.Panel6.Controls.Add(Me.ComboBox1)
-        Me.Panel6.Controls.Add(Me.Label4)
         Me.Panel6.Controls.Add(Me.Button6)
         Me.Panel6.Controls.Add(Me.btnSend)
         Me.Panel6.Controls.Add(Me.TextMessage)
@@ -241,23 +234,12 @@ Partial Class pgMsg
         Me.Panel6.Size = New System.Drawing.Size(720, 75)
         Me.Panel6.TabIndex = 2
         '
-        'Label5
-        '
-        Me.Label5.AutoSize = True
-        Me.Label5.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label5.ForeColor = System.Drawing.Color.White
-        Me.Label5.Location = New System.Drawing.Point(234, 8)
-        Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(48, 16)
-        Me.Label5.TabIndex = 219
-        Me.Label5.Text = "Label5"
-        '
         'Button3
         '
         Me.Button3.FlatAppearance.BorderSize = 0
         Me.Button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.Button3.Image = CType(resources.GetObject("Button3.Image"), System.Drawing.Image)
-        Me.Button3.Location = New System.Drawing.Point(520, 37)
+        Me.Button3.Location = New System.Drawing.Point(607, 3)
         Me.Button3.Name = "Button3"
         Me.Button3.Size = New System.Drawing.Size(30, 30)
         Me.Button3.TabIndex = 218
@@ -269,7 +251,7 @@ Partial Class pgMsg
         Me.Button4.FlatAppearance.BorderSize = 0
         Me.Button4.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.Button4.Image = CType(resources.GetObject("Button4.Image"), System.Drawing.Image)
-        Me.Button4.Location = New System.Drawing.Point(556, 37)
+        Me.Button4.Location = New System.Drawing.Point(642, 2)
         Me.Button4.Name = "Button4"
         Me.Button4.Size = New System.Drawing.Size(30, 30)
         Me.Button4.TabIndex = 217
@@ -281,41 +263,19 @@ Partial Class pgMsg
         Me.Button5.FlatAppearance.BorderSize = 0
         Me.Button5.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.Button5.Image = CType(resources.GetObject("Button5.Image"), System.Drawing.Image)
-        Me.Button5.Location = New System.Drawing.Point(592, 37)
+        Me.Button5.Location = New System.Drawing.Point(678, 2)
         Me.Button5.Name = "Button5"
         Me.Button5.Size = New System.Drawing.Size(30, 30)
         Me.Button5.TabIndex = 216
         Me.Button5.UseVisualStyleBackColor = True
         Me.Button5.Visible = False
         '
-        'ComboBox1
-        '
-        Me.ComboBox1.BackColor = System.Drawing.Color.FromArgb(CType(CType(60, Byte), Integer), CType(CType(80, Byte), Integer), CType(CType(65, Byte), Integer))
-        Me.ComboBox1.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.ComboBox1.ForeColor = System.Drawing.Color.White
-        Me.ComboBox1.FormattingEnabled = True
-        Me.ComboBox1.Location = New System.Drawing.Point(121, 5)
-        Me.ComboBox1.Name = "ComboBox1"
-        Me.ComboBox1.Size = New System.Drawing.Size(108, 21)
-        Me.ComboBox1.TabIndex = 215
-        '
-        'Label4
-        '
-        Me.Label4.AutoSize = True
-        Me.Label4.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label4.ForeColor = System.Drawing.Color.White
-        Me.Label4.Location = New System.Drawing.Point(53, 8)
-        Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(66, 16)
-        Me.Label4.TabIndex = 214
-        Me.Label4.Text = "Pengirim :"
-        '
         'Button6
         '
         Me.Button6.FlatAppearance.BorderSize = 0
         Me.Button6.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.Button6.Image = CType(resources.GetObject("Button6.Image"), System.Drawing.Image)
-        Me.Button6.Location = New System.Drawing.Point(6, 3)
+        Me.Button6.Location = New System.Drawing.Point(3, 25)
         Me.Button6.Name = "Button6"
         Me.Button6.Size = New System.Drawing.Size(41, 23)
         Me.Button6.TabIndex = 213
@@ -331,9 +291,9 @@ Partial Class pgMsg
         Me.btnSend.ForeColor = System.Drawing.SystemColors.ButtonFace
         Me.btnSend.Image = CType(resources.GetObject("btnSend.Image"), System.Drawing.Image)
         Me.btnSend.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        Me.btnSend.Location = New System.Drawing.Point(628, 33)
+        Me.btnSend.Location = New System.Drawing.Point(606, 36)
         Me.btnSend.Name = "btnSend"
-        Me.btnSend.Size = New System.Drawing.Size(87, 36)
+        Me.btnSend.Size = New System.Drawing.Size(102, 36)
         Me.btnSend.TabIndex = 212
         Me.btnSend.Text = "  Kirim"
         Me.btnSend.UseVisualStyleBackColor = False
@@ -344,26 +304,40 @@ Partial Class pgMsg
         Me.TextMessage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TextMessage.Font = New System.Drawing.Font("Calibri", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TextMessage.ForeColor = System.Drawing.Color.White
-        Me.TextMessage.Location = New System.Drawing.Point(6, 32)
+        Me.TextMessage.Location = New System.Drawing.Point(45, 3)
         Me.TextMessage.Multiline = True
         Me.TextMessage.Name = "TextMessage"
         Me.TextMessage.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
-        Me.TextMessage.Size = New System.Drawing.Size(508, 40)
+        Me.TextMessage.Size = New System.Drawing.Size(555, 69)
         Me.TextMessage.TabIndex = 211
         '
         'Panel5
         '
         Me.Panel5.BackColor = System.Drawing.Color.FromArgb(CType(CType(60, Byte), Integer), CType(CType(80, Byte), Integer), CType(CType(65, Byte), Integer))
+        Me.Panel5.Controls.Add(Me.Button1)
         Me.Panel5.Controls.Add(Me.Label2)
         Me.Panel5.Controls.Add(Me.Label1)
         Me.Panel5.Controls.Add(Me.PictureBox1)
-        Me.Panel5.Controls.Add(Me.BtnWA)
-        Me.Panel5.Controls.Add(Me.BtnSIP)
         Me.Panel5.Dock = System.Windows.Forms.DockStyle.Top
         Me.Panel5.Location = New System.Drawing.Point(0, 0)
         Me.Panel5.Name = "Panel5"
         Me.Panel5.Size = New System.Drawing.Size(720, 54)
         Me.Panel5.TabIndex = 1
+        '
+        'Button1
+        '
+        Me.Button1.BackColor = System.Drawing.Color.FromArgb(CType(CType(60, Byte), Integer), CType(CType(80, Byte), Integer), CType(CType(65, Byte), Integer))
+        Me.Button1.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.Button1.FlatAppearance.BorderSize = 0
+        Me.Button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.Button1.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Button1.ForeColor = System.Drawing.SystemColors.ButtonFace
+        Me.Button1.Image = CType(resources.GetObject("Button1.Image"), System.Drawing.Image)
+        Me.Button1.Location = New System.Drawing.Point(671, 17)
+        Me.Button1.Name = "Button1"
+        Me.Button1.Size = New System.Drawing.Size(37, 21)
+        Me.Button1.TabIndex = 219
+        Me.Button1.UseVisualStyleBackColor = False
         '
         'Label2
         '
@@ -398,30 +372,6 @@ Partial Class pgMsg
         Me.PictureBox1.TabIndex = 213
         Me.PictureBox1.TabStop = False
         Me.PictureBox1.Visible = False
-        '
-        'BtnWA
-        '
-        Me.BtnWA.FlatAppearance.BorderSize = 0
-        Me.BtnWA.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.BtnWA.Image = CType(resources.GetObject("BtnWA.Image"), System.Drawing.Image)
-        Me.BtnWA.Location = New System.Drawing.Point(678, 12)
-        Me.BtnWA.Name = "BtnWA"
-        Me.BtnWA.Size = New System.Drawing.Size(30, 30)
-        Me.BtnWA.TabIndex = 212
-        Me.BtnWA.UseVisualStyleBackColor = True
-        Me.BtnWA.Visible = False
-        '
-        'BtnSIP
-        '
-        Me.BtnSIP.FlatAppearance.BorderSize = 0
-        Me.BtnSIP.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.BtnSIP.Image = CType(resources.GetObject("BtnSIP.Image"), System.Drawing.Image)
-        Me.BtnSIP.Location = New System.Drawing.Point(639, 11)
-        Me.BtnSIP.Name = "BtnSIP"
-        Me.BtnSIP.Size = New System.Drawing.Size(30, 30)
-        Me.BtnSIP.TabIndex = 211
-        Me.BtnSIP.UseVisualStyleBackColor = True
-        Me.BtnSIP.Visible = False
         '
         'MenuChat
         '
@@ -461,8 +411,6 @@ Partial Class pgMsg
     Friend WithEvents Panel5 As Panel
     Friend WithEvents Panel6 As Panel
     Friend WithEvents PnMessage As Panel
-    Friend WithEvents BtnWA As Button
-    Friend WithEvents BtnSIP As Button
     Friend WithEvents PictureBox1 As PictureBox
     Friend WithEvents Label1 As Label
     Friend WithEvents Label2 As Label
@@ -476,12 +424,10 @@ Partial Class pgMsg
     Friend WithEvents Button3 As Button
     Friend WithEvents Button4 As Button
     Friend WithEvents Button5 As Button
-    Friend WithEvents ComboBox1 As ComboBox
-    Friend WithEvents Label4 As Label
     Friend WithEvents Button6 As Button
     Friend WithEvents btnSend As Button
     Friend WithEvents TextMessage As TextBox
-    Friend WithEvents Label5 As Label
     Friend WithEvents BtnMenu As Button
     Friend WithEvents MenuChat As ContextMenuStrip
+    Friend WithEvents Button1 As Button
 End Class

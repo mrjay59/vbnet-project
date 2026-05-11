@@ -1,4 +1,6 @@
 ﻿Imports System.Drawing.Drawing2D
+Imports System.Windows.Forms.VisualStyles.VisualStyleElement
+Imports Microsoft.VisualBasic.Devices
 Imports Newtonsoft.Json.Linq
 
 Public Class ChatListForm
@@ -6,7 +8,6 @@ Public Class ChatListForm
     Private dbConn As New ClassConnect
     Private Ap_mrjay59 As New mrjay59
     Private WApp As New WhatsAppClass
-    Private displayedChatItems As New List(Of ChatItem)()
     Private currentPage As Integer = 1
     Private pageSize As Integer = 20
     Private isLoading As Boolean = False
@@ -19,6 +20,7 @@ Public Class ChatListForm
     Private ReadOnly ColorItemUnread As Color = Color.FromArgb(50, 50, 60)
     Private ReadOnly ColorItemSelected As Color = Color.FromArgb(70, 70, 90)
     Private WithEvents pnlLayoutList As New FlowLayoutPanel()
+    Public Property PendingSearchKeyword As String = ""
 
     Public Property ParentMsgForm As pgMsg
     Public ChatPanels As New Dictionary(Of String, Panel)
@@ -81,24 +83,20 @@ Public Class ChatListForm
     End Sub
 
     Private Sub LoadPage(page As Integer, platform As String)
+
         If isLoading Then Return
 
         isLoading = True
         lblLoading.Visible = True
 
-        ' Simulasi load data async
         Task.Run(Sub()
-                     ' Simulasi delay jaringan/database
+
                      Threading.Thread.Sleep(800)
 
-                     ' Generate data untuk halaman ini
                      Dim newItems = GeneratePageData(page, platform, "")
 
                      Me.Invoke(Sub()
-                                   ' Tambahkan ke daftar yang ditampilkan
-                                   displayedChatItems.AddRange(newItems)
 
-                                   ' Render item baru
                                    RenderChatItems(newItems)
 
                                    currentPage = page
@@ -106,36 +104,48 @@ Public Class ChatListForm
                                    lblLoading.Visible = False
 
                                End Sub)
+
                  End Sub)
+
     End Sub
 
     Public Sub SearchFromDisplayed(keyword As String, platform As String)
+        ' Jika keyword kosong, reset dan reload
+        SetupMessagePanel()
+        InitializeUI()
         If Not String.IsNullOrWhiteSpace(keyword) Then
             If isLoading Then Return
 
             isLoading = True
             lblLoading.Visible = True
 
-            ' Jika keyword ada, lakukan filter
-            Dim filteredItems = displayedChatItems.
-                Where(Function(c) c.PhoneNumber.Contains(keyword)).
-                ToList()
+            Task.Run(Sub()
 
-            ' Render hasil filter
-            RenderChatItems(filteredItems)
+                         Threading.Thread.Sleep(800)
 
-            isLoading = False
-            lblLoading.Visible = False
+                         Dim newItems = GeneratePageData(1, platform, keyword)
+
+                         Me.Invoke(Sub()
+
+                                       RenderChatItems(newItems)
+
+
+                                       isLoading = False
+                                       lblLoading.Visible = False
+
+                                   End Sub)
+
+                     End Sub)
+
+
         Else
-            ' Jika keyword kosong, reset dan reload
-            SetupMessagePanel()
-            InitializeUI()
+
             LoadPage(1, platform)
         End If
 
     End Sub
 
-    Private Function GeneratePageData(page As Integer, ByVal platform As String, nosender As String) As List(Of ChatItem)
+    Private Function GeneratePageData(page As Integer, ByVal platform As String, keyword As String) As List(Of ChatItem)
 
         Dim items As New List(Of ChatItem)()
 
@@ -146,7 +156,7 @@ Public Class ChatListForm
         param.Add("paging", page)
         param.Add("platform", platform)
         param.Add("tipe", "chatlist")
-        param.Add("nosender", nosender)
+        param.Add("keyword", keyword)
         Dim ListWA As String = WApp.OnListMsg(param)
         ' Console.WriteLine(ListWA)
         Dim DatChat As JArray = jsonpa.Json2aray(ListWA)
@@ -158,25 +168,22 @@ Public Class ChatListForm
         If (DatChat.Count > 0) Then
             ' Contoh data dummy (ganti dengan data sebenarnya)
             For i As Integer = 0 To DatChat.Count - 1
-
+                Dim from As String = DatChat(i)("from").ToString
+                Dim Sender As String = DatChat(i)("Sender")
                 Dim isgroup As Boolean = DatChat(i)("isgroup")
-                Dim group As String = DatChat(i)("group")
                 Dim waktu As DateTime = DatChat(i)("timestamp")
                 Dim isread As Boolean = DatChat(i)("isread")
-                Dim toouj As String = DatChat(i)("to")
-                Dim tujuan As String = IIf((isgroup), group, toouj)
-
-
+                Dim pushName = DatChat(i)("pushName").ToString
+                Dim tujuan As String = IIf((isgroup), pushName, from)
                 Dim usernm As String = DatChat(i)("username")
                 Dim wadah As String = DatChat(i)("platform")
-                Dim tsender As String = DatChat(i)("from")
-                Dim stateS As Boolean = DatChat(i)("state")
+
                 Dim sessionId As String = DatChat(i)("session")
                 Dim last_text As String = DatChat(i)("last_text")
                 Dim detailmsg As List(Of Message) =
     DatChat(i)("conversation").ToObject(Of List(Of Message))()
 
-                Dim ack As Integer = DatChat(i)("ack")
+                Dim ack As Integer = DatChat(i)?("ack")
 
                 Dim stateStatus As Message.AckStatus
 
@@ -197,7 +204,7 @@ Public Class ChatListForm
                     .Username = usernm,
                     .Platform = wadah,
                     .SessionId = sessionId,
-                    .PhoneSender = tsender,
+                    .PhoneSender = Sender,
                     .Conversation = detailmsg
                 })
 
@@ -390,8 +397,8 @@ Public Class ChatListForm
         UpdateChatItemAppearance(chat)
 
         ' langsung panggil parent
-        ParentMsgForm.OpenConversation(chat)
 
+        ParentMsgForm?.OpenConversation(chat)
     End Sub
 
     Private Sub UpdateChatItemAppearance(chat As ChatItem)
@@ -463,8 +470,6 @@ Public Class ChatListForm
             End If
         End If
     End Sub
-
-    ' Class untuk menyimpan data chat
 
 
 

@@ -1,13 +1,16 @@
 ﻿Imports System.Drawing.Drawing2D
+Imports System.IO
+Imports System.Net.Http
+Imports System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel
+Imports Mysqlx.XDevAPI
 Imports Newtonsoft.Json
 Imports Newtonsoft.Json.Linq
-Imports System.Net.Http
-Imports System.IO
 
 Public Class pgMsg
     Private jsonpa As New ClassJson
     Private dbConn As New ClassConnect
     Private Ap_mrjay59 As New mrjay59
+    Private deEn As New DeEnCrypt
     Private DatR As String = String.Empty
     Private DataJson = Nothing
     Private WApp As New WhatsAppClass
@@ -41,6 +44,7 @@ Public Class pgMsg
         Panelgb.Visible = True
 
         Dim page As New ChatListForm
+        page.ParentMsgForm = Me
         PnChatList.Controls.Clear()
         page.TopLevel = False
         page.Dock = DockStyle.Fill
@@ -51,6 +55,7 @@ Public Class pgMsg
     End Sub
 
     Private Sub wsClient_MessageReceived(message As String)
+        ' Console.WriteLine(message)
         If (message Is Nothing) Then Exit Sub
 
         Dim arrj = jsonpa.Json2aray(message)
@@ -64,7 +69,7 @@ Public Class pgMsg
             If username = usern And arrj("event").ToString = "message" Then
                 OnMessageReceived(message)
             ElseIf (arrj("event").ToString = "messageack") Then
-
+                ' OnMessageReceived(message)
             End If
         End If
 
@@ -76,7 +81,7 @@ Public Class pgMsg
             Dim newobj As New Object
             Dim obj = JObject.Parse(json)
 
-            Dim phone As String = obj("payload")("to").ToString
+            Dim phone As String = obj("payload")("from").ToString
             Dim text As String = obj("payload")("body").ToString
             Dim msgid As String = obj("payload")("id").ToString
             Dim hasMedia As Boolean = obj("payload")("hasMedia").ToString
@@ -420,8 +425,7 @@ Public Class pgMsg
         PictureBox1.Visible = True
         Label1.Visible = True
         Label2.Visible = True
-        BtnWA.Visible = True
-        BtnSIP.Visible = True
+
 
     End Sub
 
@@ -448,6 +452,7 @@ Public Class pgMsg
 
         pnlMessageList.Controls.Clear()
 
+        Label1.Tag = chat
         Label1.Text = chat.PhoneNumber
         Label2.Text = $"{chat.Platform}-{chat.PhoneSender}"
 
@@ -569,40 +574,60 @@ Public Class pgMsg
     End Sub
 
     Private Sub btnSend_Click(sender As Object, e As EventArgs) Handles btnSend.Click
-        Dim Datjson As String = Label1.Tag
-        Dim WaName As String = ComboBox1.Text
-        Dim SenderNo As String = Label5.Text
+        Dim chat As ChatItem = TryCast(Label1.Tag, ChatItem)
 
-        Dim DPar = jsonpa.Json2aray(Datjson)
-        Dim username = DPar("username")
+        If chat Is Nothing Then
+            MessageBox.Show("Data chat tidak ditemukan")
+            Return
+        End If
+
+        Dim redis = "wa:send:stream"
+        Dim SenderNum As String = chat.PhoneSender
+        Dim SessionId As String = chat.SessionId
+        Dim fromNum As String = chat.PhoneNumber
+        Dim platfrom As String = chat.Platform
+        Dim textmsg As String = TextMessage.Text.Trim
+
+        If (textmsg = "") Then
+            MessageBox.Show("tidak ada message / kosong")
+            Return
+        End If
 
 
-        Dim textmsg As String = TextMessage.Text
         AddDateHeaderIfNeeded(Date.Now)
         Dim bubble As New MessageBubble()
 
         bubble.IsOutbox = True
         bubble.MessageText = textmsg
         bubble.TimeText = DateTime.Now.ToString("T")
-        bubble.SenderText = SenderNo
+        bubble.SenderText = SenderNum
         bubble.Width = pnlMessageList.Width - 25
 
         pnlMessageList.Controls.Add(bubble)
 
-        Dim jsdata, jsdata1 As New JObject
+        Dim newData As New JObject
         Dim jsArr As New JArray
-        jsdata.Add("name", WaName)
-        jsdata.Add("username", username)
-        jsdata.Add("tonum", DPar("PhoneNumber"))
-        jsdata.Add("tsender", DPar("PhoneSender"))
-        jsdata.Add("text", textmsg)
-        jsdata.Add("metCall", "wascanqr")
-        jsdata.Add("func", "OnReceive")
-        jsdata1.Add("body", jsArr)
-        jsArr.Add(jsdata)
+        newData.Add("connection", "WhatsApp")
+        newData.Add("device", "")
+        newData.Add("to", fromNum)
+        newData.Add("platform", platfrom)
+        newData.Add("from", SessionId)
+        newData.Add("text", textmsg)
+        newData.Add("state", "")
+        newData.Add("komu", "PU")
+        newData.Add("tocall", 1)
+        jsArr.Add(newData)
 
-        'RaiseEvent SendDataJson(Me, New ClassData(jsdata1.ToString))
         TextMessage.Text = ""
+
+        Dim payload As New JObject From {
+          {"request_id", deEn.GenerateRandomString(16)},
+          {"data", jsArr},
+          {"type", redis},
+          {"message", "send whatsapp via autocall"}
+      }
+
+        WSManager.Client.SendMessage(payload.ToString(Newtonsoft.Json.Formatting.None))
     End Sub
 
     Private Sub TextMessage_KeyDown(sender As Object, e As KeyEventArgs) Handles TextMessage.KeyDown
@@ -626,18 +651,26 @@ Public Class pgMsg
     End Sub
 
     Private Sub TextSearch_KeyDown(sender As Object, e As KeyEventArgs) Handles TextSearch.KeyDown
+
         If e.KeyCode = Keys.Enter Then
+            PnChatList.Controls.Clear()
+            PnMessage.Controls.Clear()
             Dim keyword As String = TextSearch.Text.Trim()
 
             Dim page As New ChatListForm
-            PnChatList.Controls.Clear()
-            page.TopLevel = False
-            page.Dock = DockStyle.Fill
+            page.ParentMsgForm = Me
             page.SendDataUser = DatR
             page.SearchFromDisplayed(keyword, "")
+
+            page.TopLevel = False
+            page.Dock = DockStyle.Fill
+
             PnChatList.Controls.Add(page)
+
             page.Show()
+
         End If
+
     End Sub
 
     ' Atur placeholder dinamis
@@ -667,6 +700,7 @@ Public Class pgMsg
         page.TopLevel = False
         page.Dock = DockStyle.Fill
         page.SendDataUser = DatR
+        page.ParentMsgForm = Me
 
         Select Case e.ClickedItem.Text
 
@@ -686,4 +720,6 @@ Public Class pgMsg
         End Select
 
     End Sub
+
+
 End Class
