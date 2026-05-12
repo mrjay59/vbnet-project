@@ -1,7 +1,9 @@
 ﻿Imports System.Drawing.Drawing2D
 Imports System.IO
 Imports System.Net.Http
+Imports System.Security.Cryptography
 Imports System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel
+Imports System.Windows.Interop
 Imports Mysqlx.XDevAPI
 Imports Newtonsoft.Json
 Imports Newtonsoft.Json.Linq
@@ -17,8 +19,9 @@ Public Class pgMsg
 
     Private lastDateDisplayed As Date = Date.MinValue
     Private WithEvents pnlMessageList As New FlowLayoutPanel()
-    Public ChatCache As New Dictionary(Of String, ChatItem)
+
     Private CurrentChat As ChatItem = Nothing
+
 
     Public Property SendDataUser() As String
         Get
@@ -55,16 +58,15 @@ Public Class pgMsg
     End Sub
 
     Private Sub wsClient_MessageReceived(message As String)
-        '  Console.WriteLine(message)
+
         If (message Is Nothing) Then Exit Sub
 
         Dim arrj = jsonpa.Json2aray(message)
 
         If (arrj("event") IsNot Nothing) Then
-
             If arrj("event").ToString = "message" Then
                 OnMessageReceived(message)
-            ElseIf (arrj("event").ToString = "messageack") Then
+            ElseIf (arrj("event").ToString = "message.ack") Then
                 OnMessageAck(message)
             End If
         End If
@@ -72,30 +74,151 @@ Public Class pgMsg
     End Sub
 
     Private Sub OnMessageAck(json As String)
+
         Try
+
+            Dim obj = jsonpa.Json2aray(json)
+
+            Dim msgId As String =
+            obj("payload")("payload")("id").ToString()
+
+            Dim ack As Integer =
+            obj("payload")("payload")("ack")
+
+            Dim ackName As String =
+            obj("payload")("payload")("ackName").ToString
+
+
+            Dim frm =
+            TryCast(
+                PnChatList.Controls(0),
+                ChatListForm
+            )
+
+            If frm Is Nothing Then Return
+
+            If frm.ChatItems Is Nothing Then Return
+
+            For Each chat In frm.ChatItems
+
+                Dim msg =
+                chat.Conversation.
+                Where(Function(x)
+                          Return x.FromMe = True AndAlso
+                                 x.Ack = 1
+                      End Function).
+                OrderByDescending(Function(x) x.Timestamp).
+                FirstOrDefault()
+
+
+
+                If msg IsNot Nothing Then
+
+                    Dim oldId = msg.MsgId
+
+                    msg.Ack = ack
+                    msg.MsgId = msgId
+
+                    UpdateBubbleAck(oldId, msgId, ack)
+
+                End If
+
+            Next
+
 
         Catch ex As Exception
 
+            Console.WriteLine(ex.Message)
+
         End Try
+
+        ' Console.WriteLine(json)
+
+    End Sub
+
+    Private Sub UpdateBubbleAck(
+    oldMsgId As String,
+    newMsgId As String,
+    ack As Integer
+)
+
+        For Each ctrl As Control In pnlMessageList.Controls
+
+            Dim bubble =
+            TryCast(ctrl, MessageBubble)
+
+            If bubble Is Nothing Then Continue For
+
+            If bubble.MsgId = oldMsgId Then
+
+                Dim stateStatus As Message.AckStatus
+
+                If [Enum].IsDefined(
+                GetType(Message.AckStatus),
+                ack
+            ) Then
+
+                    stateStatus = CType(
+                    ack,
+                    Message.AckStatus
+                )
+
+                Else
+
+                    stateStatus =
+                    Message.AckStatus.Failed
+
+                End If
+
+                bubble.MsgId = newMsgId
+
+                bubble.StatusText =
+                GetStatusIcon(stateStatus)
+
+
+                Exit For
+
+            End If
+
+        Next
 
     End Sub
 
     Private Sub OnMessageReceived(json As String)
+        Dim frm = TryCast(PnChatList.Controls(0), ChatListForm)
+
 
         Try
+
+
             Dim newobj As New Object
-            Dim obj = JObject.Parse(json)
+            Dim obj = jsonpa.Json2aray(json)
 
-            Dim phone As String = obj("payload")("from").ToString
-            Dim text As String = obj("payload")("body").ToString
-            Dim msgid As String = obj("payload")("id").ToString
-            Dim hasMedia As Boolean = obj("payload")("hasMedia").ToString
-            Dim Timestamp As DateTime = obj("payload")("timestamp")
-            Dim fromMe As Boolean = obj("payload")("fromMe")
-            Dim MediaUrl As String = obj("media")("url").ToString
-            newobj.add(obj("media"))
-            Dim MediaType As String = jsonpa.DetectMediaType(newobj.ToString)
+            Dim remoteJidAlt As String = obj("payload")("payload")("_data")("key")("remoteJidAlt").ToString
+            Dim _phone As String() = Split(remoteJidAlt, "@")
+            Dim phone = _phone(0).ToString
+            Dim text As String = obj("payload")("payload")("body").ToString
+            Dim msgid As String = obj("payload")("payload")("id").ToString
+            Dim hasMedia As Boolean = obj("payload")("payload")("hasMedia").ToString
+            Dim fromMe As Boolean = obj("payload")("payload")("fromMe")
+            Dim _sender As String() = Split(obj("payload")("me")("id").ToString, "@")
+            Dim MediaUrl As String = ""
+            Dim MediaType As String = Message.MediaTypes.Text
 
+            Dim mediaObj = obj("payload")("media")
+
+            If mediaObj IsNot Nothing AndAlso mediaObj.Type <> JTokenType.Null Then
+
+                MediaUrl =
+        mediaObj("url")?.ToString()
+                newobj("media") = mediaObj
+                MediaType =
+        jsonpa.DetectMediaType(newobj.ToString())
+
+            End If
+            Dim unixTime As Long = CLng(obj("payload")("payload")("timestamp"))
+
+            Dim Timestamp As DateTime = DateTimeOffset.FromUnixTimeSeconds(unixTime).LocalDateTime
 
             Dim msg As New Message With {
             .MsgId = msgid,
@@ -103,197 +226,47 @@ Public Class pgMsg
             .Timestamp = Timestamp,
             .FromMe = fromMe,
             .MediaUrl = MediaUrl,
-            .MediaType = MediaType
+            .MediaType = MediaType,
+            .Sender = _sender(0).ToString
         }
 
-            UpdateChatRealtime(phone, msg)
+            If Not msg.FromMe Then
 
+                My.Computer.Audio.Play(
+        My.Resources.whatsapp_sound_effect,
+        AudioPlayMode.Background
+    )
+
+            End If
+
+            If frm IsNot Nothing Then
+
+                frm.UpdateChatRealtime(phone, msg)
+
+            End If
         Catch ex As Exception
 
             Console.WriteLine(ex.Message)
 
         End Try
 
-    End Sub
 
-    Private Sub UpdateChatRealtime(
-    phone As String,
-    msg As Message
-)
-
-        If InvokeRequired Then
-
-            Invoke(Sub()
-                       UpdateChatRealtime(phone, msg)
-                   End Sub)
-
-            Return
-
-        End If
-
-        If ChatCache.ContainsKey(phone) Then
-
-            Dim chat = ChatCache(phone)
-
-            ' update data
-            chat.LastMessage = msg.ContentText
-
-            chat.Time = msg.Timestamp
-
-            chat.Conversation.Add(msg)
-
-            ' unread
-            If Not chat.IsSelected Then
-                chat.UnreadCount += 1
-            End If
-
-            ' update list ui
-            ChatListForm.UpdateChatUI(chat)
-
-            ' update bubble jika aktif
-            If CurrentChat Is chat Then
-
-                AddBubbleMessage(msg)
-
-            End If
-
-        Else
-
-            ' chat baru
-            Dim newChat As New ChatItem With {
-            .PhoneNumber = phone,
-            .LastMessage = msg.ContentText,
-            .Time = msg.Timestamp
-        }
-
-            newChat.Conversation.Add(msg)
-
-            ChatCache.Add(phone, newChat)
-
-            ChatListForm.AddChatItem(newChat)
-
-        End If
 
     End Sub
 
-    Private Sub AddBubbleMessage(msg As Message)
+    Public Sub AddMessageBubble(msg As Message)
 
-        If InvokeRequired Then
+        AddDateHeaderIfNeeded(Date.Now)
+        Dim bubble As New MessageBubble()
 
-            Invoke(Sub()
-                       AddBubbleMessage(msg)
-                   End Sub)
+        bubble.IsOutbox = msg.FromMe
+        bubble.MessageText = msg.ContentText
+        bubble.TimeText = msg.Timestamp.ToString("HH:mm")
+        bubble.SenderText = msg.Sender
+        bubble.StatusText = GetStatusIcon(msg.Status)
+        bubble.Width = pnlMessageList.Width - 25
 
-            Return
-
-        End If
-
-        Try
-
-            Dim bubble As New MessageBubble()
-
-            ' ==================================
-            ' BASIC
-            ' ==================================
-
-            bubble.TimeText =
-            msg.Timestamp.ToString("HH:mm")
-
-            bubble.IsOutbox =
-            msg.FromMe
-
-            bubble.MessageText =
-            msg.ContentText
-
-            bubble.SenderText =
-            msg.Sender
-
-            ' ==================================
-            ' MEDIA
-            ' ==================================
-
-            bubble.MediaUrl = msg.MediaUrl
-
-            Select Case msg.MediaType
-
-                Case "Image"
-                    bubble.BubbleContentType =
-                    MessageBubble.ContentType.Image
-
-                Case "Audio"
-                    bubble.BubbleContentType =
-                    MessageBubble.ContentType.Voice
-
-                Case "Video"
-                    bubble.BubbleContentType =
-                    MessageBubble.ContentType.Video
-
-                Case "Document"
-                    bubble.BubbleContentType =
-                    MessageBubble.ContentType.File
-
-                Case Else
-                    bubble.BubbleContentType =
-                    MessageBubble.ContentType.Text
-
-            End Select
-
-            ' ==================================
-            ' STATUS
-            ' ==================================
-
-            If msg.FromMe Then
-
-                Select Case msg.Status
-
-                    Case Message.AckStatus.Pending
-                        bubble.StatusText = "⌛"
-
-                    Case Message.AckStatus.Server
-                        bubble.StatusText = "✓"
-
-                    Case Message.AckStatus.Delivered
-                        bubble.StatusText = "✓✓"
-
-                    Case Message.AckStatus.Read
-                        bubble.StatusText = "✓✓ Dibaca"
-
-                    Case Message.AckStatus.Played
-                        bubble.StatusText = "▶ Diputar"
-
-                    Case Else
-                        bubble.StatusText = "!!"
-
-                End Select
-
-            End If
-
-            ' ==================================
-            ' WIDTH
-            ' ==================================
-
-            bubble.Width =
-            pnlMessageList.Width - 25
-
-            ' ==================================
-            ' ADD TO PANEL
-            ' ==================================
-
-            pnlMessageList.Controls.Add(bubble)
-
-            bubble.BringToFront()
-
-            ' ==================================
-            ' AUTO SCROLL
-            ' ==================================
-
-            ScrollToBottom()
-
-        Catch ex As Exception
-
-            Console.WriteLine(ex.Message)
-
-        End Try
+        pnlMessageList.Controls.Add(bubble)
 
     End Sub
 
@@ -426,7 +399,7 @@ Public Class pgMsg
 
         ' Contoh data pesan
         prosesOpenC(chat) ' Generate 100 pesan contoh
-
+        Panel6.Visible = true
         PictureBox1.Visible = True
         Label1.Visible = True
         Label2.Visible = True
@@ -461,7 +434,10 @@ Public Class pgMsg
         Label1.Text = chat.PhoneNumber
         Label2.Text = $"{chat.Platform}-{chat.PhoneSender}"
 
-        Dim conv As List(Of Message) = chat.Conversation
+        Dim conv As List(Of Message) =
+        chat.Conversation.
+        OrderBy(Function(x) x.Timestamp).
+        ToList()
 
         For Each item As Message In conv
 
@@ -473,13 +449,14 @@ Public Class pgMsg
             AddDateHeaderIfNeeded(waktu)
 
             Dim cleanText As String =
-            item.ContentText.Replace(vbLf, vbCrLf)
+            item.ContentText?.ToString.Replace(vbLf, vbCrLf)
 
             Dim bubble As New MessageBubble()
-
+            bubble.MsgId = item.MsgId
             bubble.TimeText = waktu.ToString("HH:mm")
             bubble.IsOutbox = isOutbox
             bubble.MessageText = cleanText
+
 
             If bubble.IsOutbox Then
 
@@ -514,6 +491,7 @@ Public Class pgMsg
                 Case Message.MediaTypes.Image
 
                     bubble.Content = MessageBubble.ContentType.Image
+                    bubble.MediaUrl = item.MediaUrl
 
                 Case Message.MediaTypes.Audio
 
@@ -607,15 +585,7 @@ Public Class pgMsg
 
 
         AddDateHeaderIfNeeded(Date.Now)
-        Dim bubble As New MessageBubble()
 
-        bubble.IsOutbox = True
-        bubble.MessageText = textmsg
-        bubble.TimeText = DateTime.Now.ToString("T")
-        bubble.SenderText = SenderNum
-        bubble.Width = pnlMessageList.Width - 25
-
-        pnlMessageList.Controls.Add(bubble)
 
         Dim newData As New JObject
         Dim jsArr As New JArray
@@ -629,6 +599,23 @@ Public Class pgMsg
         newData.Add("komu", "PU")
         newData.Add("tocall", 1)
         jsArr.Add(newData)
+
+        Dim frm = TryCast(PnChatList.Controls(0), ChatListForm)
+        If frm IsNot Nothing Then
+
+            Dim msgnew As New Message
+            msgnew.MsgId = ""
+            msgnew.ContentText = textmsg
+            msgnew.FromMe = True
+            msgnew.Type = Message.MessageType.Outbox
+            msgnew.Sender = SenderNum
+            msgnew.Status = Message.AckStatus.Pending
+            msgnew.Ack = 1
+            msgnew.Timestamp = DateTime.Now
+
+            frm.UpdateChatRealtime(fromNum, msgnew)
+
+        End If
 
         TextMessage.Text = ""
 

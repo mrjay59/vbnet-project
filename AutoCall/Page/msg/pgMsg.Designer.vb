@@ -233,6 +233,7 @@ Partial Class pgMsg
         Me.Panel6.Name = "Panel6"
         Me.Panel6.Size = New System.Drawing.Size(720, 75)
         Me.Panel6.TabIndex = 2
+        Me.Panel6.Visible = False
         '
         'Button3
         '

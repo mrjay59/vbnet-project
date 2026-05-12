@@ -1064,6 +1064,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="icon.ico" />
+    <None Include="Resources\whatsapp_sound_effect.wav" />
     <None Include="Resources\icons8-code-18.png" />
     <None Include="Resources\icons8-qr-code-19.png" />
     <None Include="Resources\icons8-logout-18.png" />

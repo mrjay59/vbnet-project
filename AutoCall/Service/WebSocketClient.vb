@@ -43,31 +43,62 @@ Public Class WebSocketClient
         Dim sb As New StringBuilder()
 
         Try
+
+
             While client.State = WebSocketState.Open
 
-                Using ms As New IO.MemoryStream()
-                    Dim result As WebSocketReceiveResult
-                    Do
-                        result = Await client.ReceiveAsync(New ArraySegment(Of Byte)(buffer), cancellationToken.Token)
-                        ms.Write(buffer, 0, result.Count)
-                    Loop While Not result.EndOfMessage
 
-                    Dim message As String = Encoding.UTF8.GetString(ms.ToArray())
-                    RaiseEvent OnMessage(message)
-                    sb.Append(message)
+                Dim result As WebSocketReceiveResult
+
+                Do
+
+                    result = Await client.ReceiveAsync(
+            New ArraySegment(Of Byte)(buffer),
+            cancellationToken.Token
+        )
+
+                    If result.MessageType = WebSocketMessageType.Close Then
+
+                        Await client.CloseAsync(
+                WebSocketCloseStatus.NormalClosure,
+                "",
+                cancellationToken.Token
+            )
+
+                        Exit While
+
+                    End If
+
+                    sb.Append(
+            Encoding.UTF8.GetString(
+                buffer,
+                0,
+                result.Count
+            )
+        )
+
+                Loop Until result.EndOfMessage
+
+                Dim jsonText As String = sb.ToString()
+
+                If Not String.IsNullOrWhiteSpace(jsonText) Then
 
                     Try
-                        ' Try parse as JObject
-                        'Dim parsed = JObject.Parse(sb.ToString())
-                        RaiseEvent MessageReceived(sb.ToString())
-                        sb.Clear()
+
+                        RaiseEvent MessageReceived(jsonText)
+
                     Catch ex As Exception
-                        ' Incomplete JSON, wait for next loop
-                        Console.WriteLine("Waiting for complete JSON...")
+
+                        Console.WriteLine(
+            "Message handler error: " & ex.Message
+        )
+
                     End Try
 
-                    HandleConnectionStateChange(client.State)
-                End Using
+                    sb.Clear()
+
+                End If
+
             End While
         Catch ex As Exception
             RaiseEvent OnDisconnected()

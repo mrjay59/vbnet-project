@@ -98,6 +98,12 @@ Public Class MessageBubble
         Set(value As String)
             _statusText = value
             If lblStatus IsNot Nothing Then lblStatus.Text = value
+
+            lblStatus.Invalidate()
+            lblStatus.Refresh()
+
+            Me.Invalidate()
+            Me.Refresh()
         End Set
     End Property
 
@@ -121,6 +127,9 @@ Public Class MessageBubble
         End Set
     End Property
 
+    Public Property MsgId As String
+
+    Public Property AckStatus As Integer
     Public Property MediaPath() As String
         Get
             Return _mediaUrl
@@ -264,6 +273,15 @@ Public Class MessageBubble
         lblSender.Dock = DockStyle.Right
         lblSender.Padding = New Padding(0, 0, 5, 0)
         bottomPanel.Controls.Add(lblSender)
+
+        btnDownload = New Button()
+        btnDownload.Text = "Download"
+        btnDownload.Visible = False
+        btnDownload.Size = New Size(80, 30)
+
+        pnlBubble.Controls.Add(btnDownload)
+
+        bottomPanel.BringToFront()
     End Sub
 
     Private Async Sub LoadMedia()
@@ -280,6 +298,7 @@ Public Class MessageBubble
                 Case ContentType.Image
 
                     Using client As New HttpClient()
+
 
                         Dim bytes =
                         Await client.GetByteArrayAsync(_mediaUrl)
@@ -375,6 +394,11 @@ Public Class MessageBubble
         Dim contentSize As Size = Size.Empty
         Dim bubbleHeight As Integer = 0
         Dim bubbleWidth As Integer = 0
+        picMedia.Location =
+        New Point(
+            PADDING_HORIZONTAL,
+            PADDING_VERTICAL
+        )
 
         Select Case _contentType
             Case ContentType.Text
@@ -404,12 +428,28 @@ Public Class MessageBubble
                 bubbleHeight = txtMessage.Height + PADDING_VERTICAL * 2 + TIME_STATUS_HEIGHT + 10
 
             Case ContentType.Image
-                ' Image content
+
                 picMedia.Visible = True
-                picMedia.Size = New Size(MEDIA_WIDTH, MEDIA_HEIGHT)
+
+                picMedia.Size =
+                New Size(MEDIA_WIDTH, MEDIA_HEIGHT)
+
+                picMedia.Location =
+                New Point(
+                    PADDING_HORIZONTAL,
+                    PADDING_VERTICAL
+                )
+
                 contentSize = picMedia.Size
-                bubbleHeight = MEDIA_HEIGHT + PADDING_VERTICAL * 2 + TIME_STATUS_HEIGHT
-                bubbleWidth = MEDIA_WIDTH + PADDING_HORIZONTAL * 2
+
+                bubbleHeight =
+                MEDIA_HEIGHT +
+                PADDING_VERTICAL * 2 +
+                TIME_STATUS_HEIGHT
+
+                bubbleWidth =
+                MEDIA_WIDTH +
+                PADDING_HORIZONTAL * 2
 
             Case ContentType.Voice
                 ' Voice content
@@ -528,6 +568,7 @@ Public Class MessageBubble
 
                             picMedia.Image = New Bitmap(tmpImg)
 
+                            picMedia.Refresh()
                         End Using
 
                     End Using

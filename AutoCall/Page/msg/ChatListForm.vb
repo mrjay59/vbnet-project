@@ -12,7 +12,7 @@ Public Class ChatListForm
     Private pageSize As Integer = 20
     Private isLoading As Boolean = False
     Private selectedChatItem As ChatItem = Nothing
-    Public Event SendDataJson As EventHandler(Of ClassData)
+
     Private DatR As String = String.Empty
     ' Warna untuk UI
     Private ReadOnly ColorBackground As Color = Color.FromArgb(60, 60, 60)
@@ -21,10 +21,16 @@ Public Class ChatListForm
     Private ReadOnly ColorItemSelected As Color = Color.FromArgb(70, 70, 90)
     Private WithEvents pnlLayoutList As New FlowLayoutPanel()
     Public Property PendingSearchKeyword As String = ""
-
+    Private displayedChatItems As List(Of ChatItem)
     Public Property ParentMsgForm As pgMsg
     Public ChatPanels As New Dictionary(Of String, Panel)
+    Private CurrentChat As ChatItem = Nothing
 
+    Public ReadOnly Property ChatItems As List(Of ChatItem)
+        Get
+            Return displayedChatItems
+        End Get
+    End Property
     Public Property SendDataUser() As String
         Get
             Return DatR
@@ -97,10 +103,26 @@ Public Class ChatListForm
 
                      Me.Invoke(Sub()
 
-                                   RenderChatItems(newItems)
+                                   ' =========================
+                                   ' SIMPAN KE MEMORY
+                                   ' =========================
+
+                                   If displayedChatItems Is Nothing Then
+                                       displayedChatItems = New List(Of ChatItem)
+                                   End If
+
+                                   displayedChatItems.AddRange(newItems)
+
+                                   ' =========================
+                                   ' RENDER UI
+                                   ' =========================
+
+                                   RenderChatItems(displayedChatItems)
 
                                    currentPage = page
+
                                    isLoading = False
+
                                    lblLoading.Visible = False
 
                                End Sub)
@@ -262,36 +284,192 @@ Public Class ChatListForm
         pnlLayoutList.ResumeLayout()
     End Sub
 
-    Public Sub UpdateChatUI(chat As ChatItem)
+    Public Sub UpdateChatRealtime(phone As String, msg As Message)
 
-        If Not ChatPanels.ContainsKey(chat.PhoneNumber) Then
-            Exit Sub
+        If InvokeRequired Then
+            Invoke(Sub() UpdateChatRealtime(phone, msg))
+            Return
         End If
 
-        Dim pnl = ChatPanels(chat.PhoneNumber)
+        Dim chat =
+        displayedChatItems.
+        FirstOrDefault(Function(c) c.PhoneNumber = phone)
 
-        Dim lblName =
-        CType(pnl.Controls("lblName"), Label)
+        ' ==================================
+        ' CHAT BELUM ADA
+        ' ==================================
 
-        Dim lblLast =
-        CType(pnl.Controls("lblLastMessage"), Label)
+        Dim isNewChat As Boolean = False
 
-        Dim lblTime =
-        CType(pnl.Controls("lblTime"), Label)
+        If chat Is Nothing Then
 
-        Dim lblUnread =
-        CType(pnl.Controls("lblUnread"), Label)
+            isNewChat = True
 
-        lblName.Text = chat.PhoneNumber
+            chat = New ChatItem With {
+        .PhoneNumber = phone,
+        .Conversation = New List(Of Message)
+    }
 
-        lblLast.Text = chat.LastMessage
+            displayedChatItems.Insert(0, chat)
 
-        lblTime.Text = chat.Time.ToString("HH:mm")
+        End If
 
-        lblUnread.Text = chat.UnreadCount.ToString
+        chat.LastMessage = msg.ContentText
+        chat.PhoneSender = msg.Sender
+        chat.Time = msg.Timestamp.ToString()
 
-        lblUnread.Visible =
-        (chat.UnreadCount > 0)
+        If Not msg.FromMe Then
+            chat.UnreadCount += 1
+        End If
+
+        chat.Conversation.Add(msg)
+
+        If isNewChat Then
+
+            AddChatItem(chat)
+
+        Else
+
+            UpdateChatItem(chat)
+
+        End If
+
+
+        ' ==================================
+        ' SORT TERBARU KE ATAS
+        ' ==================================
+
+        displayedChatItems =
+        displayedChatItems.
+        OrderByDescending(
+            Function(x)
+                Return x.Conversation.LastOrDefault()?.Timestamp
+            End Function
+        ).ToList()
+
+        ' ==================================
+        ' JIKA CHAT SEDANG DIBUKA
+        ' ==================================
+
+        If selectedChatItem IsNot Nothing Then
+
+            If selectedChatItem.PhoneNumber = phone Then
+
+                ParentMsgForm?.AddMessageBubble(msg)
+
+            End If
+
+        End If
+
+    End Sub
+
+    Private Sub UpdateChatItem(chat As ChatItem)
+
+        For Each ctrl As Control In pnlLayoutList.Controls
+
+            Dim data =
+            TryCast(ctrl.Tag, ChatItem)
+
+            If data Is Nothing Then Continue For
+
+            If data.PhoneNumber = chat.PhoneNumber Then
+
+                ' =========================
+                ' UPDATE DATA
+                ' =========================
+
+                data.LastMessage = chat.LastMessage
+                data.Time = chat.Time
+                data.UnreadCount = chat.UnreadCount
+
+                ' =========================
+                ' UPDATE UI
+                ' =========================
+
+                Dim lblMessage =
+                TryCast(
+                    ctrl.Controls("lblMessage"),
+                    Label
+                )
+
+                If lblMessage IsNot Nothing Then
+                    lblMessage.Text = chat.LastMessage
+                End If
+
+                Dim lblTime =
+                TryCast(
+                    ctrl.Controls("lblTime"),
+                    Label
+                )
+
+                If lblTime IsNot Nothing Then
+                    lblTime.Text = FormatTime(chat.Time)
+                End If
+
+                Dim lblStatus =
+                TryCast(
+                    ctrl.Controls("lblStatus"),
+                    Label
+                )
+
+                If lblStatus IsNot Nothing Then
+                    lblStatus.Text = GetStatusIcon(chat.Status)
+                    lblStatus.ForeColor = GetStatusColor(chat.Status)
+                End If
+
+                ' =========================
+                ' UPDATE UNREAD
+                ' =========================
+
+                Dim lblUnread =
+                TryCast(
+                    ctrl.Controls("lblUnread"),
+                    Label
+                )
+
+                If chat.UnreadCount > 0 Then
+
+                    If lblUnread Is Nothing Then
+
+                        lblUnread = New Label With {
+                        .Name = "lblUnread",
+                        .Font = New Font("Segoe UI", 7, FontStyle.Bold),
+                        .ForeColor = Color.White,
+                        .BackColor = Color.Red,
+                        .TextAlign = ContentAlignment.MiddleCenter,
+                        .Size = New Size(15, 15),
+                        .Location = New Point(ctrl.Width - 60, ctrl.Height \ 2 - 7)
+                    }
+
+                        Dim path As New Drawing2D.GraphicsPath()
+                        path.AddEllipse(New Rectangle(0, 0, 15, 15))
+                        lblUnread.Region = New Region(path)
+
+                        ctrl.Controls.Add(lblUnread)
+
+                    End If
+
+                    lblUnread.Text = chat.UnreadCount.ToString()
+
+                Else
+
+                    If lblUnread IsNot Nothing Then
+                        ctrl.Controls.Remove(lblUnread)
+                    End If
+
+                End If
+
+                ' =========================
+                ' MOVE TO TOP
+                ' =========================
+
+                pnlLayoutList.Controls.SetChildIndex(ctrl, 0)
+
+                Exit For
+
+            End If
+
+        Next
 
     End Sub
 
@@ -344,6 +522,7 @@ Public Class ChatListForm
 
         ' Last Message (Putih, ukuran 10)
         Dim lblMessage As New Label With {
+            .Name = "lblMessage",
             .Text = chat.LastMessage,
             .Font = New Font("Segoe UI", 8),
             .ForeColor = Color.WhiteSmoke,
@@ -354,6 +533,7 @@ Public Class ChatListForm
 
         ' Waktu (Putih, ukuran 10)
         Dim lblTime As New Label With {
+            .Name = "lblTime",
             .Text = FormatTime(chat.Time),
             .Font = New Font("Segoe UI", 7),
             .ForeColor = Color.LightGray,
@@ -363,6 +543,7 @@ Public Class ChatListForm
 
         ' Status pesan (kanan atas)
         Dim lblStatus As New Label With {
+            .Name = "lblStatus",
             .Text = GetStatusIcon(chat.Status),
             .Font = New Font("Segoe UI", 7),
             .ForeColor = GetStatusColor(chat.Status),
@@ -374,6 +555,7 @@ Public Class ChatListForm
         If chat.UnreadCount > 0 Then
             Dim unreadSize As Integer = 15
             Dim lblUnread As New Label With {
+                .Name = "lblUnread",
                 .Text = chat.UnreadCount.ToString(),
                 .Font = New Font("Segoe UI", 7, FontStyle.Bold),
                 .ForeColor = Color.White,
