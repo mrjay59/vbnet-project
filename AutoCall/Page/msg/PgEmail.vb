@@ -5,4 +5,5 @@
         'WebBrowser1.Navigate(b)
     End Sub
 
+
 End Class

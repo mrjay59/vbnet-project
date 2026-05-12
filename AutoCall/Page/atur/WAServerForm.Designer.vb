@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class WAServerForm
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,13 +20,12 @@ Partial Class WAServerForm
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.ViewTabel0 = New System.Windows.Forms.DataGridView()
-        Me.DataTableControl1 = New AutoCall.DataTableControl()
         CType(Me.ViewTabel0, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -84,31 +83,15 @@ Partial Class WAServerForm
         Me.ViewTabel0.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
         Me.ViewTabel0.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect
         Me.ViewTabel0.ShowCellToolTips = False
-        Me.ViewTabel0.Size = New System.Drawing.Size(523, 181)
+        Me.ViewTabel0.Size = New System.Drawing.Size(549, 227)
         Me.ViewTabel0.TabIndex = 189
-        '
-        'DataTableControl1
-        '
-        Me.DataTableControl1.AlternateRowColor = System.Drawing.Color.Lavender
-        Me.DataTableControl1.BackColor = System.Drawing.Color.Transparent
-        Me.DataTableControl1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.DataTableControl1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.DataTableControl1.HeaderBackColor = System.Drawing.Color.SteelBlue
-        Me.DataTableControl1.HeaderForeColor = System.Drawing.Color.White
-        Me.DataTableControl1.Location = New System.Drawing.Point(0, 0)
-        Me.DataTableControl1.Name = "DataTableControl1"
-        Me.DataTableControl1.RowBackColor = System.Drawing.Color.White
-        Me.DataTableControl1.RowForeColor = System.Drawing.Color.Black
-        Me.DataTableControl1.Size = New System.Drawing.Size(523, 181)
-        Me.DataTableControl1.TabIndex = 190
         '
         'WAServerForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.FromArgb(CType(CType(60, Byte), Integer), CType(CType(65, Byte), Integer), CType(CType(65, Byte), Integer))
-        Me.ClientSize = New System.Drawing.Size(523, 181)
-        Me.Controls.Add(Me.DataTableControl1)
+        Me.ClientSize = New System.Drawing.Size(549, 227)
         Me.Controls.Add(Me.ViewTabel0)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
         Me.Name = "WAServerForm"
@@ -119,5 +102,4 @@ Partial Class WAServerForm
     End Sub
 
     Friend WithEvents ViewTabel0 As DataGridView
-    Friend WithEvents DataTableControl1 As DataTableControl
 End Class

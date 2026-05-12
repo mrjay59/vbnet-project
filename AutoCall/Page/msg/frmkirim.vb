@@ -527,12 +527,8 @@ Public Class frmkirim
         Dim arrj = jsonpa.Json2aray(message)
 
         If (arrj("event") IsNot Nothing) Then
-            Dim usern = arrj("metadata")("username").ToString
-            Dim session = arrj("session").ToString
-            Dim DPar = jsonpa.Json2aray(DatR)
-            Dim username = DPar("body")("apk_user").ToString
 
-            If username = usern And arrj("event").ToString = "session.status" Then
+            If arrj("event").ToString = "session.status" Then
                 OnMessageReceived(message)
             End If
         End If
@@ -541,15 +537,18 @@ Public Class frmkirim
     Private Sub OnMessageReceived(message As String)
         Try
             Dim obj = JObject.Parse(message)
-            Dim session As String = obj("name").ToString
-            Dim status As String = obj("status").ToString
+            Dim session As String = obj("payload")("name").ToString
+            Dim status As String = obj("payload")("status").ToString
 
             If (status = "STOPPED") Then
                 Dim statusText As String = $"Session {session} status: {status}"
 
                 UpdateDeviceStatus(session, DeviceStatus.ErrorState, statusText)
 
-                engine.Stop()
+                If DeviceUIMap.ContainsKey(session) Then
+                    engine.Stop()
+                End If
+
             End If
 
         Catch ex As Exception
@@ -671,8 +670,7 @@ Public Class frmkirim
             {"message", "send whatsapp via autocall"}
         }
 
-        ' 🚀 KIRIM KE WSS (1x)
-        Console.WriteLine(payload)
+
         WSManager.Client.SendMessage(payload.ToString(Newtonsoft.Json.Formatting.None))
 
 

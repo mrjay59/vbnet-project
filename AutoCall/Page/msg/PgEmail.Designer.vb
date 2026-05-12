@@ -37,7 +37,6 @@ Partial Class PgEmail
         Me.TxtNumber = New System.Windows.Forms.TextBox()
         Me.Label7 = New System.Windows.Forms.Label()
         Me.btnSend = New System.Windows.Forms.Button()
-        Me.BtnContact = New System.Windows.Forms.Button()
         Me.BtnPaste = New System.Windows.Forms.Button()
         Me.LblTotData = New System.Windows.Forms.Label()
         Me.TextBox1 = New System.Windows.Forms.TextBox()
@@ -232,21 +231,6 @@ Partial Class PgEmail
         Me.btnSend.Text = "  Kirim"
         Me.btnSend.UseVisualStyleBackColor = False
         '
-        'BtnContact
-        '
-        Me.BtnContact.BackColor = System.Drawing.Color.Transparent
-        Me.BtnContact.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.BtnContact.FlatAppearance.BorderSize = 0
-        Me.BtnContact.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.BtnContact.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Italic), System.Drawing.FontStyle), System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BtnContact.ForeColor = System.Drawing.SystemColors.ButtonFace
-        Me.BtnContact.Image = CType(resources.GetObject("BtnContact.Image"), System.Drawing.Image)
-        Me.BtnContact.Location = New System.Drawing.Point(479, 57)
-        Me.BtnContact.Name = "BtnContact"
-        Me.BtnContact.Size = New System.Drawing.Size(25, 25)
-        Me.BtnContact.TabIndex = 282
-        Me.BtnContact.UseVisualStyleBackColor = False
-        '
         'BtnPaste
         '
         Me.BtnPaste.BackColor = System.Drawing.Color.Transparent
@@ -256,7 +240,7 @@ Partial Class PgEmail
         Me.BtnPaste.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Italic), System.Drawing.FontStyle), System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.BtnPaste.ForeColor = System.Drawing.SystemColors.ButtonFace
         Me.BtnPaste.Image = CType(resources.GetObject("BtnPaste.Image"), System.Drawing.Image)
-        Me.BtnPaste.Location = New System.Drawing.Point(446, 57)
+        Me.BtnPaste.Location = New System.Drawing.Point(479, 57)
         Me.BtnPaste.Name = "BtnPaste"
         Me.BtnPaste.Size = New System.Drawing.Size(25, 25)
         Me.BtnPaste.TabIndex = 280
@@ -327,7 +311,6 @@ Partial Class PgEmail
         Me.Controls.Add(Me.TxtNumber)
         Me.Controls.Add(Me.Label7)
         Me.Controls.Add(Me.btnSend)
-        Me.Controls.Add(Me.BtnContact)
         Me.Controls.Add(Me.BtnPaste)
         Me.Controls.Add(Me.LblTotData)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
@@ -356,7 +339,6 @@ Partial Class PgEmail
     Friend WithEvents TxtNumber As TextBox
     Friend WithEvents Label7 As Label
     Friend WithEvents btnSend As Button
-    Friend WithEvents BtnContact As Button
     Friend WithEvents BtnPaste As Button
     Friend WithEvents LblTotData As Label
     Friend WithEvents TextBox1 As TextBox
