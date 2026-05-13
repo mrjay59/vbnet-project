@@ -2,8 +2,10 @@
 Imports System.IO
 Imports System.Net.Http
 Imports System.Security.Cryptography
+Imports System.Windows.Forms.VisualStyles.VisualStyleElement
 Imports System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel
 Imports System.Windows.Interop
+Imports Microsoft.VisualBasic.Devices
 Imports Mysqlx.XDevAPI
 Imports Newtonsoft.Json
 Imports Newtonsoft.Json.Linq
@@ -439,6 +441,8 @@ Public Class pgMsg
         OrderBy(Function(x) x.Timestamp).
         ToList()
 
+        Dim arrmsg_id As New JArray
+
         For Each item As Message In conv
 
             Dim isOutbox As Boolean =
@@ -456,6 +460,13 @@ Public Class pgMsg
             bubble.TimeText = waktu.ToString("HH:mm")
             bubble.IsOutbox = isOutbox
             bubble.MessageText = cleanText
+
+            If (item.FromMe = False) And (item.AckName = "DEVICE") Then
+                Dim nobj As New JObject
+                nobj.Add("Sender", item.Sender)
+                nobj.Add("MsgId", item.MsgId)
+                arrmsg_id.Add(nobj)
+            End If
 
 
             If bubble.IsOutbox Then
@@ -513,12 +524,25 @@ Public Class pgMsg
 
         Next
 
+        UpdateAckFromMe(arrmsg_id)
+
         pnlMessageList.ResumeLayout()
 
         ScrollToBottom()
 
     End Sub
 
+    Private Sub UpdateAckFromMe(arr As JArray)
+
+        Dim DPar = jsonpa.Json2aray(DatR)
+        Dim username = DPar("body")("apk_user")
+        Dim param As New JObject
+        param.Add("username", username)
+        param.Add("data", arr)
+        param.Add("tipe", "updateAck")
+        Dim resp = WApp.OnUpdateMsg(param)
+
+    End Sub
     Private Sub AddDateHeaderIfNeeded(msgDate As Date)
         ' Tampilkan header hanya jika tanggal berbeda dengan sebelumnya
         If msgDate.Date <> lastDateDisplayed.Date Then
@@ -633,8 +657,8 @@ Public Class pgMsg
         If e.KeyCode = Keys.Enter Then
             If e.Shift Then
                 ' SHIFT + ENTER → tambahkan newline secara manual
-                Dim tb As TextBox = CType(sender, TextBox)
-                tb.SelectedText = vbCrLf
+
+                TextMessage.SelectedText = vbCrLf
 
                 ' Biarkan default berjalan (jangan suppress)
                 e.SuppressKeyPress = True ' Hindari dobel newline (optional)

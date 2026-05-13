@@ -199,6 +199,8 @@ Public Class ChatListForm
                 Dim tujuan As String = IIf((isgroup), pushName, from)
                 Dim usernm As String = DatChat(i)("username")
                 Dim wadah As String = DatChat(i)("platform")
+                Dim UnreadCount As Integer = DatChat(i)("UnreadCount")
+
 
                 Dim sessionId As String = DatChat(i)("session")
                 Dim last_text As String = DatChat(i)("last_text")
@@ -218,7 +220,7 @@ Public Class ChatListForm
                     .PhoneNumber = tujuan,
                     .LastMessage = last_text,
                     .Time = waktu,
-                    .UnreadCount = isread,
+                    .UnreadCount = UnreadCount,
                     .Status = stateStatus,
                     .Username = usernm,
                     .Platform = wadah,

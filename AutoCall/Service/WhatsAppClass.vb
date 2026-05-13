@@ -129,9 +129,9 @@ Public Class WhatsAppClass
         Return jsonparse
     End Function
 
-    Public Function OnDetailMsg(ByVal data As Dictionary(Of String, String))
-        ' Dim parameters As String = JsonConvert.SerializeObject(data, Formatting.None)
-        Dim response = Api.GetData("OnDetailMsg", data, nameapk)
+    Public Function OnUpdateMsg(ByVal data As JObject)
+
+        Dim response = Api.PostData("OnUpdateMsg", data, nameapk)
 
         Dim jsonparse As String = String.Empty
 
