@@ -11,6 +11,8 @@ Public Class QueueEngine
     Public Property MaxPutaran As Integer = 1
 
     Public _isRunning As Boolean = False
+    ' status stop per device
+    Private DeviceStopFlags As New ConcurrentDictionary(Of String, Boolean)
 
     ' 🔥 EVENT (optional UI update)
     Public Event OnLog(message As String)
@@ -27,6 +29,45 @@ Public Class QueueEngine
         ErrorState
         Done
     End Enum
+
+    ' STOP hanya device tertentu
+    Public Sub StopDevice(deviceKey As String)
+
+        DeviceStopFlags.AddOrUpdate(deviceKey,
+        True,
+        Function(k, v) True)
+
+        RaiseEvent OnDeviceUpdate(deviceKey,
+        DeviceStatus.Paused,
+        "Device stopped")
+
+    End Sub
+
+    ' RESUME hanya device tertentu
+    Public Sub ResumeDevice(deviceKey As String)
+
+        DeviceStopFlags.AddOrUpdate(deviceKey,
+        False,
+        Function(k, v) False)
+
+        RaiseEvent OnDeviceUpdate(deviceKey,
+        DeviceStatus.Idle,
+        "Device resumed")
+
+    End Sub
+
+    ' cek apakah device stop
+    Private Function IsDeviceStopped(deviceKey As String) As Boolean
+
+        Dim val As Boolean = False
+
+        If DeviceStopFlags.TryGetValue(deviceKey, val) Then
+            Return val
+        End If
+
+        Return False
+
+    End Function
     ' 🔥 START ENGINE
     Public Async Function StartAsync() As Task
         _isRunning = True
@@ -79,6 +120,7 @@ Public Class QueueEngine
     ' 🔴 MODE BE (BERUNTUN)
     ' =========================================
     Private Async Function RunBE() As Task
+
         Dim tasks As New List(Of Task)
 
         For Each device In DeviceQueues.Keys
@@ -90,6 +132,12 @@ Public Class QueueEngine
                                    Dim q = DeviceQueues(dev)
 
                                    While _isRunning AndAlso q.Count > 0
+
+                                       ' 🔥 skip jika device di stop
+                                       If IsDeviceStopped(dev) Then
+                                           Await Task.Delay(1000)
+                                           Continue While
+                                       End If
 
                                        Dim item As JObject = Nothing
 
@@ -104,6 +152,7 @@ Public Class QueueEngine
         Next
 
         Await Task.WhenAll(tasks)
+
     End Function
 
     ' =========================================
@@ -144,7 +193,13 @@ Public Class QueueEngine
 
                                        ' 🔥 jalankan TANPA RECALL
                                        For Each item In listData
-                                           Await ProcessItem(item, True) ' <-- PU MODE
+
+                                           If IsDeviceStopped(dev) Then
+                                               Exit For
+                                           End If
+
+                                           Await ProcessItem(item, True)
+
                                        Next
 
                                        ' kembalikan ke queue
@@ -180,6 +235,16 @@ Public Class QueueEngine
             Dim uiAuto As New WhatsAppAutomation
 
             For i = 1 To loopCount
+
+                If IsDeviceStopped(dev) Then
+
+                    RaiseEvent OnDeviceUpdate(dev,
+                    DeviceStatus.Paused,
+                    $"STOPPED {number}")
+
+                    Exit For
+
+                End If
 
                 If Not _isRunning Then Exit For
 

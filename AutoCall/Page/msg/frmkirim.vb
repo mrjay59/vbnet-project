@@ -546,7 +546,8 @@ Public Class frmkirim
                 UpdateDeviceStatus(session, DeviceStatus.ErrorState, statusText)
 
                 If DeviceUIMap.ContainsKey(session) Then
-                    engine.Stop()
+                    engine.StopDevice(session)
+                    engine.ClearDevice(session)
                 End If
 
             End If
