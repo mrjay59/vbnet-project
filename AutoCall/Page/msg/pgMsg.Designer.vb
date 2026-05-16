@@ -50,6 +50,7 @@ Partial Class pgMsg
         Me.Label1 = New System.Windows.Forms.Label()
         Me.PictureBox1 = New System.Windows.Forms.PictureBox()
         Me.MenuChat = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
         Me.Panel1.SuspendLayout()
         CType(Me.PictureBox2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel3.SuspendLayout()
@@ -319,6 +320,7 @@ Partial Class pgMsg
         Me.Panel5.Controls.Add(Me.Label2)
         Me.Panel5.Controls.Add(Me.Label1)
         Me.Panel5.Controls.Add(Me.PictureBox1)
+        Me.Panel5.Controls.Add(Me.MenuStrip1)
         Me.Panel5.Dock = System.Windows.Forms.DockStyle.Top
         Me.Panel5.Location = New System.Drawing.Point(0, 0)
         Me.Panel5.Name = "Panel5"
@@ -379,6 +381,14 @@ Partial Class pgMsg
         Me.MenuChat.Name = "MenuChat"
         Me.MenuChat.Size = New System.Drawing.Size(61, 4)
         '
+        'MenuStrip1
+        '
+        Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
+        Me.MenuStrip1.Name = "MenuStrip1"
+        Me.MenuStrip1.Size = New System.Drawing.Size(720, 24)
+        Me.MenuStrip1.TabIndex = 220
+        Me.MenuStrip1.Text = "MenuStrip1"
+        '
         'pgMsg
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -388,6 +398,7 @@ Partial Class pgMsg
         Me.Controls.Add(Me.Panel2)
         Me.Controls.Add(Me.Panel1)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
+        Me.MainMenuStrip = Me.MenuStrip1
         Me.Name = "pgMsg"
         Me.Text = "pgMsg"
         Me.Panel1.ResumeLayout(False)
@@ -431,4 +442,5 @@ Partial Class pgMsg
     Friend WithEvents BtnMenu As Button
     Friend WithEvents MenuChat As ContextMenuStrip
     Friend WithEvents Button1 As Button
+    Friend WithEvents MenuStrip1 As MenuStrip
 End Class
