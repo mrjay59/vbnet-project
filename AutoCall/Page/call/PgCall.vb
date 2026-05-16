@@ -331,7 +331,7 @@ Public Class PgCall
         Dim fodev = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) & "\" & apkname
         Dim FoldeQ = fodev & "\log\"
         Dim Foldsdr = FoldeQ & "caller\"
-
+        _redis = "asterisk:call:stream"
         Dim komu As String = String.Empty
         If (rd0.Checked) Then
             komu = "PU"
