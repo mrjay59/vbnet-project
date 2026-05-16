@@ -117,7 +117,7 @@ Public Class ChatListForm
                                    ' RENDER UI
                                    ' =========================
 
-                                   RenderChatItems(displayedChatItems)
+                                   RenderChatItems(newItems)
 
                                    currentPage = page
 

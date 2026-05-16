@@ -537,8 +537,8 @@ Public Class frmkirim
     Private Sub OnMessageReceived(message As String)
         Try
             Dim obj = JObject.Parse(message)
-            Dim session As String = obj("payload")("name").ToString
-            Dim status As String = obj("payload")("status").ToString
+            Dim session As String = obj("payload")("payload")("name").ToString
+            Dim status As String = obj("payload")("payload")("status").ToString
 
             If (status = "STOPPED") Then
                 Dim statusText As String = $"Session {session} status: {status}"

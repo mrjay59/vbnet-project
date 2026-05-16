@@ -121,7 +121,7 @@
   <data name="BtnMenu.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABcAAAAXCAYAAADgKtSgAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAL
-        DQAACw0B7QfALAAAAEhJREFUSEvtlDEOADAIAv1h/9BH9Ps0dsSO4sQlt2JCiBHmB4CjMsNlZPhSyS2Z
+        DAAACwwBP0AiyAAAAEhJREFUSEvtlDEOADAIAv1h/9BH9Ps0dsSO4sQlt2JCiBHmB4CjMsNlZPhSyS2Z
         AQBslfIplotdcktmAP4HncqnWP5wl9ySeVwQi+RvNPSRYAAAAABJRU5ErkJggg==
 </value>
   </data>
@@ -231,6 +231,9 @@
         OAhMatDN0MT/wD8OWNzf6QuMvAAAAABJRU5ErkJggg==
 </value>
   </data>
+  <metadata name="MenuStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>127, 17</value>
+  </metadata>
   <metadata name="MenuChat.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
